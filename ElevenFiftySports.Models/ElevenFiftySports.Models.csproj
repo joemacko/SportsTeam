@@ -80,11 +80,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OrderModels\OrderCreate.cs" />
+    <Compile Include="OrderModels\OrderRead.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ElevenFiftySports.Data\ElevenFiftySports.Data.csproj">
+      <Project>{b6b99477-689f-433e-a069-803cf0ca8a0e}</Project>
+      <Name>ElevenFiftySports.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

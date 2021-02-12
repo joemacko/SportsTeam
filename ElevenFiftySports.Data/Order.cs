@@ -13,7 +13,8 @@ namespace ElevenFiftySports.Data
         [Key]
         public int OrderId { get; set; }
         public Guid CustomerId { get; set; }
-        public List<Product> Products { get; set; }
+        public List<OrderDetail> OrderDetails {get; set;}
+        // public List<Product> Products { get; set; } //remove to match reference https://dev.to/_patrickgod/many-to-many-relationship-with-entity-framework-core-4059
         public double TotalCost { get; set; }
     }
 }

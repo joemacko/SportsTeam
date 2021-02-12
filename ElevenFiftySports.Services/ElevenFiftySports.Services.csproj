@@ -75,11 +75,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OrderService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ElevenFiftySports.Data\ElevenFiftySports.Data.csproj">
+      <Project>{b6b99477-689f-433e-a069-803cf0ca8a0e}</Project>
+      <Name>ElevenFiftySports.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ElevenFiftySports.Models\ElevenFiftySports.Models.csproj">
+      <Project>{4a885264-aaf6-458c-bff2-3a786e1af2e0}</Project>
+      <Name>ElevenFiftySports.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
