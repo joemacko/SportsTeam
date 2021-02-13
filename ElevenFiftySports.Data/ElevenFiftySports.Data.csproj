@@ -95,6 +95,26 @@
     <Compile Include="Migrations\202102122004460_OrderDetailMigration.Designer.cs">
       <DependentUpon>202102122004460_OrderDetailMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202102122307063_UpdatedProductMigration.cs" />
+    <Compile Include="Migrations\202102122307063_UpdatedProductMigration.Designer.cs">
+      <DependentUpon>202102122307063_UpdatedProductMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202102130201149_OrderDetailMigration1.cs" />
+    <Compile Include="Migrations\202102130201149_OrderDetailMigration1.Designer.cs">
+      <DependentUpon>202102130201149_OrderDetailMigration1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202102130212552_OrderUpdateMigration.cs" />
+    <Compile Include="Migrations\202102130212552_OrderUpdateMigration.Designer.cs">
+      <DependentUpon>202102130212552_OrderUpdateMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202102130216424_NotMappedTotalCostOrder.cs" />
+    <Compile Include="Migrations\202102130216424_NotMappedTotalCostOrder.Designer.cs">
+      <DependentUpon>202102130216424_NotMappedTotalCostOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202102130224218_RemoveTotalCost.cs" />
+    <Compile Include="Migrations\202102130224218_RemoveTotalCost.Designer.cs">
+      <DependentUpon>202102130224218_RemoveTotalCost.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="OrderDetail.cs" />
@@ -109,6 +129,21 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202102122004460_OrderDetailMigration.resx">
       <DependentUpon>202102122004460_OrderDetailMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102122307063_UpdatedProductMigration.resx">
+      <DependentUpon>202102122307063_UpdatedProductMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102130201149_OrderDetailMigration1.resx">
+      <DependentUpon>202102130201149_OrderDetailMigration1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102130212552_OrderUpdateMigration.resx">
+      <DependentUpon>202102130212552_OrderUpdateMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102130216424_NotMappedTotalCostOrder.resx">
+      <DependentUpon>202102130216424_NotMappedTotalCostOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102130224218_RemoveTotalCost.resx">
+      <DependentUpon>202102130224218_RemoveTotalCost.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
