@@ -83,6 +83,11 @@
     <Compile Include="OrderModels\OrderCreate.cs" />
     <Compile Include="OrderModels\OrderRead.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpecialModels\SpecialCreate.cs" />
+    <Compile Include="SpecialModels\SpecialDelete.cs" />
+    <Compile Include="SpecialModels\SpecialRead.cs" />
+    <Compile Include="SpecialModels\SpecialReadByDay.cs" />
+    <Compile Include="SpecialModels\SpecialUpdate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
