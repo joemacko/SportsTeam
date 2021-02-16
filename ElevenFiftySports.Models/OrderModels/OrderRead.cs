@@ -11,8 +11,8 @@ namespace ElevenFiftySports.Models
     {
         public int OrderId { get; set; }
         public Guid CustomerId { get; set; }
-        //public List<OrderDetail> OrderDetails { get; set; }
-        public int[] ProductIds { get; set; }
+        public List<OrderDetail> OrderDetails { get; set; }
+        //public int[] ProductIds { get; set; } //was working on this to simplify
         //public double TotalCost
         //{
         //    get

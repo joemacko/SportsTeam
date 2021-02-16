@@ -21,5 +21,7 @@ namespace ElevenFiftySports.Data
         [ForeignKey(nameof(Product))]
         public int ProductId { get; set; }
         public virtual Product Product { get; set; }
+
+        public int ProductCount { get; set; } //
     }
 }
