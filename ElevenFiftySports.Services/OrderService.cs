@@ -18,19 +18,12 @@ namespace ElevenFiftySports.Services
             _userId = userId;
         }
 
-        public bool CreateOrder(OrderCreate model)
+        public bool CreateOrder()//no input needed, all info is given already
         {
-            double tcost = 0;
-            foreach (var od in model.OrderDetails)
-            {
-                tcost += od.Product.ProductPrice; //foreach orderdetail in orderproductlist, add each product's price to the running totalcost (tcost)
-            }
             var entity =
                 new Order()
                 {
                     CustomerId = _userId,
-                    OrderDetails = model.OrderDetails,
-                    TotalCost = tcost,
                 };
 
             using (var ctx = new ApplicationDbContext())
@@ -53,12 +46,26 @@ namespace ElevenFiftySports.Services
                         new OrderRead
                         {
                             OrderId = e.OrderId,
-                            OrderDetails = e.OrderDetails.ToList(), //added .ToList for possible formatting(?)
-                            TotalCost = e.TotalCost
+                            CustomerId = e.CustomerId,
+                            //OrderDetails = e.OrderDetails.ToList() //added .ToList for possible formatting here and line 55(?)
+                            //ProductIds = GetProductIdsFromOrderDetails(e.OrderDetails.ToList()) //Is it possible to send list of lists to JSON (read in postman? getting system.notsupportedexception: LINQ to entities does not recognize the method Int32 for....)
+                            //TotalCost = e.TotalCost,
                         }
                         );
                 return query.ToList();
             }
+        }
+
+        public IEnumerable<int> GetProductIdsFromOrderDetails(List<OrderDetail> model)
+        {
+            List<int> newList = new List<int>();
+
+            foreach (OrderDetail od in model)
+            {
+                newList.Add(od.ProductId);
+            }
+
+            return newList;
         }
     }
 }
