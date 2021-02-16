@@ -11,6 +11,8 @@ namespace ElevenFiftySports.Data
     {
         [Key]
         public Guid CustomerId { get; set; }
+
+
         [Required]
         [MaxLength(20, ErrorMessage = "There are too many characters in this field")]
         public string FirstName { get; set; }
