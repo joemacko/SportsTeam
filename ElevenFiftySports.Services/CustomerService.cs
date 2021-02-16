@@ -8,5 +8,13 @@ namespace ElevenFiftySports.Services
 {
     class CustomerService
     {
+
+        private readonly Guid _customerId;
+        public CustomerService(Guid customerId)
+        {
+            _customerId = customerId;
+        }
+
+
     }
 }
