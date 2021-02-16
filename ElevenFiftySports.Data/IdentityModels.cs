@@ -47,7 +47,7 @@ namespace ElevenFiftySports.Data
                 .Configurations
                 .Add(new IdentityUserLoginConfiguration())
                 .Add(new IdentityUserRoleConfiguration());
-            //Adding the below from reference here: https://dev.to/_patrickgod/many-to-many-relationship-with-entity-framework-core-4059 - CJ
+            //Adding the below from reference here (seen in others also): https://dev.to/_patrickgod/many-to-many-relationship-with-entity-framework-core-4059 - CJ
             modelBuilder.Entity<OrderDetail>()
                 .HasKey(od => new { od.OrderId, od.ProductId });
         }

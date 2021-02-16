@@ -6,11 +6,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
-using System.Web.Mvc;
 
 namespace ElevenFiftySports.Controllers
 {
-    [System.Web.Http.Authorize]
+    [Authorize]
     public class OrderController : ApiController
     {
         private OrderService CreateOrderService()
@@ -27,16 +26,27 @@ namespace ElevenFiftySports.Controllers
             return Ok(orders);
         }
 
-        public IHttpActionResult Post(OrderCreate order)
+        //below not needed with simple order create model...
+        //public IHttpActionResult Post(OrderCreate order)
+        //{
+        //    if (!ModelState.IsValid)
+        //        return BadRequest(ModelState);
+
+        //    var service = CreateOrderService();
+
+        //    if (!service.CreateOrder(order))
+        //        return InternalServerError();
+
+        //    return Ok();
+        //}
+
+        public IHttpActionResult Post()
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            OrderService orderService = CreateOrderService();
 
-            var service = CreateOrderService();
-
-            if (!service.CreateOrder(order))
-                return InternalServerError();
-
+            if (!orderService.CreateOrder())
+                        return InternalServerError();
+            
             return Ok();
         }
     }
