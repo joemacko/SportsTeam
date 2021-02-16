@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElevenFiftySports.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace ElevenFiftySports.Models.CustomerModels
 
         public string CustomerName { get; set; }
 
-        [Display(CustomerName = "CustomerNameCreated")]
+        
         public DateTimeOffset CreatedUtc { get; set; }
     }
 }
