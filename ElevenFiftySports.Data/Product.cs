@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace ElevenFiftySports.Data
 {
-
     public enum ProductType
     {
         Food = 1,
@@ -28,5 +27,7 @@ namespace ElevenFiftySports.Data
         [Required]
         public ProductType GetProductType { get; set; }
 
+        public ProductType TypeOfProduct { get; set; }
+        public virtual List<OrderDetail> OrderDetails { get; set; } //add virtual, did not new up (as done in restaurantrater)
     }
 }
