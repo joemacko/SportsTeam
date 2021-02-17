@@ -78,11 +78,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <Compile Include="CustomerService.cs" />
-=======
     <Compile Include="OrderDetailService.cs" />
->>>>>>> b9e84d02bee5dcd3cc015d58141c7fb984703b37
     <Compile Include="OrderService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecialService.cs" />

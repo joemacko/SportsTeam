@@ -88,7 +88,7 @@
     <Compile Include="CustomerModels\CustomerList.cs" />
 
     <Compile Include="OrderDetailModels\OrderDetailCreate.cs" />
-
+    <Compile Include="OrderDetailModels\OrderDetailRead.cs" />
     <Compile Include="OrderModels\OrderCreate.cs" />
     <Compile Include="OrderModels\OrderRead.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

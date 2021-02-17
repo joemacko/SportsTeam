@@ -15,7 +15,7 @@ namespace ElevenFiftySports.Data
         [Required]
         public Guid CustomerId { get; set; }
         //public virtual List<Product> OrderProducts{ get; set; } //we can create orderdetails instead
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>(); 
+        public virtual List<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>(); 
         // public List<Product> Products { get; set; } //remove to match reference https://dev.to/_patrickgod/many-to-many-relationship-with-entity-framework-core-4059  
         [NotMapped]
         public double TotalCost
