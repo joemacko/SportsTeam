@@ -1,5 +1,5 @@
 ﻿using ElevenFiftySports.Data;
-using ElevenFiftySports.Models.OrderDetailModels;
+using ElevenFiftySports.Models.OrderProductModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace ElevenFiftySports.Models
 {
-    public class OrderRead
+    public class OrderListItem
     {
         public int OrderId { get; set; }
         public Guid CustomerId { get; set; }
-        public List<OrderDetailRead> OrderDetails = new List<OrderDetailRead>();
+        public List<OrderProductListItem> OrderProducts = new List<OrderProductListItem>();
         //public int[] ProductIds { get; set; } //was working on this to simplify
         //public double TotalCost
         //{

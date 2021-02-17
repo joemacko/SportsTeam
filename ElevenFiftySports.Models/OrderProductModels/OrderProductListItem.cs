@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElevenFiftySports.Models.OrderDetailModels
+namespace ElevenFiftySports.Models.OrderProductModels
 {
-    public class OrderDetailRead
+    public class OrderProductListItem
     {
         //public int OrderId { get; set; }
         public int ProductId { get; set; }
+        public int ProductCount { get; set; }
     }
 }
