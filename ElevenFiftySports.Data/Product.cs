@@ -16,6 +16,7 @@ namespace ElevenFiftySports.Data
     {
         [Key]
         public int ProductId { get; set; }
+        public string ProductName { get; set; }
         public int UnitCount { get; set; }
         public double ProductPrice { get; set; }
         public ProductType TypeOfProduct { get; set; }
