@@ -3,7 +3,7 @@ namespace ElevenFiftySports.Data.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class OrderDetailMigration : DbMigration
+    public partial class RefreshingAllMigrations : DbMigration
     {
         public override void Up()
         {
@@ -22,13 +22,15 @@ namespace ElevenFiftySports.Data.Migrations
                 .PrimaryKey(t => t.CustomerId);
             
             CreateTable(
-                "dbo.OrderDetail",
+                "dbo.OrderProduct",
                 c => new
                     {
+                        PrimaryId = c.Int(nullable: false, identity: true),
                         OrderId = c.Int(nullable: false),
                         ProductId = c.Int(nullable: false),
+                        ProductCount = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.OrderId, t.ProductId })
+                .PrimaryKey(t => t.PrimaryId)
                 .ForeignKey("dbo.Order", t => t.OrderId, cascadeDelete: true)
                 .ForeignKey("dbo.Product", t => t.ProductId, cascadeDelete: true)
                 .Index(t => t.OrderId)
@@ -40,15 +42,20 @@ namespace ElevenFiftySports.Data.Migrations
                     {
                         OrderId = c.Int(nullable: false, identity: true),
                         CustomerId = c.Guid(nullable: false),
-                        TotalCost = c.Double(nullable: false),
                     })
-                .PrimaryKey(t => t.OrderId);
+                .PrimaryKey(t => t.OrderId)
+                .ForeignKey("dbo.Customer", t => t.CustomerId, cascadeDelete: true)
+                .Index(t => t.CustomerId);
             
             CreateTable(
                 "dbo.Product",
                 c => new
                     {
                         ProductId = c.Int(nullable: false, identity: true),
+                        ProductName = c.String(),
+                        UnitCount = c.Int(nullable: false),
+                        ProductPrice = c.Double(nullable: false),
+                        TypeOfProduct = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.ProductId);
             
@@ -141,14 +148,16 @@ namespace ElevenFiftySports.Data.Migrations
             DropForeignKey("dbo.IdentityUserLogin", "ApplicationUser_Id", "dbo.ApplicationUser");
             DropForeignKey("dbo.IdentityUserClaim", "ApplicationUser_Id", "dbo.ApplicationUser");
             DropForeignKey("dbo.IdentityUserRole", "IdentityRole_Id", "dbo.IdentityRole");
-            DropForeignKey("dbo.OrderDetail", "ProductId", "dbo.Product");
-            DropForeignKey("dbo.OrderDetail", "OrderId", "dbo.Order");
+            DropForeignKey("dbo.OrderProduct", "ProductId", "dbo.Product");
+            DropForeignKey("dbo.OrderProduct", "OrderId", "dbo.Order");
+            DropForeignKey("dbo.Order", "CustomerId", "dbo.Customer");
             DropIndex("dbo.IdentityUserLogin", new[] { "ApplicationUser_Id" });
             DropIndex("dbo.IdentityUserClaim", new[] { "ApplicationUser_Id" });
             DropIndex("dbo.IdentityUserRole", new[] { "ApplicationUser_Id" });
             DropIndex("dbo.IdentityUserRole", new[] { "IdentityRole_Id" });
-            DropIndex("dbo.OrderDetail", new[] { "ProductId" });
-            DropIndex("dbo.OrderDetail", new[] { "OrderId" });
+            DropIndex("dbo.Order", new[] { "CustomerId" });
+            DropIndex("dbo.OrderProduct", new[] { "ProductId" });
+            DropIndex("dbo.OrderProduct", new[] { "OrderId" });
             DropTable("dbo.IdentityUserLogin");
             DropTable("dbo.IdentityUserClaim");
             DropTable("dbo.ApplicationUser");
@@ -157,7 +166,7 @@ namespace ElevenFiftySports.Data.Migrations
             DropTable("dbo.IdentityRole");
             DropTable("dbo.Product");
             DropTable("dbo.Order");
-            DropTable("dbo.OrderDetail");
+            DropTable("dbo.OrderProduct");
             DropTable("dbo.Customer");
         }
     }

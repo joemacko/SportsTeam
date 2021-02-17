@@ -24,7 +24,8 @@ namespace ElevenFiftySports.Services
                 new OrderProduct()
                 {
                     OrderId = model.OrderId,
-                    ProductId = model.ProductId
+                    ProductId = model.ProductId,
+                    ProductCount = model.ProductCount
                 };
 
             using (var ctx = new ApplicationDbContext())
@@ -34,7 +35,7 @@ namespace ElevenFiftySports.Services
             }
         }
 
-        public IEnumerable<OrderProductCreate> GetOrderProducts() //too lazy to make an orderdetailread rn (it shows the same stuff)
+        public IEnumerable<OrderProductListItem> GetOrderProducts() 
         {
             using (var ctx = new ApplicationDbContext())
             {
@@ -44,10 +45,12 @@ namespace ElevenFiftySports.Services
                     //.Where(e => e.CustomerId == _userId)
                     .Select(
                         e =>
-                        new OrderProductCreate
+                        new OrderProductListItem
                         {
+                            PrimaryId = e.PrimaryId,
                             OrderId = e.OrderId,
-                            ProductId = e.ProductId                        
+                            ProductId = e.ProductId,
+                            ProductCount = e.ProductCount
                         }
                         );
                 return query.ToList();
