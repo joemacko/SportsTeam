@@ -9,7 +9,7 @@ namespace ElevenFiftySports.Data.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(ElevenFiftySports.Data.ApplicationDbContext context)
