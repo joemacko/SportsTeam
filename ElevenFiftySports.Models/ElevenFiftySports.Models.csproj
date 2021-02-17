@@ -83,6 +83,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+
+    <Compile Include="CustomerModels\CustomerCreate.cs" />
+    <Compile Include="CustomerModels\CustomerList.cs" />
+
     <Compile Include="OrderDetailModels\OrderDetailCreate.cs" />
     <Compile Include="OrderDetailModels\OrderDetailRead.cs" />
     <Compile Include="OrderModels\OrderCreate.cs" />
