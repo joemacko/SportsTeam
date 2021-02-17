@@ -1,6 +1,6 @@
 ﻿using ElevenFiftySports.Data;
 using ElevenFiftySports.Models;
-using ElevenFiftySports.Models.OrderDetailModels;
+using ElevenFiftySports.Models.OrderProductModels;
 using ElevenFiftySports.Models.OrderModels;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace ElevenFiftySports.Services
             _userId = userId;
         }
 
-        public bool CreateOrder()//no input needed, all info is given already
+        public bool CreateOrder()//no input needed, all info is given already to create the foundation of an order
         {
             var entity =
                 new Order()
@@ -30,11 +30,11 @@ namespace ElevenFiftySports.Services
             using (var ctx = new ApplicationDbContext())
             {
                 ctx.Orders.Add(entity);
-                return ctx.SaveChanges() == 1; //not sure if this will be multiple changes yet?
+                return ctx.SaveChanges() == 1; 
             }
         }
 
-        public IEnumerable<OrderRead> GetOrders()
+        public IEnumerable<OrderListItem> GetOrders()
         {
             using (var ctx = new ApplicationDbContext())
             {
@@ -46,7 +46,7 @@ namespace ElevenFiftySports.Services
                         e =>
                         //{
                             //var example = 
-                            new OrderRead
+                            new OrderListItem
                             {
                                 OrderId = e.OrderId,
                                 CustomerId = e.CustomerId,
@@ -64,12 +64,12 @@ namespace ElevenFiftySports.Services
                             //return example;
                         //}
                         );
-                foreach(OrderRead or in query)
+                foreach(OrderListItem orderListItem in query)
                 {
-                    var order = ctx.Orders.Find(or.OrderId);
-                    foreach(OrderDetail od in order.OrderDetails)
+                    var order = ctx.Orders.Find(orderListItem.OrderId);
+                    foreach(OrderProduct orderProduct in order.OrderProducts)
                     {
-                        or.OrderDetails.Add(new OrderDetailRead { ProductId = od.ProductId });//ctx.OrderDetails.Where(o => o.OrderId == or.OrderId).Select(o => o.ProductId) });
+                        orderListItem.OrderProducts.Add(new OrderProductListItem { ProductId = orderProduct.ProductId });//ctx.OrderDetails.Where(o => o.OrderId == or.OrderId).Select(o => o.ProductId) });
                         //OrderDetailRead orderDetailRead = new OrderDetailRead();
                         //orderDetailRead.ProductId = od.ProductId;
                         //or.OrderDetails.Add(orderDetailRead);
