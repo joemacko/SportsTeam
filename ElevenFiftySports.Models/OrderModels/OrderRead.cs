@@ -1,4 +1,5 @@
 ﻿using ElevenFiftySports.Data;
+using ElevenFiftySports.Models.OrderDetailModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace ElevenFiftySports.Models
     {
         public int OrderId { get; set; }
         public Guid CustomerId { get; set; }
-        public List<OrderDetail> OrderDetails { get; set; }
+        public List<OrderDetailRead> OrderDetails = new List<OrderDetailRead>();
         //public int[] ProductIds { get; set; } //was working on this to simplify
         //public double TotalCost
         //{

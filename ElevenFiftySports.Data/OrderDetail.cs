@@ -22,6 +22,6 @@ namespace ElevenFiftySports.Data
         public int ProductId { get; set; }
         public virtual Product Product { get; set; }
 
-        public int ProductCount { get; set; } //
+        public int ProductCount { get; set; } //think i can use this instead of having a primarykey id (keeps track of multiple in one line item)
     }
 }

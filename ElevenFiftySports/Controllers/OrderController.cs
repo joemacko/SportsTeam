@@ -26,6 +26,16 @@ namespace ElevenFiftySports.Controllers
             return Ok(orders);
         }
 
+        public IHttpActionResult Post()
+        {
+            OrderService orderService = CreateOrderService();
+
+            if (!orderService.CreateOrder())
+                        return InternalServerError();
+            
+            return Ok();
+        }
+
         //below not needed with simple order create model...
         //public IHttpActionResult Post(OrderCreate order)
         //{
@@ -39,15 +49,5 @@ namespace ElevenFiftySports.Controllers
 
         //    return Ok();
         //}
-
-        public IHttpActionResult Post()
-        {
-            OrderService orderService = CreateOrderService();
-
-            if (!orderService.CreateOrder())
-                        return InternalServerError();
-            
-            return Ok();
-        }
     }
 }
