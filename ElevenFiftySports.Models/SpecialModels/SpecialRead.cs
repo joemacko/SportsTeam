@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ElevenFiftySports.Models.SpecialModels
+{
+    public class SpecialRead
+    {
+        public int SpecialId { get; set; }
+
+        public int ProductId { get; set; }
+
+        public DateTime DayOfWeek { get; set; }
+
+        public double ProductSpecialPrice { get; set; }
+    }
+}
