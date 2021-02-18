@@ -102,6 +102,10 @@
     <Compile Include="Migrations\202102172249111_UpdatedOrderProductDataAnnotations.Designer.cs">
       <DependentUpon>202102172249111_UpdatedOrderProductDataAnnotations.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202102182258183_FKSpecialToProductSpecial.cs" />
+    <Compile Include="Migrations\202102182258183_FKSpecialToProductSpecial.Designer.cs">
+      <DependentUpon>202102182258183_FKSpecialToProductSpecial.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="OrderProduct.cs" />
@@ -119,6 +123,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202102172249111_UpdatedOrderProductDataAnnotations.resx">
       <DependentUpon>202102172249111_UpdatedOrderProductDataAnnotations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102182258183_FKSpecialToProductSpecial.resx">
+      <DependentUpon>202102182258183_FKSpecialToProductSpecial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

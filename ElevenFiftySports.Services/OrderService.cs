@@ -64,7 +64,7 @@ namespace ElevenFiftySports.Services
             }
         }
 
-        public List<OrderProductListItem> HelperConvertOrderProductsToOPListItem (List<OrderProduct> orderProducts)
+        public List<OrderProductListItem> HelperConvertOrderProductsToOPListItem (List<OrderProduct> orderProducts) //Necessary because postman cannot return classes (OrderProduct) as a datatype
         {
             List<OrderProductListItem> newList = new List<OrderProductListItem>();
             foreach (var op in orderProducts)
