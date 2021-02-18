@@ -20,7 +20,7 @@ namespace ElevenFiftySports.Data
         public int UnitCount { get; set; }
         public double ProductPrice { get; set; }
         public ProductType TypeOfProduct { get; set; }
-        public virtual List<OrderProduct> OrderDetails { get; set; } = new List<OrderProduct>(); //add virtual, did not new up (as done in restaurantrater)
+        public virtual List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>(); //add virtual, did not new up (as done in restaurantrater)
         public virtual List<Special> ProductSpecials { get; set; } = new List<Special>();
 
         public bool IsSpecial

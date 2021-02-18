@@ -12,18 +12,18 @@ namespace ElevenFiftySports.Controllers
     [Authorize]
     public class OrderProductController : ApiController
     {
-        private OrderProductService CreateOrderDetailService()
+        private OrderProductService CreateOrderProductService()
         {
             var userId = Guid.Parse(User.Identity.GetUserId());
-            var orderDetailService = new OrderProductService(userId);
-            return orderDetailService;
+            var orderProductService = new OrderProductService(userId);
+            return orderProductService;
         }
 
         public IHttpActionResult Get()
         {
-            OrderProductService orderDetailService = CreateOrderDetailService();
-            var orderDetails = orderDetailService.GetOrderProducts();
-            return Ok(orderDetails);
+            OrderProductService orderProductService = CreateOrderProductService();
+            var orderProducts = orderProductService.GetOrderProducts();
+            return Ok(orderProducts);
         }
 
         public IHttpActionResult Post(OrderProductCreate model)
@@ -31,7 +31,7 @@ namespace ElevenFiftySports.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var service = CreateOrderDetailService();
+            var service = CreateOrderProductService();
 
             if (!service.CreateOrderProduct(model))
                 return InternalServerError();
