@@ -37,7 +37,7 @@ namespace ElevenFiftySports.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Special> Specials { get; set; }
-        public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<OrderProduct> OrderProducts { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder
@@ -48,8 +48,8 @@ namespace ElevenFiftySports.Data
                 .Add(new IdentityUserLoginConfiguration())
                 .Add(new IdentityUserRoleConfiguration());
             //Adding the below from reference here (seen in others also): https://dev.to/_patrickgod/many-to-many-relationship-with-entity-framework-core-4059 - CJ
-            modelBuilder.Entity<OrderDetail>()
-                .HasKey(od => new { od.OrderId, od.ProductId });
+            //modelBuilder.Entity<OrderProduct>()
+                //.HasKey(od => new { od.OrderId, od.ProductId });
         }
     }
 

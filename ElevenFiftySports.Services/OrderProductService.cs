@@ -1,6 +1,6 @@
 ﻿using ElevenFiftySports.Data;
 using ElevenFiftySports.Models;
-using ElevenFiftySports.Models.OrderDetailModels;
+using ElevenFiftySports.Models.OrderProductModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,45 +9,50 @@ using System.Threading.Tasks;
 
 namespace ElevenFiftySports.Services
 {
-    public class OrderDetailService
+    public class OrderProductService
     {
         private readonly Guid _userId;
 
-        public OrderDetailService(Guid userId)
+        public OrderProductService(Guid userId)
         {
             _userId = userId;
         }
 
-        public bool CreateOrderDetail(OrderDetailCreate model)
+        public bool CreateOrderProduct(OrderProductCreate model)
         {
             var entity =
-                new OrderDetail()
+                new OrderProduct()
                 {
                     OrderId = model.OrderId,
-                    ProductId = model.ProductId
+                    ProductId = model.ProductId,
+                    ProductCount = model.ProductCount
                 };
 
             using (var ctx = new ApplicationDbContext())
             {
-                ctx.OrderDetails.Add(entity);
+                ctx.OrderProducts.Add(entity);
                 return ctx.SaveChanges() == 1; 
             }
         }
 
-        public IEnumerable<OrderDetailCreate> GetOrderDetails() //too lazy to make an orderdetailread (it shows the same stuff)
+        public IEnumerable<OrderProductListItem> GetOrderProducts() 
         {
             using (var ctx = new ApplicationDbContext())
             {
                 var query =
                     ctx
-                    .OrderDetails
+                    .OrderProducts
                     //.Where(e => e.CustomerId == _userId)
                     .Select(
                         e =>
-                        new OrderDetailCreate
+                        new OrderProductListItem
                         {
+                            PrimaryId = e.PrimaryId,
                             OrderId = e.OrderId,
-                            ProductId = e.ProductId                        
+                            CustomerFirstName = e.Order.Customer.FirstName,
+                            ProductId = e.ProductId,
+                            ProductName = e.Product.ProductName,
+                            ProductCount = e.ProductCount
                         }
                         );
                 return query.ToList();
