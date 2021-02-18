@@ -16,9 +16,18 @@ namespace ElevenFiftySports.Data
     {
         [Key]
         public int ProductId { get; set; }
+
+        [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "The field {0} must be greater than 0.")]
         public string ProductName { get; set; }
         public int UnitCount { get; set; }
+
+        [Range(0.0, double.MaxValue, ErrorMessage = "The field {0} must be greater than 0.00.")]
         public double ProductPrice { get; set; }
+
+        [Required]
+        public ProductType GetProductType { get; set; }
+
         public ProductType TypeOfProduct { get; set; }
         public virtual List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>(); //add virtual, did not new up (as done in restaurantrater)
         public virtual List<Special> ProductSpecials { get; set; } = new List<Special>();

@@ -1,4 +1,5 @@
-﻿using ElevenFiftySports.Models.OrderProductModels;
+﻿using ElevenFiftySports.Models;
+using ElevenFiftySports.Models.OrderProductModels;
 using ElevenFiftySports.Services;
 using Microsoft.AspNet.Identity;
 using System;
