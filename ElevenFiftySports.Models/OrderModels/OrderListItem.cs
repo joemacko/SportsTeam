@@ -1,4 +1,5 @@
 ﻿using ElevenFiftySports.Data;
+using ElevenFiftySports.Models.OrderProductModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,13 @@ using System.Threading.Tasks;
 
 namespace ElevenFiftySports.Models
 {
-    public class OrderRead
+    public class OrderListItem
     {
         public int OrderId { get; set; }
         public Guid CustomerId { get; set; }
-        public List<OrderDetail> OrderDetails { get; set; }
+        public string CustomerFirstName { get; set; }
+        public List<OrderProductListItem> OrderProducts = new List<OrderProductListItem>(); // this is not being populated - cannot be a class (list<orderproduct>) because you cannot send a raw data class to postman (which is why the model is utilized)
+        //public int ProductCount { get; set; }
         //public int[] ProductIds { get; set; } //was working on this to simplify
         //public double TotalCost
         //{
