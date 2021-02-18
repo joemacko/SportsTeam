@@ -98,6 +98,10 @@
     <Compile Include="Migrations\202102172200249_RefreshingAllMigrations.Designer.cs">
       <DependentUpon>202102172200249_RefreshingAllMigrations.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202102172249111_UpdatedOrderProductDataAnnotations.cs" />
+    <Compile Include="Migrations\202102172249111_UpdatedOrderProductDataAnnotations.Designer.cs">
+      <DependentUpon>202102172249111_UpdatedOrderProductDataAnnotations.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="OrderProduct.cs" />
@@ -112,6 +116,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202102172200249_RefreshingAllMigrations.resx">
       <DependentUpon>202102172200249_RefreshingAllMigrations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102172249111_UpdatedOrderProductDataAnnotations.resx">
+      <DependentUpon>202102172249111_UpdatedOrderProductDataAnnotations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

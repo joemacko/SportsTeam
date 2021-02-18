@@ -10,7 +10,9 @@ namespace ElevenFiftySports.Models.OrderProductModels
     {
         public int PrimaryId { get; set; }
         public int OrderId { get; set; }
+        public string CustomerFirstName { get; set; }
         public int ProductId { get; set; }
+        public string ProductName { get; set; }
         public int ProductCount { get; set; }
     }
 }
