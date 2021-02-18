@@ -13,8 +13,8 @@ namespace ElevenFiftySports.Models
         public int OrderId { get; set; }
         public Guid CustomerId { get; set; }
         public string CustomerFirstName { get; set; }
-        public List<OrderProductListItem> OrderProducts = new List<OrderProductListItem>(); // this is not being populated
-        public int ProductCount { get; set; }
+        public List<OrderProductListItem> OrderProducts = new List<OrderProductListItem>(); // this is not being populated - cannot be a class (list<orderproduct>) because you cannot send a raw data class to postman (which is why the model is utilized)
+        //public int ProductCount { get; set; }
         //public int[] ProductIds { get; set; } //was working on this to simplify
         //public double TotalCost
         //{

@@ -49,7 +49,9 @@ namespace ElevenFiftySports.Services
                         {
                             PrimaryId = e.PrimaryId,
                             OrderId = e.OrderId,
+                            CustomerFirstName = e.Order.Customer.FirstName,
                             ProductId = e.ProductId,
+                            ProductName = e.Product.ProductName,
                             ProductCount = e.ProductCount
                         }
                         );
