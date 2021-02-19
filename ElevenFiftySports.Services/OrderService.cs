@@ -54,7 +54,8 @@ namespace ElevenFiftySports.Services
                         OrderId = q.OrderId,
                         CustomerId = q.CustomerId,
                         CustomerFirstName = q.Customer.FirstName,
-                        OrderProducts = HelperConvertOrderProductsToOPListItem(q.OrderProducts)
+                        OrderProducts = HelperConvertOrderProductsToOPListItem(q.OrderProducts),
+                        TotalCost = q.TotalCost
                     };
                     newList.Add(oLI);
                 }
@@ -77,7 +78,8 @@ namespace ElevenFiftySports.Services
                     ProductId = op.ProductId,
                     ProductCount = op.ProductCount,
                     OrderId = op.OrderId,
-                    ProductName = op.Product.ProductName
+                    ProductName = op.Product.ProductName,
+                    IndividualProductPrice = op.Product.ProductPrice
                 };
                 newList.Add(listItem);
             }

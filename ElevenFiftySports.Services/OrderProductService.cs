@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace ElevenFiftySports.Services
 {
@@ -31,11 +32,11 @@ namespace ElevenFiftySports.Services
             using (var ctx = new ApplicationDbContext())
             {
                 ctx.OrderProducts.Add(entity);
-                return ctx.SaveChanges() == 1; 
+                return ctx.SaveChanges() == 1;
             }
         }
 
-        public IEnumerable<OrderProductListItem> GetOrderProducts() 
+        public IEnumerable<OrderProductListItem> GetOrderProducts()
         {
             using (var ctx = new ApplicationDbContext())
             {
@@ -52,10 +53,64 @@ namespace ElevenFiftySports.Services
                             CustomerFirstName = e.Order.Customer.FirstName,
                             ProductId = e.ProductId,
                             ProductName = e.Product.ProductName,
-                            ProductCount = e.ProductCount
+                            ProductCount = e.ProductCount,
+                            IndividualProductPrice = e.Product.ProductPrice
                         }
                         );
                 return query.ToList();
+            }
+        }
+
+        public OrderProductDetail GetOrderProductById(int id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx
+                    .OrderProducts
+                    .Single(e => e.PrimaryId == id);
+                return
+                new OrderProductDetail
+                {
+                    PrimaryId = entity.PrimaryId,
+                    OrderId = entity.OrderId,
+                    CustomerFirstName = entity.Order.Customer.FirstName,
+                    ProductId = entity.ProductId,
+                    ProductCount = entity.ProductCount,
+                    ProductName = entity.Product.ProductName
+                };
+            }
+        }
+
+        public bool UpdateOrderProduct([FromUri] int id, OrderProductEdit model) //could i put fromuri id as an addition and use that in line 91
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx
+                    .OrderProducts
+                    .Single(e => e.PrimaryId == id);
+
+                entity.OrderId = model.OrderId;
+                entity.ProductId = model.ProductId;
+                entity.ProductCount = model.ProductCount;
+
+                return ctx.SaveChanges() == 1;
+            }
+        }
+
+        public bool DeleteOrderProduct(int oPID)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx
+                    .OrderProducts
+                    .Single(e => e.PrimaryId == oPID);
+
+                ctx.OrderProducts.Remove(entity);
+
+                return ctx.SaveChanges() == 1;
             }
         }
     }

@@ -25,7 +25,7 @@ namespace ElevenFiftySports.Data
         public virtual List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
 
         [NotMapped]
-        public double TotalCost
+        public double TotalCost  
         {
             get
             {
@@ -56,6 +56,14 @@ namespace ElevenFiftySports.Data
                 return OrderProducts.Count > 0 ? cost : 0;
             }
         }
+
+        //Note on project scope/complexity..
+
+        //If we wanted to make sure that new specials don't automatically update the totalcost of previous transactions, we can make a prop DateTime SpecialCreatedDate in specials. Then, use it to determine if ordercreateddate is before specialcreateddate.
+
+        //NOTE - If we don't want the totalcost to change whenever a new special is created, we could add a bool AddSpecial or SpecialApplied or something along those lines and even apply a specific special id. Display list of specials (by day of week) and give the user an option to add special.
+
+        //maybe we could even change totalcost to totalcostcalculator and create a property accountingcost that is created only if the order is created/updated??
 
 
     }
