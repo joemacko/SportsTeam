@@ -19,7 +19,7 @@ namespace ElevenFiftySports.Data
         public virtual Product Product{ get; set; }
 
         [Required]
-        public DateTime DayOfWeek { get; set; }
+        public DayOfWeek DayOfWeek { get; set; } // btw, 0 is sunday, 1 is monday and so on
 
         [Required]
         public double ProductSpecialPrice { get; set; }

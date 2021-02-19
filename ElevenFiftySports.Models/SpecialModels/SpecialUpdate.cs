@@ -18,7 +18,7 @@ namespace ElevenFiftySports.Models.SpecialModels
 
         public int ProductId { get; set; }
 
-        public DateTime DayOfWeek { get; set; }
+        public DayOfWeek DayOfWeek { get; set; }
 
         public double ProductSpecialPrice { get; set; }
     }

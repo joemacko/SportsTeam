@@ -7,13 +7,13 @@ namespace ElevenFiftySports.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class UpdatedOrderProductDataAnnotations : IMigrationMetadata
+    public sealed partial class NewInitialMigration : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(UpdatedOrderProductDataAnnotations));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(NewInitialMigration));
         
         string IMigrationMetadata.Id
         {
-            get { return "202102172249111_UpdatedOrderProductDataAnnotations"; }
+            get { return "202102190042334_NewInitialMigration"; }
         }
         
         string IMigrationMetadata.Source

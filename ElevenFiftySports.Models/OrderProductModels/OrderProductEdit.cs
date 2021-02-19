@@ -8,7 +8,7 @@ namespace ElevenFiftySports.Models.OrderProductModels
 {
     public class OrderProductEdit
     {
-        public int PrimaryId { get; set; }
+        //public int PrimaryId { get; set; }
         public int OrderId { get; set; }
         public int ProductId { get; set; }
         public int ProductCount { get; set; }
