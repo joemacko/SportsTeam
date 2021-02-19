@@ -8,7 +8,8 @@ namespace ElevenFiftySports.Models.OrderModels
 {
     public class OrderEdit
     {
-        public int OrderId { get; set; }
-        public Guid CustomerId { get; set; }
+        //Actually, there is nothing to edit on an order because there is nothing to create on an order. Just auto populates whoever is logged in.
+        //public int OrderId { get; set; }
+        //public Guid CustomerId { get; set; }
     }
 }

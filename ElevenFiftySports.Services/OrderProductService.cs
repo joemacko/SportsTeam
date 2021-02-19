@@ -54,7 +54,7 @@ namespace ElevenFiftySports.Services
                             ProductId = e.ProductId,
                             ProductName = e.Product.ProductName,
                             ProductCount = e.ProductCount,
-                            IndividualProductPrice = e.Product.ProductPrice
+                            //IndividualProductPrice = e.Product.ProductPrice
                         }
                         );
                 return query.ToList();

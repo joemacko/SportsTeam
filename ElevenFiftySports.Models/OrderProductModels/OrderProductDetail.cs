@@ -14,6 +14,5 @@ namespace ElevenFiftySports.Models.OrderProductModels
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public int ProductCount { get; set; }
-        public decimal CostOfOrderProduct { get; set;} //In service will need to set to x.Product.ProductPrice * decimal.Parse(x.ProductCount)  ...or something like that.
     }
 }
