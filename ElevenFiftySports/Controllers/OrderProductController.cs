@@ -28,6 +28,13 @@ namespace ElevenFiftySports.Controllers
             return Ok(orderProducts);
         }
 
+        public IHttpActionResult Get([FromUri] int id)
+        {
+            OrderProductService oPS = CreateOrderProductService();
+            var orderProduct = oPS.GetOrderProductById(id);
+            return Ok(orderProduct);
+        }
+
         public IHttpActionResult Post(OrderProductCreate model)
         {
             if (!ModelState.IsValid)
@@ -51,13 +58,6 @@ namespace ElevenFiftySports.Controllers
 
                 return Ok("The OrderProduct has been created.");
             }
-        }
-
-        public IHttpActionResult Get(int id)
-        {
-            OrderProductService oPS = CreateOrderProductService();
-            var orderProduct = oPS.GetOrderProductById(id);
-            return Ok(orderProduct);
         }
 
         public IHttpActionResult Put([FromUri] int id, OrderProductEdit updatedOrderProduct)

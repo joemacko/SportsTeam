@@ -37,7 +37,7 @@ namespace ElevenFiftySports.Services
 
         public IEnumerable<OrderListItem> GetOrders()
         {
-           
+
             using (var ctx = new ApplicationDbContext())
             {
                 var query =
@@ -47,17 +47,23 @@ namespace ElevenFiftySports.Services
 
                 List<OrderListItem> newList = new List<OrderListItem>();
 
-               foreach(var q in query)
+                foreach (var q in query)
                 {
-                    var oLI = new OrderListItem
-                    {
-                        OrderId = q.OrderId,
-                        CustomerId = q.CustomerId,
-                        CustomerFirstName = q.Customer.FirstName,
-                        OrderProducts = HelperConvertOrderProductsToOPListItem(q.OrderProducts),
-                        TotalCost = q.TotalCost
-                    };
-                    newList.Add(oLI);
+                    //if (q.OrderProducts.Count > 0)
+                    //{
+                        var oLI = new OrderListItem
+                        {
+                            OrderId = q.OrderId,
+                            CustomerId = q.CustomerId,
+                            CustomerFirstName = q.Customer.FirstName,
+                            OrderProducts = HelperConvertOrderProductsToOPListItem(q.OrderProducts),
+                            TotalCost = q.TotalCost,
+                            CreatedOrderDate = q.CreatedOrderDate
+                        };
+                        newList.Add(oLI);
+                    //}
+
+                    //else
                 }
 
                 return newList;
@@ -66,12 +72,50 @@ namespace ElevenFiftySports.Services
             }
         }
 
-        public List<OrderProductListItem> HelperConvertOrderProductsToOPListItem (List<OrderProduct> orderProducts) //Necessary because postman cannot return classes (OrderProduct) as a datatype
+        public OrderDetail GetOrderById(int id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                ctx
+                .Orders
+                .Single(e => e.OrderId == id);
+
+                return
+                    new OrderDetail
+                    {
+                        OrderId = entity.OrderId,
+                        CreatedOrderDate = entity.CreatedOrderDate,
+                        CustomerId = entity.CustomerId,
+                        CustomerFirstName = entity.Customer.FirstName,
+                        OrderProducts = HelperConvertOrderProductsToOPListItem(entity.OrderProducts),
+                        TotalCost = entity.TotalCost
+                    };
+
+            }
+        }
+
+        public bool DeleteOrder(int orderID)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx
+                    .Orders
+                    .Single(e => e.OrderId == orderID);
+
+                ctx.Orders.Remove(entity);
+
+                return ctx.SaveChanges() == 1;
+            }
+        }
+
+        public List<OrderProductListItem> HelperConvertOrderProductsToOPListItem(List<OrderProduct> orderProducts) //Necessary because postman cannot return classes (OrderProduct) as a datatype
         {
             List<OrderProductListItem> newList = new List<OrderProductListItem>();
             foreach (var op in orderProducts)
             {
-                var listItem = new OrderProductListItem 
+                var listItem = new OrderProductListItem
                 {
                     PrimaryId = op.PrimaryId,
                     CustomerFirstName = op.Order.Customer.FirstName,
@@ -79,7 +123,7 @@ namespace ElevenFiftySports.Services
                     ProductCount = op.ProductCount,
                     OrderId = op.OrderId,
                     ProductName = op.Product.ProductName,
-                    IndividualProductPrice = op.Product.ProductPrice
+                    //IndividualProductPrice = op.Product.ProductPrice
                 };
                 newList.Add(listItem);
             }
