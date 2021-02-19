@@ -3,7 +3,7 @@ namespace ElevenFiftySports.Data.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class RefreshingAllMigrations : DbMigration
+    public partial class NewInitialMigration : DbMigration
     {
         public override void Up()
         {
@@ -42,6 +42,7 @@ namespace ElevenFiftySports.Data.Migrations
                     {
                         OrderId = c.Int(nullable: false, identity: true),
                         CustomerId = c.Guid(nullable: false),
+                        CreatedOrderDate = c.DateTimeOffset(nullable: false, precision: 7),
                     })
                 .PrimaryKey(t => t.OrderId)
                 .ForeignKey("dbo.Customer", t => t.CustomerId, cascadeDelete: true)
@@ -58,6 +59,20 @@ namespace ElevenFiftySports.Data.Migrations
                         TypeOfProduct = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.ProductId);
+            
+            CreateTable(
+                "dbo.Special",
+                c => new
+                    {
+                        SpecialId = c.Int(nullable: false, identity: true),
+                        ProductId = c.Int(nullable: false),
+                        DayOfWeeek = c.DateTime(nullable: false),
+                        DayOfWeek = c.Int(nullable: false),
+                        ProductSpecialPrice = c.Double(nullable: false),
+                    })
+                .PrimaryKey(t => t.SpecialId)
+                .ForeignKey("dbo.Product", t => t.ProductId, cascadeDelete: true)
+                .Index(t => t.ProductId);
             
             CreateTable(
                 "dbo.IdentityRole",
@@ -82,17 +97,6 @@ namespace ElevenFiftySports.Data.Migrations
                 .ForeignKey("dbo.ApplicationUser", t => t.ApplicationUser_Id)
                 .Index(t => t.IdentityRole_Id)
                 .Index(t => t.ApplicationUser_Id);
-            
-            CreateTable(
-                "dbo.Special",
-                c => new
-                    {
-                        SpecialId = c.Int(nullable: false, identity: true),
-                        ProductId = c.Int(nullable: false),
-                        DayOfWeek = c.DateTime(nullable: false),
-                        ProductSpecialPrice = c.Double(nullable: false),
-                    })
-                .PrimaryKey(t => t.SpecialId);
             
             CreateTable(
                 "dbo.ApplicationUser",
@@ -149,21 +153,23 @@ namespace ElevenFiftySports.Data.Migrations
             DropForeignKey("dbo.IdentityUserClaim", "ApplicationUser_Id", "dbo.ApplicationUser");
             DropForeignKey("dbo.IdentityUserRole", "IdentityRole_Id", "dbo.IdentityRole");
             DropForeignKey("dbo.OrderProduct", "ProductId", "dbo.Product");
+            DropForeignKey("dbo.Special", "ProductId", "dbo.Product");
             DropForeignKey("dbo.OrderProduct", "OrderId", "dbo.Order");
             DropForeignKey("dbo.Order", "CustomerId", "dbo.Customer");
             DropIndex("dbo.IdentityUserLogin", new[] { "ApplicationUser_Id" });
             DropIndex("dbo.IdentityUserClaim", new[] { "ApplicationUser_Id" });
             DropIndex("dbo.IdentityUserRole", new[] { "ApplicationUser_Id" });
             DropIndex("dbo.IdentityUserRole", new[] { "IdentityRole_Id" });
+            DropIndex("dbo.Special", new[] { "ProductId" });
             DropIndex("dbo.Order", new[] { "CustomerId" });
             DropIndex("dbo.OrderProduct", new[] { "ProductId" });
             DropIndex("dbo.OrderProduct", new[] { "OrderId" });
             DropTable("dbo.IdentityUserLogin");
             DropTable("dbo.IdentityUserClaim");
             DropTable("dbo.ApplicationUser");
-            DropTable("dbo.Special");
             DropTable("dbo.IdentityUserRole");
             DropTable("dbo.IdentityRole");
+            DropTable("dbo.Special");
             DropTable("dbo.Product");
             DropTable("dbo.Order");
             DropTable("dbo.OrderProduct");

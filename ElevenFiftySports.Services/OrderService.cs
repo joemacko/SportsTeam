@@ -25,6 +25,7 @@ namespace ElevenFiftySports.Services
                 new Order()
                 {
                     CustomerId = _userId,
+                    CreatedOrderDate = DateTime.Now
                 };
 
             using (var ctx = new ApplicationDbContext())

@@ -12,13 +12,18 @@ namespace ElevenFiftySports.Data
     {
         [Key]
         public int OrderId { get; set; }
+
         [Required]
         [ForeignKey(nameof(Customer))]
         public Guid CustomerId { get; set; }
-        public virtual Customer Customer {get; set;}
-        //public virtual List<Product> OrderProducts{ get; set; } //we can create orderdetails instead
-        public virtual List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>(); 
-        // public List<Product> Products { get; set; } //remove to match reference https://dev.to/_patrickgod/many-to-many-relationship-with-entity-framework-core-4059  
+
+        public virtual Customer Customer { get; set; }
+
+        [Required]
+        public DateTimeOffset CreatedOrderDate { get; set; } //set in service equal to now
+
+        public virtual List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
+
         [NotMapped]
         public double TotalCost
         {
@@ -26,13 +31,32 @@ namespace ElevenFiftySports.Data
             {
                 double cost = 0;
 
-                foreach (var od in OrderProducts)
+                foreach (OrderProduct op in OrderProducts)
                 {
-                    cost += od.Product.ProductPrice;
-                }
+                    if (!op.Product.IsSpecial)
+                        cost += (op.Product.ProductPrice * op.ProductCount);
 
+                    else
+                    {
+                        int countOfSpecialRuns = 0; //used to track if there were any changes within the special foreach BECAUSE I only want it to add the normal product cost one time (not foreach).
+
+                        foreach (Special s in op.Product.ProductSpecials)
+                        {
+                            if (CreatedOrderDate.DayOfWeek == s.DayOfWeek)
+                            {
+                                cost += (s.ProductSpecialPrice * op.ProductCount);
+                                countOfSpecialRuns++;
+                            }
+                        }
+
+                        if (countOfSpecialRuns == 0) //this means that none of the specials were on the day of the order (for the product)
+                            cost += (op.Product.ProductPrice * op.ProductCount); //run like a non-special product
+                    }
+                }
                 return OrderProducts.Count > 0 ? cost : 0;
             }
         }
+
+
     }
 }

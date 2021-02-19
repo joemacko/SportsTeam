@@ -38,7 +38,7 @@ namespace ElevenFiftySports.Controllers
             return Ok(specials);
         }
 
-        public IHttpActionResult GetByDay(DateTime dayOfWeek)
+        public IHttpActionResult GetByDay(DayOfWeek dayOfWeek)
         {
             var specialService = CreateSpecialService();
             var special = specialService.GetSpecialByDay(dayOfWeek);
