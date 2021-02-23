@@ -9,6 +9,7 @@ namespace ElevenFiftySports.Data
 {
     public class Customer
     {
+        public static object Identity { get; set; }
         [Key]
         public Guid CustomerId { get; set; }
 
