@@ -19,7 +19,7 @@ namespace ElevenFiftySports.Services
             _userId = userId;
         }
 
-        public bool CreateOrderProduct(OrderProductCreate model)
+        public string CreateOrderProduct(OrderProductCreate model)
         {
             var entity =
                 new OrderProduct()
@@ -31,8 +31,20 @@ namespace ElevenFiftySports.Services
 
             using (var ctx = new ApplicationDbContext())
             {
+                var product =
+                    ctx
+                    .Products
+                    .Single(p => p.ProductId == model.ProductId);
+
+                if (model.ProductCount >= product.UnitCount)
+                    return $"There is not enough inventory of {product.ProductName} available to create this OrderProduct. The current inventory is {product.UnitCount}.";
+
+                product.UnitCount -= model.ProductCount;
+
                 ctx.OrderProducts.Add(entity);
-                return ctx.SaveChanges() == 1;
+                ctx.SaveChanges();
+
+                return $"The OrderProduct {entity.PrimaryId} has been created."; //when bool, savechanges == 2
             }
         }
 
@@ -82,7 +94,7 @@ namespace ElevenFiftySports.Services
             }
         }
 
-        public bool UpdateOrderProduct([FromUri] int id, OrderProductEdit model) //could i put fromuri id as an addition and use that in line 91
+        public bool UpdateOrderProduct(int id, OrderProductEdit model)
         {
             using (var ctx = new ApplicationDbContext())
             {
@@ -108,9 +120,16 @@ namespace ElevenFiftySports.Services
                     .OrderProducts
                     .Single(e => e.PrimaryId == oPID);
 
+                var product = 
+                    ctx
+                    .Products
+                    .Single(p => p.ProductId == entity.ProductId);
+
+                product.UnitCount += entity.ProductCount; //return orderProduct to product inventory
+
                 ctx.OrderProducts.Remove(entity);
 
-                return ctx.SaveChanges() == 1;
+                return ctx.SaveChanges() == 2;
             }
         }
     }

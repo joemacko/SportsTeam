@@ -42,22 +42,41 @@ namespace ElevenFiftySports.Controllers
 
             var service = CreateOrderProductService();
 
-            using (var ctx = new ApplicationDbContext())
-            {
-                Product product = ctx.Products.Find(model.ProductId);
+            //using (var ctx = new ApplicationDbContext())
+            //{
+            //Product product = ctx.Products.Find(model.ProductId);
 
-                if (model.ProductCount >= product.UnitCount)
-                    return BadRequest($"There is not enough inventory of {product.ProductName} available to create this OrderProduct. The current inventory is {product.UnitCount}.");
+            //if (model.ProductCount >= product.UnitCount)
+            //return BadRequest($"There is not enough inventory of {product.ProductName} available to create this OrderProduct. The current inventory is {product.UnitCount}.");
 
-                if (!service.CreateOrderProduct(model))
-                    return InternalServerError();
+            //if (!service.CreateOrderProduct(model))
+            //return InternalServerError();
 
-                product.UnitCount -= model.ProductCount;
+            //product.UnitCount -= model.ProductCount;
 
-                ctx.SaveChanges();
+            //ctx.SaveChanges();
 
-                return Ok("The OrderProduct has been created.");
-            }
+            //return Ok("The OrderProduct has been created.");
+            //}
+
+            //if (!service.CreateOrderProduct(model))
+            //return InternalServerError();
+            
+
+            //bool testing = service.CreateOrderProduct(model).Contains($"There is not enough inventory");
+
+            //if (testing)
+            //{
+            //    return NotFound();
+            //}
+            //else
+            //{
+            //    return Ok();
+            //    //return Ok($"{service.CreateOrderProduct(model)}"); //stretch goal to keep service as a bool.
+            //}
+
+            return Ok($"{service.CreateOrderProduct(model)}"); //stretch goal to keep service as a bool.
+
         }
 
         public IHttpActionResult Put([FromUri] int id, OrderProductEdit updatedOrderProduct)
@@ -111,20 +130,26 @@ namespace ElevenFiftySports.Controllers
         {
             var service = CreateOrderProductService();
 
-            using (var ctx = new ApplicationDbContext())
-            {
-                OrderProduct orderProduct = ctx.OrderProducts.Find(id);
-                Product product = ctx.Products.Find(orderProduct.ProductId);
+            //using (var ctx = new ApplicationDbContext())
+            //{
+            //    OrderProduct orderProduct = ctx.OrderProducts.Find(id);
+            //    Product product = ctx.Products.Find(orderProduct.ProductId);
 
-                if (!service.DeleteOrderProduct(id))
-                    return InternalServerError();
+            //    if (!service.DeleteOrderProduct(id))
+            //        return InternalServerError();
 
-                product.UnitCount += orderProduct.ProductCount; //return orderProduct to product inventory
+            //    product.UnitCount += orderProduct.ProductCount; //return orderProduct to product inventory
 
-                ctx.SaveChanges();
+            //    ctx.SaveChanges();
 
-                return Ok($"OrderProduct ID: {id} was successfully deleted.");
-            }
+            //    return Ok($"OrderProduct ID: {id} was successfully deleted.");
+            //}
+
+            if (!service.DeleteOrderProduct(id))
+                return InternalServerError();
+
+            return Ok($"OrderProduct ID: {id} was successfully deleted.");
+
         }
     }
 }
