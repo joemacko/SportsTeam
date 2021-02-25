@@ -19,7 +19,7 @@ namespace ElevenFiftySports.Services
             _userId = userId;
         }
 
-        public bool CreateOrder()//no input needed, all info is given already to create the foundation of an order
+        public string CreateOrder()//no input needed, all info is given already to create the foundation of an order
         {
             var entity =
                 new Order()
@@ -31,7 +31,10 @@ namespace ElevenFiftySports.Services
             using (var ctx = new ApplicationDbContext())
             {
                 ctx.Orders.Add(entity);
-                return ctx.SaveChanges() == 1;
+
+                ctx.SaveChanges();
+
+                return $"The Order ID: {entity.OrderId} has been created."; //when bool, ctx.savechanges == 1
             }
         }
 
@@ -49,26 +52,19 @@ namespace ElevenFiftySports.Services
 
                 foreach (var q in query)
                 {
-                    //if (q.OrderProducts.Count > 0)
-                    //{
-                        var oLI = new OrderListItem
-                        {
-                            OrderId = q.OrderId,
-                            CustomerId = q.CustomerId,
-                            CustomerFirstName = q.Customer.FirstName,
-                            OrderProducts = HelperConvertOrderProductsToOPListItem(q.OrderProducts),
-                            TotalCost = q.TotalCost,
-                            CreatedOrderDate = q.CreatedOrderDate
-                        };
-                        newList.Add(oLI);
-                    //}
-
-                    //else
+                    var oLI = new OrderListItem
+                    {
+                        OrderId = q.OrderId,
+                        CustomerId = q.CustomerId,
+                        CustomerFirstName = q.Customer.FirstName,
+                        OrderProducts = HelperConvertOrderProductsToOPListItem(q.OrderProducts),
+                        TotalCost = q.TotalCost,
+                        CreatedOrderDate = q.CreatedOrderDate
+                    };
+                    newList.Add(oLI);
                 }
 
                 return newList;
-
-                //issue before was that we were returning the **query** and only creating part of an orderlistitem (in prev version). Therefore, the return method was not grabbing what the foreach below was doing. now we have created a new list that utilizes data from the query to return.
             }
         }
 
@@ -95,18 +91,40 @@ namespace ElevenFiftySports.Services
             }
         }
 
-        public bool DeleteOrder(int orderID)
+        public bool DeleteOrder(Guid guid, int orderID)
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var entity =
+                //OrderProductService orderProductService = new OrderProductService(guid);
+
+                var order =
                     ctx
                     .Orders
                     .Single(e => e.OrderId == orderID);
 
-                ctx.Orders.Remove(entity);
+                //List<OrderProduct> opl = order.OrderProducts;
 
-                return ctx.SaveChanges() == 1;
+                if (order.OrderProducts.Count > 0)
+                {
+                    foreach (OrderProduct orderProduct in order.OrderProducts.ToList())//need tolist and could not reference orderproductservice because of errors likely due to duplicate contexts.
+                    //orderProductService.DeleteOrderProduct(orderProduct.PrimaryId);
+                    {
+                        var product =
+                            ctx
+                            .Products
+                            .Single(p => p.ProductId == orderProduct.ProductId);
+
+                        product.UnitCount += orderProduct.ProductCount; //return orderProduct to product inventory
+
+                        ctx.OrderProducts.Remove(orderProduct);
+                    }
+                }
+
+                //ctx.Orders.Remove(ctx.Orders.Find(orderID));
+
+                ctx.Orders.Remove(order);
+
+                return ctx.SaveChanges() >= 1;//don't know how many changes there are because it is as many as there are orderproducts.
             }
         }
 
@@ -123,7 +141,6 @@ namespace ElevenFiftySports.Services
                     ProductCount = op.ProductCount,
                     OrderId = op.OrderId,
                     ProductName = op.Product.ProductName,
-                    //IndividualProductPrice = op.Product.ProductPrice
                 };
                 newList.Add(listItem);
             }
