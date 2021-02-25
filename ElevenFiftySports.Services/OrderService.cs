@@ -19,24 +19,28 @@ namespace ElevenFiftySports.Services
             _userId = userId;
         }
 
-        public bool CreateOrder()//no input needed, all info is given already to create the foundation of an order
+        public string CreateOrder()//no input needed, all info is given already to create the foundation of an order
         {
             var entity =
                 new Order()
                 {
                     CustomerId = _userId,
+                    CreatedOrderDate = DateTime.Now
                 };
 
             using (var ctx = new ApplicationDbContext())
             {
                 ctx.Orders.Add(entity);
-                return ctx.SaveChanges() == 1;
+
+                ctx.SaveChanges();
+
+                return $"The Order ID: {entity.OrderId} has been created."; //when bool, ctx.savechanges == 1
             }
         }
 
         public IEnumerable<OrderListItem> GetOrders()
         {
-           
+
             using (var ctx = new ApplicationDbContext())
             {
                 var query =
@@ -46,37 +50,97 @@ namespace ElevenFiftySports.Services
 
                 List<OrderListItem> newList = new List<OrderListItem>();
 
-               foreach(var q in query)
+                foreach (var q in query)
                 {
                     var oLI = new OrderListItem
                     {
                         OrderId = q.OrderId,
                         CustomerId = q.CustomerId,
                         CustomerFirstName = q.Customer.FirstName,
-                        OrderProducts = HelperConvertOrderProductsToOPListItem(q.OrderProducts)
+                        OrderProducts = HelperConvertOrderProductsToOPListItem(q.OrderProducts),
+                        TotalCost = q.TotalCost,
+                        CreatedOrderDate = q.CreatedOrderDate
                     };
                     newList.Add(oLI);
                 }
 
                 return newList;
-
-                //issue before was that we were returning the **query** and only creating part of an orderlistitem (in prev version). Therefore, the return method was not grabbing what the foreach below was doing. now we have created a new list that utilizes data from the query to return.
             }
         }
 
-        public List<OrderProductListItem> HelperConvertOrderProductsToOPListItem (List<OrderProduct> orderProducts) //Necessary because postman cannot return classes (OrderProduct) as a datatype
+        public OrderDetail GetOrderById(int id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                ctx
+                .Orders
+                .Single(e => e.OrderId == id);
+
+                return
+                    new OrderDetail
+                    {
+                        OrderId = entity.OrderId,
+                        CreatedOrderDate = entity.CreatedOrderDate,
+                        CustomerId = entity.CustomerId,
+                        CustomerFirstName = entity.Customer.FirstName,
+                        OrderProducts = HelperConvertOrderProductsToOPListItem(entity.OrderProducts),
+                        TotalCost = entity.TotalCost
+                    };
+
+            }
+        }
+
+        public bool DeleteOrder(Guid guid, int orderID)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                //OrderProductService orderProductService = new OrderProductService(guid);
+
+                var order =
+                    ctx
+                    .Orders
+                    .Single(e => e.OrderId == orderID);
+
+                //List<OrderProduct> opl = order.OrderProducts;
+
+                if (order.OrderProducts.Count > 0)
+                {
+                    foreach (OrderProduct orderProduct in order.OrderProducts.ToList())//need tolist and could not reference orderproductservice because of errors likely due to duplicate contexts.
+                    //orderProductService.DeleteOrderProduct(orderProduct.PrimaryId);
+                    {
+                        var product =
+                            ctx
+                            .Products
+                            .Single(p => p.ProductId == orderProduct.ProductId);
+
+                        product.UnitCount += orderProduct.ProductCount; //return orderProduct to product inventory
+
+                        ctx.OrderProducts.Remove(orderProduct);
+                    }
+                }
+
+                //ctx.Orders.Remove(ctx.Orders.Find(orderID));
+
+                ctx.Orders.Remove(order);
+
+                return ctx.SaveChanges() >= 1;//don't know how many changes there are because it is as many as there are orderproducts.
+            }
+        }
+
+        public List<OrderProductListItem> HelperConvertOrderProductsToOPListItem(List<OrderProduct> orderProducts) //Necessary because postman cannot return classes (OrderProduct) as a datatype
         {
             List<OrderProductListItem> newList = new List<OrderProductListItem>();
             foreach (var op in orderProducts)
             {
-                var listItem = new OrderProductListItem 
+                var listItem = new OrderProductListItem
                 {
                     PrimaryId = op.PrimaryId,
                     CustomerFirstName = op.Order.Customer.FirstName,
                     ProductId = op.ProductId,
                     ProductCount = op.ProductCount,
                     OrderId = op.OrderId,
-                    ProductName = op.Product.ProductName
+                    ProductName = op.Product.ProductName,
                 };
                 newList.Add(listItem);
             }

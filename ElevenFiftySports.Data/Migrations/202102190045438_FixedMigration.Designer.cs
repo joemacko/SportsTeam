@@ -7,13 +7,13 @@ namespace ElevenFiftySports.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class RefreshingAllMigrations : IMigrationMetadata
+    public sealed partial class FixedMigration : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(RefreshingAllMigrations));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(FixedMigration));
         
         string IMigrationMetadata.Id
         {
-            get { return "202102172200249_RefreshingAllMigrations"; }
+            get { return "202102190045438_FixedMigration"; }
         }
         
         string IMigrationMetadata.Source

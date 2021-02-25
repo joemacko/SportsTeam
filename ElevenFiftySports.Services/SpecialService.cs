@@ -60,7 +60,7 @@ namespace ElevenFiftySports.Services
             }
         }
 
-        public IEnumerable<SpecialReadByDay> GetSpecialByDay(DateTime dayOfWeek)
+        public IEnumerable<SpecialReadByDay> GetSpecialByDay(DayOfWeek dayOfWeek)
         {
             using (var ctx = new ApplicationDbContext())
             {

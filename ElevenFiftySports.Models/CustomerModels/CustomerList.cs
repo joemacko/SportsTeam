@@ -10,11 +10,16 @@ namespace ElevenFiftySports.Models.CustomerModels
 {
     class CustomerList
     {
+        [Key]
         public int CustomerId { get; set; }
-
-        public string CustomerName { get; set; }
-
-        
+        [Required]
+        public string FirstName { get; set; }
+        [Required]
+        public string LastName { get; set; }
+        [Required]
+        public string Email { get; set; }
+        [Required]
+        public string PhoneNumber { get; set; }
         public DateTimeOffset CreatedUtc { get; set; }
     }
 }
