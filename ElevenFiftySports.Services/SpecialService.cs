@@ -13,6 +13,29 @@ namespace ElevenFiftySports.Services
         private readonly int _productId;
 
         // Need to actually implement a GetProductById method
+        // Should I change my "SpecialReadByDay" class to "SpecialReadById class and have it apply to both?
+        //public IEnumerable<SpecialReadByDay> GetSpecialByProductId(int productId)
+        //{
+        //    using (var ctx = new ApplicationDbContext())
+        //    {
+        //        var query =
+        //            ctx
+        //                .Specials
+        //                .Where(e => e.ProductId == _productId)
+        //                .Select(
+        //                    e =>
+        //                        new SpecialReadByDay
+        //                        {
+        //                            SpecialId = e.SpecialId,
+        //                            DayOfWeek = e.DayOfWeek,
+        //                            ProductSpecialPrice = e.ProductSpecialPrice
+        //                        }
+        //                );
+
+        //        return query.ToArray();
+        //    }
+        //}
+
         public SpecialService() { }
 
         public SpecialService(int productId)
@@ -34,7 +57,7 @@ namespace ElevenFiftySports.Services
             using (var ctx = new ApplicationDbContext())
             {
                 ctx.Specials.Add(entity);
-                return ctx.SaveChanges() == 1;
+                return ctx.SaveChanges() >= 1;
             }
         }
 

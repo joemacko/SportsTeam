@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ElevenFiftySports.Services
 {
-    class CustomerService
+    public class CustomerService
     {
 
         private readonly Guid _customerId;
