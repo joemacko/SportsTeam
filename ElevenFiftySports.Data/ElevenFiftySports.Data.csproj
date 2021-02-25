@@ -102,9 +102,9 @@
     <Compile Include="Migrations\202102190045438_FixedMigration.Designer.cs">
       <DependentUpon>202102190045438_FixedMigration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202102240056205_thisMigration.cs" />
-    <Compile Include="Migrations\202102240056205_thisMigration.Designer.cs">
-      <DependentUpon>202102240056205_thisMigration.cs</DependentUpon>
+    <Compile Include="Migrations\202102240025156_Migration.cs" />
+    <Compile Include="Migrations\202102240025156_Migration.Designer.cs">
+      <DependentUpon>202102240025156_Migration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Order.cs" />
@@ -124,8 +124,8 @@
     <EmbeddedResource Include="Migrations\202102190045438_FixedMigration.resx">
       <DependentUpon>202102190045438_FixedMigration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202102240056205_thisMigration.resx">
-      <DependentUpon>202102240056205_thisMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202102240025156_Migration.resx">
+      <DependentUpon>202102240025156_Migration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

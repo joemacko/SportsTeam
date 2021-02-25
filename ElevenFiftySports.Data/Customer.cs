@@ -12,8 +12,6 @@ namespace ElevenFiftySports.Data
         public static object Identity { get; set; }
         [Key]
         public Guid CustomerId { get; set; }
-
-
         [Required]
         [MaxLength(20, ErrorMessage = "There are too many characters in this field")]
         public string FirstName { get; set; }
@@ -24,9 +22,6 @@ namespace ElevenFiftySports.Data
         public string Email { get; set; }
         [Required]
         public string CellPhoneNumber { get; set; }
-
-        [Required]
         public DateTimeOffset CreatedUtc { get; set; }
-        public DateTimeOffset? ModifiedUtc { get; set; }
     }
 }
