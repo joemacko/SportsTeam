@@ -35,27 +35,27 @@ namespace ElevenFiftySports.Controllers
             var customerService = new CustomerService(userId);
             return customerService;
         }
-        public IHttpActionResult GetCustomerById(int id)
-        {
-            using (var ctx = new ApplicationDbContext())
-            {
-                var entity =
-                    ctx
-                        .Customers
-                        .Single(e => e.CustomerId == id && e.OwnerId == _userId);
-                return
-                    new CustomerDetail
-                    {
-                        CustomerId = entity.CustomerId,
-                        FirstName = entity.FirstName,
-                        LastName = entity.LastName,
-                        Email = entity.Email,
-                        CellPhoneNumber = entity.CellPhoneNumber,
-                        CreatedUtc = entity.CreatedUtc,
-                        ModifiedUtc = entity.ModifiedUtc
-                    };
-            }
-        }
+        //public IHttpActionResult GetCustomerById(int id)
+        //{
+        //    using (var ctx = new ApplicationDbContext())
+        //    {
+        //        var entity =
+        //            ctx
+        //                .Customers
+        //                .Single(e => e.CustomerId == id && e.OwnerId == _userId);
+        //        return
+        //            new CustomerDetail
+        //            {
+        //                CustomerId = entity.CustomerId,
+        //                FirstName = entity.FirstName,
+        //                LastName = entity.LastName,
+        //                Email = entity.Email,
+        //                CellPhoneNumber = entity.CellPhoneNumber,
+        //                CreatedUtc = entity.CreatedUtc,
+        //                ModifiedUtc = entity.ModifiedUtc
+        //            };
+        //    }
+        //}
 
         public IHttpActionResult Put(CustomerEdit customer)
         {
@@ -67,6 +67,13 @@ namespace ElevenFiftySports.Controllers
             return Ok();
         }
 
+        public IHttpActionResult Delete (int id)
+        {
+            var service = CreateCustomerService();
+            if (!service.DeleteCustomer(id))
+                return InternalServerError();
+            return Ok();
+        }
 
     }
 }
