@@ -13,19 +13,18 @@ namespace ElevenFiftySports.Data
         [Key]
         public int OrderId { get; set; }
 
-        [Required]
-        [ForeignKey(nameof(Customer))]
+        [Required, ForeignKey(nameof(Customer))]
         public Guid CustomerId { get; set; }
 
         public virtual Customer Customer { get; set; }
 
         [Required]
-        public DateTimeOffset CreatedOrderDate { get; set; } //set in service equal to now
+        public DateTimeOffset CreatedOrderDate { get; set; } 
 
         public virtual List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
 
         [NotMapped]
-        public double TotalCost  
+        public double TotalCost  //Might need to use below logic in the update service?? need to see if we can add a prop and update that will "finalize order" and calculate cost to save to this property.
         {
             get
             {
@@ -57,14 +56,6 @@ namespace ElevenFiftySports.Data
             }
         }
 
-        //Note on project scope/complexity..
-
-        //If we wanted to make sure that new specials don't automatically update the totalcost of previous transactions, we can make a prop DateTime SpecialCreatedDate in specials. Then, use it to determine if ordercreateddate is before specialcreateddate.
-
-        //NOTE - If we don't want the totalcost to change whenever a new special is created, we could add a bool AddSpecial or SpecialApplied or something along those lines and even apply a specific special id. Display list of specials (by day of week) and give the user an option to add special.
-
-        //maybe we could even change totalcost to totalcostcalculator and create a property accountingcost that is created only if the order is created/updated??
-
-
+        //public bool OrderFinalized { get; set; } //make required, set to false on ordercreate, set to true when "finalized" in UI? Will run an update/post, set to true, and calculate totalcost using logic above... Since I only want this to happen once, i suppose it can all be in the UI?? Then customer would need to be unable to delete or update order again (through ui logic) nor add any orderproducts with that orderid (so can add as long as order is active, could put in orderproductservice)...
     }
 }

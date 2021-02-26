@@ -30,7 +30,7 @@ namespace ElevenFiftySports.Data
         public virtual List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
         public virtual List<Special> ProductSpecials { get; set; } = new List<Special>();
 
-        public bool IsSpecial
+        public bool IsSpecial //we might not need this because the logic of productspecials.count > 0 could just be used in the service
         {
             get
             {
