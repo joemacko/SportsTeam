@@ -19,7 +19,7 @@ namespace ElevenFiftySports.Services
             _userId = userId;
         }
 
-        public bool CreateOrderProduct(OrderProductCreate model)
+        public string CreateOrderProduct(OrderProductCreate model)
         {
             var entity =
                 new OrderProduct()
@@ -31,8 +31,20 @@ namespace ElevenFiftySports.Services
 
             using (var ctx = new ApplicationDbContext())
             {
+                var product =
+                    ctx
+                    .Products
+                    .Single(p => p.ProductId == model.ProductId);
+
+                if (model.ProductCount >= product.UnitCount)
+                    return $"There is not enough inventory of {product.ProductName} available to create this OrderProduct. The current inventory is {product.UnitCount}.";
+
+                product.UnitCount -= model.ProductCount;
+
                 ctx.OrderProducts.Add(entity);
-                return ctx.SaveChanges() == 1;
+                ctx.SaveChanges();
+
+                return $"The OrderProduct {entity.PrimaryId} has been created."; //when bool, savechanges == 2
             }
         }
 
@@ -82,20 +94,71 @@ namespace ElevenFiftySports.Services
             }
         }
 
-        public bool UpdateOrderProduct([FromUri] int id, OrderProductEdit model) //could i put fromuri id as an addition and use that in line 91
+        public string UpdateOrderProduct(int id, OrderProductEdit updatedOrderProduct)
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var entity =
+                //var originalOrderProduct =
+                //    ctx
+                //    .OrderProducts
+                //    .Single(o => o.PrimaryId == id);
+
+                OrderProduct originalOrderProduct = ctx.OrderProducts.Find(id);
+
+                Product originalProduct =
                     ctx
-                    .OrderProducts
-                    .Single(e => e.PrimaryId == id);
+                    .Products
+                    .Single(oP => oP.ProductId == originalOrderProduct.ProductId);
 
-                entity.OrderId = model.OrderId;
-                entity.ProductId = model.ProductId;
-                entity.ProductCount = model.ProductCount;
+                //var updatedOrderProduct =
+                //    ctx
+                //    .OrderProducts
+                //    .Single(u => u.PrimaryId == id);
 
-                return ctx.SaveChanges() == 1;
+                //updatedOrderProduct.OrderId = updatedOP.OrderId;
+                //updatedOrderProduct.ProductId = updatedOP.ProductId;
+                //updatedOrderProduct.ProductCount = updatedOP.ProductCount;
+
+                Product updatedProduct =
+                    ctx
+                    .Products
+                    .Single(uP => uP.ProductId == updatedOrderProduct.ProductId);
+
+                if (originalOrderProduct.ProductId == updatedOrderProduct.ProductId)
+                {
+                    if (updatedOrderProduct.ProductCount >= originalProduct.UnitCount + originalOrderProduct.ProductCount) //check if enough original product is in inventory (current inventory + whatever was in the original order)
+                        return $"There is not enough inventory of {originalProduct.ProductName} available to update to this OrderProduct's ProductCount. The current inventory (including the ProductCount on the original OrderProduct) is {originalProduct.UnitCount + originalOrderProduct.ProductCount} units.";
+
+                    originalProduct.UnitCount += originalOrderProduct.ProductCount; //return original request to inventory
+                    originalProduct.UnitCount -= updatedOrderProduct.ProductCount; //remove current request from inventory
+
+                    originalOrderProduct.OrderId = updatedOrderProduct.OrderId;
+                    originalOrderProduct.ProductId = updatedOrderProduct.ProductId;
+                    originalOrderProduct.ProductCount = updatedOrderProduct.ProductCount;
+
+                    ctx.SaveChanges();
+
+                    return $"The OrderProduct ID: {id} has been updated.";
+                }
+
+                else //if original orderproduct product is different from updated orderproduct product
+                {
+                    if (updatedOrderProduct.ProductCount >= updatedProduct.UnitCount)
+                        return $"There is not enough inventory of the updated product: {updatedProduct.ProductName} available to update this OrderProduct's Product and ProductCount. The current {updatedProduct.ProductName} inventory is {updatedProduct.UnitCount} units."; //check if enough updated product is in inventory
+
+                    originalProduct.UnitCount += originalOrderProduct.ProductCount; //return the original orderproduct to inventory (like you didn't mean to add to order)
+                    updatedProduct.UnitCount -= updatedOrderProduct.ProductCount; //Subtract new orderproduct request from new product's inventory
+
+                    originalOrderProduct.OrderId = updatedOrderProduct.OrderId;
+                    originalOrderProduct.ProductId = updatedOrderProduct.ProductId;
+                    originalOrderProduct.ProductCount = updatedOrderProduct.ProductCount;
+
+                    ctx.SaveChanges();
+
+                    return $"The OrderProduct ID: {id} has been updated with the updated product: {updatedProduct.ProductName}.";
+                }
+
+                //return ctx.SaveChanges() == 1;
             }
         }
 
@@ -108,9 +171,16 @@ namespace ElevenFiftySports.Services
                     .OrderProducts
                     .Single(e => e.PrimaryId == oPID);
 
+                var product =
+                    ctx
+                    .Products
+                    .Single(p => p.ProductId == entity.ProductId);
+
+                product.UnitCount += entity.ProductCount; //return orderProduct to product inventory
+
                 ctx.OrderProducts.Remove(entity);
 
-                return ctx.SaveChanges() == 1;
+                return ctx.SaveChanges() == 2;
             }
         }
     }

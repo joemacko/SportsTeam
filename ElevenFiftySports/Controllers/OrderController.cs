@@ -38,35 +38,45 @@ namespace ElevenFiftySports.Controllers
         {
             OrderService orderService = CreateOrderService();
 
-            if (!orderService.CreateOrder())
-                return InternalServerError();
+            string created = orderService.CreateOrder();
 
-            return Ok();
+            if (created.Contains("The Order"))
+                return Ok(created); 
+
+            return InternalServerError();
         }
 
         public IHttpActionResult Delete([FromUri] int id)
         {
             var service = CreateOrderService();
-            var opc = new OrderProductController();
+            //var opc = new OrderProductController();
 
 
-            using (var ctx = new ApplicationDbContext())
-            {
-                Order order = ctx.Orders.Find(id); //could make this an if ! and return badrequest order id does not exist...
+            //using (var ctx = new ApplicationDbContext())
+            //{
+            //    Order order = ctx.Orders.Find(id); //could make this an if ! and return badrequest order id does not exist...
 
-                if (order.OrderProducts.Count > 0)
-                {
-                    foreach (OrderProduct orderProduct in order.OrderProducts)
-                        opc.Delete(orderProduct.PrimaryId);
-                }
+            //    if (order.OrderProducts.Count > 0)
+            //    {
+            //        foreach (OrderProduct orderProduct in order.OrderProducts)
+            //            opc.Delete(orderProduct.PrimaryId);
+            //    }
 
-                if (!service.DeleteOrder(id))
-                    return InternalServerError();
+            //    if (!service.DeleteOrder(id))
+            //        return InternalServerError();
 
-                ctx.SaveChanges();
+            //    ctx.SaveChanges();
 
-                return Ok($"Order ID: {id} and any associated orderProducts have been deleted.");
-            }
+            //    return Ok($"Order ID: {id} and any associated orderProducts have been deleted.");
+            //}
+
+            Guid guid = Guid.Parse(User.Identity.GetUserId());
+
+            if (!service.DeleteOrder(guid, id))
+                return InternalServerError();
+
+            return Ok($"Order ID: {id} and any associated orderProducts have been deleted.");
+
         }
 
         //below not needed with simple order create model...

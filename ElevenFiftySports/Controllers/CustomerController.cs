@@ -1,22 +1,19 @@
 ﻿using System;
 using Microsoft.AspNet.Identity;
-using System.Collections.Generic;
 using ElevenFiftySports.Data;
-using ElevenFiftySports.Models.OrderModels;
 using ElevenFiftySports.Services;
-using System.Linq;
-using System.Web;
 using System.Web.Http;
-using System.Threading.Tasks;
 using ElevenFiftySports.Models.CustomerModels;
+using System.Threading.Tasks;
 
 namespace ElevenFiftySports.Controllers
 {
     [Authorize]
     public class CustomerController : ApiController
     {
-        private CustomerService CreateCustomerService()
 
+        private readonly ApplicationDbContext _context = new ApplicationDbContext();
+        public async Task<IHttpActionResult> PostCustomerAsync([FromBody] Customer model)
         {
             var userId = Guid.Parse(User.Identity.GetUserId());
             var customerService = new CustomerService(userId);
@@ -26,7 +23,7 @@ namespace ElevenFiftySports.Controllers
 
         public IHttpActionResult Get()
         {
-            CustomerService customerService = CreateCustomerService();
+            CustomerService customerService = CustomerCreateService();
             var customers = customerService.GetCustomers();
             return Ok(customers);
         }
@@ -35,7 +32,7 @@ namespace ElevenFiftySports.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var service = CreateCustomerService();
+            var service = CustomerCreateService();
             if (!service.CreateCustomer(customer))
                 return InternalServerError();
             return Ok();
@@ -53,19 +50,12 @@ namespace ElevenFiftySports.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var service = CreateCustomerService();
+            var service = CustomerCreateService();
             if (!service.UpdateCustomer(customer))
                 return InternalServerError();
             return Ok();
         }
 
-        public IHttpActionResult Delete(int id)
-        {
-            var service = CreateCustomerService();
-            if (!service.DeleteCustomer(id))
-                return InternalServerError();
-            return Ok();
-        }
 
     }
 }

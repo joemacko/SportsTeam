@@ -45,6 +45,13 @@ namespace ElevenFiftySports.Controllers
             return Ok(special);
         }
 
+        //public IHttpActionResult GetByProductId(int productId)
+        //{
+        //    var specialService = CreateSpecialService();
+        //    var special = specialService.GetSpecialByProductId(productId);
+        //    return Ok(special);
+        //}
+
         public IHttpActionResult Put(SpecialUpdate special)
         {
             if (!ModelState.IsValid)
