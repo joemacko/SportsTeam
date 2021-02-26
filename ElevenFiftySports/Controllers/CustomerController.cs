@@ -1,35 +1,70 @@
 ﻿using System;
 using Microsoft.AspNet.Identity;
-using System.Collections.Generic;
 using ElevenFiftySports.Data;
-using ElevenFiftySports.Models.OrderModels;
 using ElevenFiftySports.Services;
-using System.Linq;
-using System.Web;
 using System.Web.Http;
+using ElevenFiftySports.Models.CustomerModels;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace ElevenFiftySports.Controllers
 {
     [Authorize]
     public class CustomerController : ApiController
     {
-
-        private readonly ApplicationDbContext _context = new ApplicationDbContext();
-        public async Task<IHttpActionResult> PostCustomerAsync([FromBody] Customer model)
+        public IHttpActionResult Get()
         {
-            if (model is null)
-            {
-                return BadRequest("Your request body cannot be empyty!");
-            }
-            if (ModelState.IsValid)
-            {
-                _context.Customers.Add(model);
-                int changeCount = await _context.SaveChangesAsync();
+            CustomerService customerService = CreateCustomerService();
+            var customers = customerService.GetCustomers();
+            return Ok(customers);
+        }
 
-                return Ok("A new customer has been created in the Database!");
+        public IHttpActionResult Post(CustomerCreate customer)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var service = CreateCustomerService();
+            if (!service.CreateCustomer(customer))
+                return InternalServerError();
+            return Ok();
+        }
+        
+        private CustomerService CreateCustomerService()
+        {
+            var userId = Guid.Parse(User.Identity.GetUserId());
+            var customerService = new CustomerService(userId);
+            return customerService;
+        }
+        public IHttpActionResult GetCustomerById(int id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx
+                        .Customers
+                        .Single(e => e.CustomerId == id && e.OwnerId == _userId);
+                return
+                    new CustomerDetail
+                    {
+                        CustomerId = entity.CustomerId,
+                        FirstName = entity.FirstName,
+                        LastName = entity.LastName,
+                        Email = entity.Email,
+                        CellPhoneNumber = entity.CellPhoneNumber,
+                        CreatedUtc = entity.CreatedUtc,
+                        ModifiedUtc = entity.ModifiedUtc
+                    };
             }
-            return BadRequest(ModelState);
+        }
+
+        public IHttpActionResult Put(CustomerEdit customer)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var service = CreateCustomerService();
+            if (!service.UpdateCustomer(customer))
+                return InternalServerError();
+            return Ok();
         }
 
 
