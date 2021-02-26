@@ -34,7 +34,8 @@ namespace ElevenFiftySports.Services
             }
         }
 
-        public IEnumerable<OrderDetailCreate> GetOrderDetails() //too lazy to make an orderdetailread (it shows the same stuff)
+        //too lazy to make an orderdetailread (it shows the same stuff)
+        public IEnumerable<OrderDetailCreate> GetOrderDetails() 
         {
             using (var ctx = new ApplicationDbContext())
             {
