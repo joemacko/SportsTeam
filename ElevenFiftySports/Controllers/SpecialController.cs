@@ -38,12 +38,19 @@ namespace ElevenFiftySports.Controllers
             return Ok(specials);
         }
 
-        public IHttpActionResult GetByDay(DateTime dayOfWeek)
+        public IHttpActionResult GetByDay(DayOfWeek dayOfWeek)
         {
             var specialService = CreateSpecialService();
             var special = specialService.GetSpecialByDay(dayOfWeek);
             return Ok(special);
         }
+
+        //public IHttpActionResult GetByProductId(int productId)
+        //{
+        //    var specialService = CreateSpecialService();
+        //    var special = specialService.GetSpecialByProductId(productId);
+        //    return Ok(special);
+        //}
 
         public IHttpActionResult Put(SpecialUpdate special)
         {

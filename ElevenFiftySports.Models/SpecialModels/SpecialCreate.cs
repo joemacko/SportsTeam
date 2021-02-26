@@ -12,13 +12,15 @@ namespace ElevenFiftySports.Models.SpecialModels
     {
         public int SpecialId { get; set; }
 
-        [ForeignKey(nameof(Customer))]
-        public Guid CustomerId { get; set; }
-        public virtual Customer Customer { get; set; }
+        //[ForeignKey(nameof(Customer))]
+        //public Guid CustomerId { get; set; }
+        //public virtual Customer Customer { get; set; }
 
+        [ForeignKey(nameof(Product))]
         public int ProductId { get; set; }
+        public virtual Product Product { get; set; }
 
-        public DateTime DayOfWeek { get; set; }
+        public DayOfWeek DayOfWeek { get; set; }
 
         public double ProductSpecialPrice { get; set; }
     }

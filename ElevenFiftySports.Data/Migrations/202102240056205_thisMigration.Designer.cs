@@ -7,13 +7,13 @@ namespace ElevenFiftySports.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class NotMappedTotalCostOrder : IMigrationMetadata
+    public sealed partial class thisMigration : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(NotMappedTotalCostOrder));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(thisMigration));
         
         string IMigrationMetadata.Id
         {
-            get { return "202102130216424_NotMappedTotalCostOrder"; }
+            get { return "202102240056205_thisMigration"; }
         }
         
         string IMigrationMetadata.Source

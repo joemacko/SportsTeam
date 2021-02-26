@@ -3,7 +3,7 @@ namespace ElevenFiftySports.Data.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class OrderUpdateMigration : DbMigration
+    public partial class thisMigration : DbMigration
     {
         public override void Up()
         {
