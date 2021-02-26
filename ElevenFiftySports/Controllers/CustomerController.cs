@@ -1,11 +1,7 @@
 ﻿using System;
 using Microsoft.AspNet.Identity;
-using System.Collections.Generic;
 using ElevenFiftySports.Data;
-using ElevenFiftySports.Models.OrderModels;
 using ElevenFiftySports.Services;
-using System.Linq;
-using System.Web;
 using System.Web.Http;
 using ElevenFiftySports.Models.CustomerModels;
 using System.Threading.Tasks;
@@ -15,48 +11,51 @@ namespace ElevenFiftySports.Controllers
     [Authorize]
     public class CustomerController : ApiController
     {
-        private CustomerService CreateCustomerSevice()
+
+        private readonly ApplicationDbContext _context = new ApplicationDbContext();
+        public async Task<IHttpActionResult> PostCustomerAsync([FromBody] Customer model)
         {
-            var customerId = Guid.Parse(Customer.Identity.GetCustomerId());
-            var customerService = new CustomerSevice(customerId);
+            var userId = Guid.Parse(User.Identity.GetUserId());
+            var customerService = new CustomerService(userId);
             return customerService;
         }
 
-        public IHttpActionResult Get
+
+        public IHttpActionResult Get()
         {
-            get
-            {
-                CustomerService customerService = CreateCustomerSevice();
-                var customer = customerService.GetCustomer();
-                return Ok(customer);
-            }
+            CustomerService customerService = CustomerCreateService();
+            var customers = customerService.GetCustomers();
+            return Ok(customers);
         }
 
         public IHttpActionResult Post(CustomerCreate customer)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var service = CreateCustomerSevice();
+            var service = CustomerCreateService();
             if (!service.CreateCustomer(customer))
                 return InternalServerError();
             return Ok();
         }
+        
 
-        private readonly ApplicationDbContext _context = new ApplicationDbContext();
-        public async Task<IHttpActionResult> PostCustomerAsync([FromBody] Customer model)
+        //public IHttpActionResult Get(int id)
+        //{
+        //    CustomerService customerService = CreateCustomerService();
+        //    var customer = customerService.GetCustomerById(id);
+        //    return Ok(customer);
+        //}
+
+        public IHttpActionResult Put(CustomerEdit customer)
         {
-            if (model is null)
-            {
-                return BadRequest("Your request body cannot be empyty!");
-            }
-            if (ModelState.IsValid)
-            {
-                _context.Customers.Add(model);
-                int changeCount = await _context.SaveChangesAsync();
-
-                return Ok("A new customer has been created in the Database!");
-            }
-            return BadRequest(ModelState);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var service = CustomerCreateService();
+            if (!service.UpdateCustomer(customer))
+                return InternalServerError();
+            return Ok();
         }
+
+
     }
 }

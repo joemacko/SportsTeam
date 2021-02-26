@@ -1,5 +1,5 @@
-﻿using ElevenFiftySports.Data;
-using System;
+﻿using System;
+using ElevenFiftySports.Data;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,19 +8,16 @@ using System.Threading.Tasks;
 
 namespace ElevenFiftySports.Models.CustomerModels
 {
-    public class CustomerList
+    public class CustomerDetail
     {
-        [Key]
         public int CustomerId { get; set; }
-        [Required]
         public string FirstName { get; set; }
-        [Required]
-        public string LastName { get; set; }
-        [Required]
-        public string Email { get; set; }
-        [Required]
-        public string PhoneNumber { get; set; }
-        [Display(Name ="Created")]
+        public string  LastName { get; set; }
+
+        [Display(Name="Created")]
         public DateTimeOffset CreatedUtc { get; set; }
+
+        [Display(Name ="Modified")]
+        public DateTimeOffset? ModifiedUtc { get; set; }
     }
 }
