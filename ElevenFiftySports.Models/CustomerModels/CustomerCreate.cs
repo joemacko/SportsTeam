@@ -9,16 +9,15 @@ namespace ElevenFiftySports.Models.CustomerModels
 {
     public class CustomerCreate
     {
-        [Key]
         public int CustomerId { get; set; }
         [Required]
+        [MinLength(2, ErrorMessage = "Please enter at least 2 characters.")]
+        [MaxLength(20, ErrorMessage = "There are too many characters in this field")]
         public string FirstName { get; set; }
         [Required]
+        [MinLength(2, ErrorMessage = "Please enter at least 2 characters.")]
+        [MaxLength(20, ErrorMessage = "There are too many characters in this field")]
         public string LastName { get; set; }
-        [Required]
-        public string Email { get; set; }
-        [Required]
-        public string PhoneNumber { get; set; }
-        public DateTimeOffset CreatedUtc { get; set; }
+        
     }
 }
