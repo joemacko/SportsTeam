@@ -22,6 +22,8 @@ namespace ElevenFiftySports.Data
         public string Email { get; set; }
         [Required]
         public string CellPhoneNumber { get; set; }
+        [Required]
         public DateTimeOffset CreatedUtc { get; set; }
+        public DateTimeOffset? ModifiedUtc { get; set; }
     }
 }

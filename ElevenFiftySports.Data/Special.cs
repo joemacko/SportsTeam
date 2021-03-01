@@ -13,7 +13,7 @@ namespace ElevenFiftySports.Data
         [Key]
         public int SpecialId { get; set; }
 
-        //[Required]
+        [Required]
         [ForeignKey(nameof(Product))]
         public int ProductId { get; set; }
         public virtual Product Product{ get; set; }
