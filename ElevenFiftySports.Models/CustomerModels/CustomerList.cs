@@ -11,7 +11,7 @@ namespace ElevenFiftySports.Models.CustomerModels
     public class CustomerList
     {
         [Key]
-        public int CustomerId { get; set; }
+        public Guid CustomerId { get; set; }
         [Required]
         public string FirstName { get; set; }
         [Required]
