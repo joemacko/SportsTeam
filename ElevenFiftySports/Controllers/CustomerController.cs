@@ -15,32 +15,32 @@ namespace ElevenFiftySports.Controllers
     [Authorize]
     public class CustomerController : ApiController
     {
-        private CustomerService CreateCustomerSevice()
-        {
-            var customerId = Guid.Parse(Customer.Identity.GetCustomerId());
-            var customerService = new CustomerSevice(customerId);
-            return customerService;
-        }
+        //private CustomerService CreateCustomerSevice()
+        //{
+        //    var customerId = Guid.Parse(Customer.Identity.GetCustomerId());
+        //    var customerService = new CustomerSevice(customerId);
+        //    return customerService;
+        //}
 
-        public IHttpActionResult Get
-        {
-            get
-            {
-                CustomerService customerService = CreateCustomerSevice();
-                var customer = customerService.GetCustomer();
-                return Ok(customer);
-            }
-        }
+        //public IHttpActionResult Get
+        //{
+        //    get
+        //    {
+        //        CustomerService customerService = CreateCustomerSevice();
+        //        var customer = customerService.GetCustomer();
+        //        return Ok(customer);
+        //    }
+        //}
 
-        public IHttpActionResult Post(CustomerCreate customer)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            var service = CreateCustomerSevice();
-            if (!service.CreateCustomer(customer))
-                return InternalServerError();
-            return Ok();
-        }
+        //public IHttpActionResult Post(CustomerCreate customer)
+        //{
+        //    if (!ModelState.IsValid)
+        //        return BadRequest(ModelState);
+        //    var service = CreateCustomerSevice();
+        //    if (!service.CreateCustomer(customer))
+        //        return InternalServerError();
+        //    return Ok();
+        //}
 
         private readonly ApplicationDbContext _context = new ApplicationDbContext();
         public async Task<IHttpActionResult> PostCustomerAsync([FromBody] Customer model)
