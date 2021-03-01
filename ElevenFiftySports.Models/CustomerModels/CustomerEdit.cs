@@ -8,7 +8,7 @@ namespace ElevenFiftySports.Models.CustomerModels
 {
     public class CustomerEdit
     {
-        public int CustomerId { get; set; }
+        public Guid CustomerId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
