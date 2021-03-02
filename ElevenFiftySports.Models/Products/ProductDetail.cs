@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ElevenFiftySports.Models.Products
 {
-    public class ProductModelCreate
+    public class ProductDetail
     {
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = "The field must be greater than 0.")]
@@ -28,6 +28,8 @@ namespace ElevenFiftySports.Models.Products
 
         [Required]
         public ProductType TypeOfProduct { get; set; }
+
+
 
     }
 }
