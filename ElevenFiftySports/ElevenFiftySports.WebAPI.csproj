@@ -216,6 +216,7 @@
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\SpecialController.cs" />
     <Compile Include="Controllers\OrderProductController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -289,6 +290,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\OrderDetail\" />
     <Folder Include="Views\Order\" />
+    <Folder Include="Views\Product\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
