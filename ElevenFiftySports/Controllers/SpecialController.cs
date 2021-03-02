@@ -52,7 +52,7 @@ namespace ElevenFiftySports.Controllers
         //    return Ok(special);
         //}
 
-        public IHttpActionResult Put(SpecialUpdate special)
+        public IHttpActionResult Put(SpecialEdit special)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
