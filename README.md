@@ -30,9 +30,15 @@ We are four Software Development students from Eleven Fifty Academy.
 
 ### Joe Macko ###
 
+`Joe says ""`
+
 ### Erik Heath ###
 
+`Erik says ""`
+
 ### Norma Bunton ###
+
+`Norma is happy to be part of the Team `
 ___
 
 ## Directions for running the app Locally ##
@@ -42,7 +48,6 @@ Eleven Fifty Sports is designed to provide POS (Point of Service) along with bui
 You can download [Visual Studio](https://visualstudio.microsoft.com/downloads/) 
 and learn about [Git Version Control Software](https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup). To clone [Eleven Fifty Sports](https://github.com/joemacko/SportsTeam) using [GitHub](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository) please follow the instructions. 
 
- Each team member joined forces to develop a plan which includes the use of a [trello board](https://trello.com/b/Q9RcpHnc/elevenfifty-sports). And our repository is in [GitHub](https://github.com/joemacko/SportsTeam).
 
 ### Our database includes: ### 
 
@@ -54,7 +59,7 @@ and learn about [Git Version Control Software](https://git-scm.com/book/en/v2/Ge
 <li>Products Table</li>
 </ul>
 
-## Techonologies Used ##
+## Techonologies and Languagesn Used ##
 
 <ul>
 <li>C#</li>
@@ -74,15 +79,13 @@ We would like to thank all our instructors and learning assistants from [Eleven 
 ___
 ## Resources ##
 
-We used [Trello](https://trello.com/invite/b/Q9RcpHnc/37c3da5fd8b9b986095258f6d155e8b4/elevenfifty-sports)
-for organization and collaboration as a team.
+ Each team member joined forces to develop a plan which includes the use of a [trello board](https://trello.com/b/Q9RcpHnc/elevenfifty-sports) for organization and collaboration as a team. And our repository is in [GitHub](https://github.com/joemacko/SportsTeam).
 
 ### To Further our knowledge of learning are the following outside links and reference materials:
 
-
-[many to many relationships](https://docs.microsoft.com/en-us/sql/ssms/visual-db-tools/map-many-to-many-relationships-visual-database-tools?view=sql-server-ver15) from Chloe
+[Many to Many Relationships](https://docs.microsoft.com/en-us/sql/ssms/visual-db-tools/map-many-to-many-relationships-visual-database-tools?view=sql-server-ver15) from Chloe
  
-[virtual properties](https://stackoverflow.com/questions/44903910/c-sharp-entity-framework-with-virtual-property-query)
+[Virtual Properties](https://stackoverflow.com/questions/44903910/c-sharp-entity-framework-with-virtual-property-query)
  from Jess
 
 [DayOfWeek property to implement in specials](https://docs.microsoft.com/en-us/dotnet/api/system.datetime.dayofweek?view=net-5.0)  from Chloe
