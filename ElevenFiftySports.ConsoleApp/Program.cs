@@ -3,6 +3,7 @@ using ElevenFiftySports.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -11,9 +12,11 @@ namespace ElevenFiftySports.ConsoleApp
 {
     class Program
     {
-        //static void Main(string[] args)
-        //{
-        //}
+        static void Main(string[] args)
+        {
+            Program program = new Program();
+            program.UIMenu();
+        }
 
         private void UIMenu()
         {
@@ -110,7 +113,7 @@ namespace ElevenFiftySports.ConsoleApp
 
             Console.WriteLine("Confirm your password.");
             model.ConfirmPassword = Console.ReadLine();
-            
+
             //Below logic is already built into account controller (COMPARE)
             //while(!(model.ConfirmPassword==model.Password))
             //{
@@ -127,6 +130,8 @@ namespace ElevenFiftySports.ConsoleApp
 
             //HttpClient and request messages
 
+            HttpClient client = new HttpClient();
+            var registration = new HttpRequestMessage(HttpMethod.Post, "");
 
         }
     }
