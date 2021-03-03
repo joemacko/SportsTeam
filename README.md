@@ -26,7 +26,7 @@ We are four Software Development students from Eleven Fifty Academy.
 
 ### Chloe Jefferson ###
 
-`Chloe says "I love clean code. I even love it more when things can be simplified and the level of exposure (encapsulation) is limited to exactly what is…"`
+`Chloe says "I love clean code."`
 
 ### Joe Macko ###
 
