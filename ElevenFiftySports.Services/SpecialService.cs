@@ -10,6 +10,7 @@ namespace ElevenFiftySports.Services
 {
     public class SpecialService
     {
+        private readonly Guid _userId;
         private readonly int _productId;
 
         // Need to actually implement a GetProductById method
@@ -41,6 +42,11 @@ namespace ElevenFiftySports.Services
         public SpecialService(int productId)
         {
             _productId = productId;
+        }
+
+        public SpecialService(Guid userId)
+        {
+            _userId = userId;
         }
 
         public bool CreateSpecial(SpecialCreate model)
@@ -139,5 +145,20 @@ namespace ElevenFiftySports.Services
                 return ctx.SaveChanges() == 1;
             }
         }
+
+        //public int GetProductIdHelper(int productId)
+        //{
+        //    using (var ctx = new ApplicationDbContext())
+        //    {
+        //        var entity =
+        //            ctx
+        //                .Products
+        //                .Single(e => e.ProductId == productId);
+
+        //        ctx.Products.Add(entity);
+
+        //        return productId;
+        //    }
+        //}
     }
 }

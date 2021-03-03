@@ -1,5 +1,6 @@
 ﻿using ElevenFiftySports.Models.SpecialModels;
 using ElevenFiftySports.Services;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,13 @@ using System.Web.Http;
 
 namespace ElevenFiftySports.Controllers
 {
+    [Authorize]
     public class SpecialController : ApiController
     {
         private SpecialService CreateSpecialService()
         {
-            // Get product by id
-            var specialService = new SpecialService();
+            var userId = Guid.Parse(User.Identity.GetUserId());
+            var specialService = new SpecialService(userId);
             return specialService;
         }
 
@@ -45,7 +47,7 @@ namespace ElevenFiftySports.Controllers
             return Ok(special);
         }
 
-        //public IHttpActionResult GetByProductId(int productId)
+        //public IHttpActionResult GetProductId(int productId)
         //{
         //    var specialService = CreateSpecialService();
         //    var special = specialService.GetSpecialByProductId(productId);
@@ -65,7 +67,7 @@ namespace ElevenFiftySports.Controllers
             return Ok();
         }
 
-        public IHttpActionResult Delete(int specialId)
+        public IHttpActionResult Delete([FromUri] int specialId)
         {
             var service = CreateSpecialService();
 
