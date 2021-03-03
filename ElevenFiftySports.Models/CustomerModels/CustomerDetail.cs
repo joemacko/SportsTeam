@@ -10,7 +10,7 @@ namespace ElevenFiftySports.Models.CustomerModels
 {
     public class CustomerDetail
     {
-        public int CustomerId { get; set; }
+        public Guid CustomerId { get; set; }
         public string FirstName { get; set; }
         public string  LastName { get; set; }
 

@@ -12,68 +12,57 @@ namespace ElevenFiftySports.Controllers
     [Authorize]
     public class CustomerController : ApiController
     {
-        public IHttpActionResult Get()
-        {
-            CustomerService customerService = CreateCustomerService();
-            var customers = customerService.GetCustomers();
-            return Ok(customers);
-        }
-
-        public IHttpActionResult Post(CustomerCreate customer)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            var service = CreateCustomerService();
-            if (!service.CreateCustomer(customer))
-                return InternalServerError();
-            return Ok();
-        }
-        
-        private CustomerService CreateCustomerService()
+        private CustomerService CreateCustomerSevice()
         {
             var userId = Guid.Parse(User.Identity.GetUserId());
             var customerService = new CustomerService(userId);
             return customerService;
         }
-        //public IHttpActionResult GetCustomerById(int id)
+
+
+        public IHttpActionResult Post(CustomerCreate customer)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var service = CreateCustomerSevice();
+            if (!service.CreateCustomer(customer))
+                return InternalServerError();
+            return Ok();
+        }
+
+
+
+        public IHttpActionResult Get()
+        {
+            var customerService = CreateCustomerSevice();
+                var customer = customerService.GetCustomers();
+                return Ok(customer);
+        }
+
+        //public IHttpActionResult GetCustomerById([FromUri]Guid customerId)
         //{
-        //    using (var ctx = new ApplicationDbContext())
-        //    {
-        //        var entity =
-        //            ctx
-        //                .Customers
-        //                .Single(e => e.CustomerId == id && e.OwnerId == _userId);
-        //        return
-        //            new CustomerDetail
-        //            {
-        //                CustomerId = entity.CustomerId,
-        //                FirstName = entity.FirstName,
-        //                LastName = entity.LastName,
-        //                Email = entity.Email,
-        //                CellPhoneNumber = entity.CellPhoneNumber,
-        //                CreatedUtc = entity.CreatedUtc,
-        //                ModifiedUtc = entity.ModifiedUtc
-        //            };
-        //    }
+        //    CustomerService customerService = CreateCustomerSevice();
+        //    var customer = customerService.GetCustomerById(customerId);
+        //    return Ok(customer);
         //}
+
+       
+        public IHttpActionResult Delete([FromUri]Guid customerId, int userId)
+        {
+            var service = CreateCustomerSevice();
+            if (!service.DeleteCustomer(userId))
+                return InternalServerError();
+            return Ok();
+        }
 
         public IHttpActionResult Put(CustomerEdit customer)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var service = CreateCustomerService();
+            var service = CreateCustomerSevice();
             if (!service.UpdateCustomer(customer))
                 return InternalServerError();
             return Ok();
         }
-
-        public IHttpActionResult Delete (int id)
-        {
-            var service = CreateCustomerService();
-            if (!service.DeleteCustomer(id))
-                return InternalServerError();
-            return Ok();
-        }
-
     }
 }

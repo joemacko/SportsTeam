@@ -10,6 +10,7 @@ namespace ElevenFiftySports.Services
 {
     public class SpecialService
     {
+        private readonly Guid _userId;
         private readonly int _productId;
 
         // Need to actually implement a GetProductById method
@@ -43,6 +44,11 @@ namespace ElevenFiftySports.Services
             _productId = productId;
         }
 
+        public SpecialService(Guid userId)
+        {
+            _userId = userId;
+        }
+
         public bool CreateSpecial(SpecialCreate model)
         {
             var entity =
@@ -61,7 +67,7 @@ namespace ElevenFiftySports.Services
             }
         }
 
-        public IEnumerable<SpecialRead> GetSpecials()
+        public IEnumerable<SpecialDetail> GetSpecials()
         {
             using (var ctx = new ApplicationDbContext())
             {
@@ -71,9 +77,10 @@ namespace ElevenFiftySports.Services
                         .Where(e => e.ProductId == _productId)
                         .Select(
                             e =>
-                                new SpecialRead
+                                new SpecialDetail
                                 {
                                     SpecialId = e.SpecialId,
+                                    ProductId = e.ProductId,
                                     DayOfWeek = e.DayOfWeek,
                                     ProductSpecialPrice = e.ProductSpecialPrice
                                 }
@@ -83,7 +90,7 @@ namespace ElevenFiftySports.Services
             }
         }
 
-        public IEnumerable<SpecialReadByDay> GetSpecialByDay(DayOfWeek dayOfWeek)
+        public IEnumerable<SpecialListItem> GetSpecialByDay(DayOfWeek dayOfWeek)
         {
             using (var ctx = new ApplicationDbContext())
             {
@@ -93,9 +100,10 @@ namespace ElevenFiftySports.Services
                         .Where(e => e.DayOfWeek == dayOfWeek)
                         .Select(
                             e =>
-                                new SpecialReadByDay
+                                new SpecialListItem
                                 {
                                     SpecialId = e.SpecialId,
+                                    ProductId = e.ProductId,
                                     DayOfWeek = e.DayOfWeek,
                                     ProductSpecialPrice = e.ProductSpecialPrice
                                 }
@@ -105,7 +113,7 @@ namespace ElevenFiftySports.Services
             }
         }
 
-        public bool UpdateSpecial(SpecialUpdate model)
+        public bool UpdateSpecial(SpecialEdit model)
         {
             using (var ctx = new ApplicationDbContext())
             {
@@ -114,6 +122,7 @@ namespace ElevenFiftySports.Services
                         .Specials
                         .Single(e => e.SpecialId == model.SpecialId);
 
+                entity.SpecialId = model.SpecialId;
                 entity.ProductId = model.ProductId;
                 entity.DayOfWeek = model.DayOfWeek;
                 entity.ProductSpecialPrice = model.ProductSpecialPrice;
@@ -136,5 +145,20 @@ namespace ElevenFiftySports.Services
                 return ctx.SaveChanges() == 1;
             }
         }
+
+        //public int GetProductIdHelper(int productId)
+        //{
+        //    using (var ctx = new ApplicationDbContext())
+        //    {
+        //        var entity =
+        //            ctx
+        //                .Products
+        //                .Single(e => e.ProductId == productId);
+
+        //        ctx.Products.Add(entity);
+
+        //        return productId;
+        //    }
+        //}
     }
 }

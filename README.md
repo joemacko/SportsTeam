@@ -1,6 +1,7 @@
 # Eleven Fifty Sports # 
 
 ## Introduction ##
+___
 
 Eleven Fifty Sports is a Database App that allows users to build a customer base, customer relations, make an order, order product, and view the specials of the week which includes all the CRUD methods built into the project for continued use and the need for productivity in a restaurant or bar setting from a Point Of Service perspective. This is our project to promote<strong> <i> post pandemic optimism</i> </strong>.
 
@@ -19,57 +20,78 @@ Eleven Fifty Sports is a Database App that allows users to build a customer base
 ---
 ## Meet the Team! ##
 
-Eleven Fifty Sports was developed by The Code Masters of SD November 2020 A, we are four Software Development students from Eleven Fifty Academy. 
+Eleven Fifty Sports was developed by The Code Masters of SD November 2020 A, 
+
+We are four Software Development students from Eleven Fifty Academy. 
+
+### Chloe Jefferson ###
+
+`Chloe says "I love clean code."`
+
+### Joe Macko ###
+
+`Joe says "I am the Git Master"`
+
+### Erik Heath ###
+
+`Erik enjoys pushing and pulling his code to Github`
+
+### Norma Bunton ###
+
+`Norma is happy to be part of the Team `
+___
 
 ## Directions for running the app Locally ##
 
-Eleven Fifty Sports is designed to provide POS (Point of Service) along with building a customer base into software to be used by Restaurant and Bar Owners. 
+Eleven Fifty Sports is designed to provide POS (Point of Service) along with building a customer base into our software to be used by Restaurant and Bar Owners. 
 
 You can download [Visual Studio](https://visualstudio.microsoft.com/downloads/) 
 and learn about [Git Version Control Software](https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup). To clone [Eleven Fifty Sports](https://github.com/joemacko/SportsTeam) using [GitHub](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository) please follow the instructions. 
 
-•	Installation: This project uses Visual Studio Community with .NET Framework and implements a database with C#. There are libraries used for the classes. Each team member joined forces to develop a plan which includes the use of a trello board which can be found  https://trello.com/b/Q9RcpHnc/elevenfifty-sports. We have used GitHub at 
-  joemacko/SportsTeam: blue badge final group project (github.com)  
 
-•	Tables in the Database: 
-o	Customer Table
-o	Orders Table
-o	Order Details Table
-o	Specials Table
-o	Products Table
+### Our database includes: ### 
 
-## Techonologies Used ##
+<ul>
+<li>Customer Table</li>
+<li>Orders Table</li>
+<li>Order Details Table</li>
+<li>Specials Table</li>
+<li>Products Table</li>
+</ul>
 
-Some of the Technologies that we used are: 
+## Techonologies and Languagesn Used ##
 
-o	C#
-o	.NET
-o	Visual Studio Community
-o	Postman
-o	Bootstrap 
-o	Entity Framework
-o	jQuery
-o	GitHub
+<ul>
+<li>C#</li>
+<li>.NET</li>
+<li>Visual Studio Community</li>
+<li>Postman</li>
+<li>Bootstrap</li>
+<li>Entity Framework</li>
+<li>jQuery</li>
+<li>GitHub</li>
+
+___
 
 ## Thank you's ##
 
-Credits: We would like to thank all our instructors and learning assistants from Eleven Fifty Academy at https://elevenfifty.org/ as they successfully supported all our learning efforts to provide you with this product.
-
+We would like to thank all our instructors and learning assistants from [Eleven Fifty Academy](https://elevenfifty.org/ ) as they successfully supported all our learning efforts to provide you with this product.
+___
 ## Resources ##
 
-Our Trello Here's a link to the trello https://trello.com/invite/b/Q9RcpHnc/37c3da5fd8b9b986095258f6d155e8b4/elevenfifty-sports
-https://docs.microsoft.com/en-us/sql/ssms/visual-db-tools/map-many-to-many-relationships-visual-database-tools?view=sql-server-ver15
-this is our reference for many to many relationships
-https://stackoverflow.com/questions/44903910/c-sharp-entity-framework-with-virtual-property-query
-this link is from Jess
-https://docs.microsoft.com/en-us/dotnet/api/system.datetime.dayofweek?view=net-5.0 - Reference for the DayOfWeek property to implement in specials from Chloe
-https://dev.to/_patrickgod/many-to-many-relationship-with-entity-framework-core-4059 & https://medium.com/@ti.ka/many-to-many-relationship-done-right-in-the-entity-framework-multi-clients-users-130ac185f667 - References for the initial development of many to many relationships to link orders and products. From Chloe
-Many-To-Many Relationship with Entity Framework Core
-Get your .NET Core 3.1 skills up and running in no time. (21 kB
-Many-to-Many Relationship Done Right in the Entity Framework: Multi-Clients & Users
-I   clean code. I even love it more when things can be simplified and the level of exposure (encapsulation) is limited to exactly what is…
-From chloe
-and this one on day of week https://docs.microsoft.com/en-us/dotnet/api/system.dayofweek?view=net-5.0 from Chloe
+ Each team member joined forces to develop a plan which includes the use of a [trello board](https://trello.com/b/Q9RcpHnc/elevenfifty-sports) for organization and collaboration as a team. And our repository is in [GitHub](https://github.com/joemacko/SportsTeam).
+
+### To Further our knowledge of learning are the following outside links and reference materials:
+
+[Many to Many Relationships](https://docs.microsoft.com/en-us/sql/ssms/visual-db-tools/map-many-to-many-relationships-visual-database-tools?view=sql-server-ver15) from Chloe
+ 
+[Virtual Properties](https://stackoverflow.com/questions/44903910/c-sharp-entity-framework-with-virtual-property-query)
+ from Jess
+
+[DayOfWeek property to implement in specials](https://docs.microsoft.com/en-us/dotnet/api/system.datetime.dayofweek?view=net-5.0)  from Chloe
+
+  [References for the initial development of many to many relationships to link orders and products.](https://medium.com/@ti.ka/many-to-many-relationship-done-right-in-the-entity-framework-multi-clients-users-130ac185f667) from Chloe
+
 
 
 

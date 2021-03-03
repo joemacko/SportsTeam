@@ -16,21 +16,23 @@ namespace ElevenFiftySports.Data
     {
         [Key]
         public int ProductId { get; set; }
+
+        [Required]
         public string ProductName { get; set; }
 
         [Required]
-        [Range(0, int.MaxValue, ErrorMessage = "The field {0} must be greater than 0.")]
         public int UnitCount { get; set; }
 
-        [Range(0.0, double.MaxValue, ErrorMessage = "The field {0} must be greater than 0.00.")]
+        [Required]
         public double ProductPrice { get; set; }
 
         [Required]
         public ProductType TypeOfProduct { get; set; }
+
         public virtual List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
         public virtual List<Special> ProductSpecials { get; set; } = new List<Special>();
 
-        public bool IsSpecial //we might not need this because the logic of productspecials.count > 0 could just be used in the service
+        public bool IsSpecial
         {
             get
             {
