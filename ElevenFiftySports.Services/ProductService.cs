@@ -61,7 +61,7 @@ namespace ElevenFiftySports.Services
                 var entity =
                     ctx
                         .Products
-                            .Single(e => e.ProductId == id );
+                            .Single(e => e.ProductId == id);
                 return
                     new ProductDetail
                     {
