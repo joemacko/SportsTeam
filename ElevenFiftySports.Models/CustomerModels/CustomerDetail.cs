@@ -1,29 +1,27 @@
 ﻿using System;
+using ElevenFiftySports.Data;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElevenFiftySports.Data
+namespace ElevenFiftySports.Models.CustomerModels
 {
-    public class Customer
+    public class CustomerDetail
     {
-        public static object Identity { get; set; }
-        [Key]
         public Guid CustomerId { get; set; }
-        [Required]
-        [MaxLength(20, ErrorMessage = "There are too many characters in this field")]
         public string FirstName { get; set; }
-        [Required]
-        [MaxLength(20, ErrorMessage = "There are too many characters in this field")]
-        public string LastName { get; set; }
-        [Required]
+        public string  LastName { get; set; }
+
         public string Email { get; set; }
-        [Required]
+
         public string CellPhoneNumber { get; set; }
-        [Required]
+
+        [Display(Name="Created")]
         public DateTimeOffset CreatedUtc { get; set; }
+
+        [Display(Name ="Modified")]
         public DateTimeOffset? ModifiedUtc { get; set; }
     }
 }

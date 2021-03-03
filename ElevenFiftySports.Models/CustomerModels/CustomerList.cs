@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace ElevenFiftySports.Models.CustomerModels
 {
-    class CustomerList
+    public class CustomerList
     {
         [Key]
-        public int CustomerId { get; set; }
+        public Guid CustomerId { get; set; }
         [Required]
         public string FirstName { get; set; }
         [Required]
@@ -20,6 +20,7 @@ namespace ElevenFiftySports.Models.CustomerModels
         public string Email { get; set; }
         [Required]
         public string PhoneNumber { get; set; }
+        [Display(Name ="Created")]
         public DateTimeOffset CreatedUtc { get; set; }
     }
 }

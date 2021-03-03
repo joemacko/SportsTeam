@@ -1,4 +1,5 @@
 ﻿using ElevenFiftySports.Data;
+using ElevenFiftySports.Models.CustomerModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,16 +11,22 @@ namespace ElevenFiftySports.Services
 {
     public class CustomerService
     {
-        private readonly Guid customerId;       
-            public CustomerService(Guid customerId, Guid _customerId)
+        private readonly Guid _userId;
+        private Guid CustomerId;
+        private object model;
+
+        public CustomerService(Guid userId)
         {
-            _customerId = customerId;
+            _userId = userId;
         }
-        public bool CreateCustomer()
+        public bool CreateCustomer(CustomerCreate model)
         {
-            var entity = new Customer()
+            var entity = 
+                new Customer()
             {
-                CustomerId = customerId,
+                CustomerId = _userId,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
                 CreatedUtc = DateTimeOffset.Now
             };
             using (var ctx = new ApplicationDbContext())
@@ -29,7 +36,76 @@ namespace ElevenFiftySports.Services
             }
        
         }
-       
-        
+        public IEnumerable<CustomerList> GetCustomers()
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query =
+                    ctx
+                        .Customers
+                        .Where(e => e.CustomerId == _userId)
+                        .Select(
+                            e =>
+                                new CustomerList
+                                {
+                                    CustomerId = e.CustomerId,
+                                    FirstName = e.FirstName,
+                                    LastName = e.LastName,
+                                    CreatedUtc = e.CreatedUtc
+                                }
+                                );
+                                return query.ToArray();
+
+            }
+        }
+        //public CustomerDetail GetCustomerById(int id)
+        //{
+        //    using (var ctx = new ApplicationDbContext())
+        //    {
+        //        var entity =
+        //            ctx
+        //                .Customers
+        //                .Single(e => e.CustomerId == model.CustomerId);
+        //        return
+        //            new CustomerDetail
+        //            {
+        //                CustomerId = entity.CustomerId,
+        //                FirstName = entity.FirstName,
+        //                LastName = entity.LastName,
+        //                CreatedUtc = entity.CreateUtc,
+        //                ModifiedUtc = entity.ModifiedUtc
+        //            };
+        //    }
+        //}
+        public bool UpdateCustomer(CustomerEdit model)
+        {
+            using(var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx
+                        .Customers
+                        .Single(e => e.CustomerId == CustomerId);
+
+                entity.CustomerId = model.CustomerId;
+                entity.FirstName = model.FirstName;
+                entity.LastName = model.LastName;
+                entity.Email = model.Email;
+                entity.CellPhoneNumber = model.CellPhoneNumber;
+                entity.ModifiedUtc = DateTimeOffset.UtcNow;
+                return ctx.SaveChanges() == 1;
+            }
+        }
+        public bool DeleteCustomer(int customerId)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx
+                    .Customers
+                    .Single(e => e.CustomerId == CustomerId);
+                ctx.Customers.Remove(entity);
+                return ctx.SaveChanges() == 1;
+            }
+        }
     }
 }

@@ -1,21 +1,23 @@
-﻿using ElevenFiftySports.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ElevenFiftySports.Models.SpecialModels
 {
-    public class SpecialCreate
+    public class SpecialDetail
     {
-        [Required, Range(1, Int32.MaxValue, ErrorMessage = "Please enter a correct Special ID.")]
+        [Required, Range(1, int.MaxValue, ErrorMessage = "Please enter a correct Special ID.")]
         public int SpecialId { get; set; }
 
-        [Required, Range(1, Int32.MaxValue, ErrorMessage = "Please enter a correct Product ID.")]
+        [Required, Range(1, int.MaxValue, ErrorMessage = "Please enter a correct Product ID.")]
         public int ProductId { get; set; }
+
+        [Required]
+        [StringLength(32, MinimumLength = 2, ErrorMessage = "Product Name should contain at least two characters.")]
+        public string ProductName { get; set; }
 
         [Required]
         public DayOfWeek DayOfWeek { get; set; }
