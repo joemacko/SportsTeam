@@ -30,11 +30,11 @@ We are four Software Development students from Eleven Fifty Academy.
 
 ### Joe Macko ###
 
-`Joe says ""`
+`Joe says "I am the Git Master"`
 
 ### Erik Heath ###
 
-`Erik says ""`
+`Erik enjoys pushing and pulling his code to Github`
 
 ### Norma Bunton ###
 
