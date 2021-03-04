@@ -12,6 +12,7 @@ namespace ElevenFiftySports.Services
     {
         private readonly Guid _userId;
         private readonly int _productId;
+        private readonly int _specialId;
 
         // Need to actually implement a GetProductById method
         // Should I change my "SpecialReadByDay" class to "SpecialReadById class and have it apply to both?
@@ -74,7 +75,6 @@ namespace ElevenFiftySports.Services
                 var query =
                     ctx
                         .Specials
-                        .Where(e => e.ProductId == _productId)
                         .Select(
                             e =>
                                 new SpecialDetail

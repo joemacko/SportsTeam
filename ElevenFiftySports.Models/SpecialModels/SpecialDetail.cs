@@ -15,9 +15,9 @@ namespace ElevenFiftySports.Models.SpecialModels
         [Required, Range(1, int.MaxValue, ErrorMessage = "Please enter a correct Product ID.")]
         public int ProductId { get; set; }
 
-        [Required]
-        [StringLength(32, MinimumLength = 2, ErrorMessage = "Product Name should contain at least two characters.")]
-        public string ProductName { get; set; }
+        //[Required]
+        //[StringLength(32, MinimumLength = 2, ErrorMessage = "Product Name should contain at least two characters.")]
+        //public string ProductName { get; set; }
 
         [Required]
         public DayOfWeek DayOfWeek { get; set; }
