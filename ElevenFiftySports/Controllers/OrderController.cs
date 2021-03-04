@@ -27,6 +27,14 @@ namespace ElevenFiftySports.Controllers
             return Ok(orders);
         }
 
+        [Route("api/Order/MostRecent")]
+        public IHttpActionResult GetMostRecentOrder()
+        {
+            OrderService orderService = CreateOrderService();
+            var order = orderService.GetMostRecentOrder();
+            return Ok(order);
+        }
+
         public IHttpActionResult GetOrderById([FromUri] int id)
         {
             OrderService orderService = CreateOrderService();
