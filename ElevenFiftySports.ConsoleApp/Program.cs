@@ -95,7 +95,7 @@ namespace ElevenFiftySports.ConsoleApp
             Console.Clear();
         }
 
-        private static async Task Login()
+        private async Task Login()
         {
             Console.WriteLine("Enter your email address.");
             Dictionary<string, string> token = new Dictionary<string, string>()
@@ -118,6 +118,7 @@ namespace ElevenFiftySports.ConsoleApp
             if (tokenResponse.IsSuccessStatusCode)
             {
                 Console.WriteLine("You're logged in.");
+                StartOrder();
             }
             else { Console.WriteLine("Login failed."); }
         }
@@ -140,9 +141,6 @@ namespace ElevenFiftySports.ConsoleApp
             register.Add("ConfirmPassword", Console.ReadLine());
 
             HttpClient client = new HttpClient();
-            Console.WriteLine("Enter an id");
-            //int id = int.Parse(Console.ReadLine());
-            //string url = $"https://localhost:44332/api/Order/{id}"; //note: this is to be referenced for any id method [fromURI] 
             var registration = new HttpRequestMessage(HttpMethod.Post, $"https://localhost:44332/api/Account/Register");
             registration.Content = new FormUrlEncodedContent(register.AsEnumerable());
             var response = await client.SendAsync(registration);
@@ -154,53 +152,77 @@ namespace ElevenFiftySports.ConsoleApp
             }
             else
             {
-                Console.WriteLine($"Nope {response.StatusCode}");
-                Thread.Sleep(2000); //This pauses the program for 500 milliseconds (this is a shortcut on the .wait());
+                Console.WriteLine($"{response.StatusCode}. Please restart customer registration process.");
+                Thread.Sleep(2000);
                 CustomerUI();
             }
 
-            Thread.Sleep(1500); //This pauses the program for 500 milliseconds (this is a shortcut on the .wait());
+            Thread.Sleep(1500);
 
-            Login();
-
-            CustomerController customerController = new CustomerController();
-            Dictionary<string, string> customer = new Dictionary<string, string>(); //Question... dictionary won't work for this right?? I need to reference the models class to use those?? Because properties are not just string/string...
-            //CustomerCreate customer = new CustomerCreate();
-            //customer.CustomerId = Guid.Parse(User.Identity.GetUserId());//customerController.GetGuidHelper();
-            //customer.Email = email;
-                        customer.Add("Email", email);
-
-            Console.WriteLine("Let's finish your customer registration now.\n" +
-                "Enter your first name.");
-            //customer.FirstName = Console.ReadLine();
-            customer.Add("FirstName",Console.ReadLine());
-
-            Console.WriteLine("Enter your last name.");
-            //customer.LastName = Console.ReadLine();
-            customer.Add("LastName",Console.ReadLine());
-
-            Console.WriteLine("Enter your 10-digit cell phone number in the format XXX-XXX-XXXX");
-            //customer.CellPhoneNumber = Console.ReadLine();
-            customer.Add("CellPhoneNumber", Console.ReadLine());
-            //customerController.Post(customer);
-            HttpContent httpContent = new FormUrlEncodedContent(customer);
-            //HttpClient httpClient = _httpClient;
-            //httpClient.DefaultRequestHeaders.Authorization = _httpClient;
-            Task<HttpResponseMessage> newResponse = _httpClient.PostAsync("https://localhost:44332/api/Customer", httpContent);
-
-            if(newResponse.Result.IsSuccessStatusCode)
+            Console.WriteLine("Now, you are being logged into the application to complete your registration.\n"
+                );
+            Dictionary<string, string> token = new Dictionary<string, string>()
             {
-                Console.WriteLine("Customer registration completed.");
+                {"grant_type", "password" }
+            };
+            token.Add("username", register["Email"]);
+
+            token.Add("password", register["Password"]);
+
+            var tokenInfo = new HttpRequestMessage(HttpMethod.Post, "https://localhost:44332/token");
+            tokenInfo.Content = new FormUrlEncodedContent(token.AsEnumerable());
+            var tokenResponse = await _httpClient.SendAsync(tokenInfo);
+            var tokenString = await tokenResponse.Content.ReadAsStringAsync();
+
+            var tokenObject = JsonConvert.DeserializeObject<Tokens>(tokenString).Value;
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenObject);
+
+            if (tokenResponse.IsSuccessStatusCode)
+            {
+                Console.WriteLine("You're logged in.");
             }
             else
             {
-                Console.WriteLine($"Nope {response.StatusCode}");
-                Thread.Sleep(2000); //This pauses the program for 500 milliseconds (this is a shortcut on the .wait());
+                Console.WriteLine("Login failed. Please restart customer registration process."); //***EVENTUALLY WILL NEED TO FIGURE OUT HOW TO FINISH THIS.
+                Thread.Sleep(2500);
+                CustomerUI();
+            }
+
+            CustomerController customerController = new CustomerController();
+            Dictionary<string, string> customer = new Dictionary<string, string>();
+            customer.Add("Email", email);
+
+            Console.WriteLine("Let's finish your customer registration now.\n" +
+                "Enter your first name.");
+            customer.Add("FirstName", Console.ReadLine());
+
+            Console.WriteLine("Enter your last name.");
+            customer.Add("LastName", Console.ReadLine());
+
+            Console.WriteLine("Enter your 10-digit cell phone number in the format XXX-XXX-XXXX");
+            customer.Add("CellPhoneNumber", Console.ReadLine());
+
+            HttpContent httpContent = new FormUrlEncodedContent(customer);
+            Task<HttpResponseMessage> newResponse = _httpClient.PostAsync("https://localhost:44332/api/Customer", httpContent);
+
+            if (newResponse.Result.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Customer registration completed.");
+                StartOrder();
+            }
+            else
+            {
+                Console.WriteLine($"Customer registration failed. Please restart customer registration process. {response.StatusCode}");
+                Thread.Sleep(2000);
                 CustomerUI();
             }
         }
 
+        private async Task StartOrder()
+        {
+            Console.WriteLine("Let's get an order started for you.");
 
+        }
 
 
     }
@@ -210,4 +232,10 @@ namespace ElevenFiftySports.ConsoleApp
         public string Value { get; set; }
 
     }
+
+    //NOTES
+    //Console.WriteLine("Enter an id");
+    //int id = int.Parse(Console.ReadLine());
+    //string url = $"https://localhost:44332/api/Order/{id}"; //note: this is to be referenced for any id method [fromURI] 
+    //var registration = new HttpRequestMessage(HttpMethod.Post, $"https://localhost:44332/api/Account/Register/{id}");
 }
