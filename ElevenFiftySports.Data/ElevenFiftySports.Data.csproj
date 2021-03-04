@@ -106,9 +106,9 @@
     <Compile Include="Migrations\202102240025156_Migration.Designer.cs">
       <DependentUpon>202102240025156_Migration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202103040014020_JoeMigration.cs" />
-    <Compile Include="Migrations\202103040014020_JoeMigration.Designer.cs">
-      <DependentUpon>202103040014020_JoeMigration.cs</DependentUpon>
+    <Compile Include="Migrations\202103032309061_OtherPeopleUpdates.cs" />
+    <Compile Include="Migrations\202103032309061_OtherPeopleUpdates.Designer.cs">
+      <DependentUpon>202103032309061_OtherPeopleUpdates.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Order.cs" />
@@ -131,8 +131,8 @@
     <EmbeddedResource Include="Migrations\202102240025156_Migration.resx">
       <DependentUpon>202102240025156_Migration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202103040014020_JoeMigration.resx">
-      <DependentUpon>202103040014020_JoeMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202103032309061_OtherPeopleUpdates.resx">
+      <DependentUpon>202103032309061_OtherPeopleUpdates.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
