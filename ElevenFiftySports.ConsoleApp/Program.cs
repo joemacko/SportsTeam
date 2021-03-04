@@ -18,14 +18,21 @@ namespace ElevenFiftySports.ConsoleApp
     {
         private static readonly HttpClient _httpClient = new HttpClient();
         public int _currentOrderId = new int();
-
+        //public bool _keepRunning = new bool();
+        //need to figure out how to exit the application from any stage. Need keeprunning field at the top (set to false) and just write code to return to UIMenu???
 
         static void Main(string[] args)
         {
             Program program = new Program();
+            //program.StartUp();
             program.UIMenu();
         }
 
+        //private void StartUp()
+        //{
+        //    _keepRunning = true;
+        //    UIMenu();
+        //}
         private void UIMenu()
         {
             bool keepRunning = true;
@@ -33,7 +40,8 @@ namespace ElevenFiftySports.ConsoleApp
             {
                 Console.WriteLine("Enter the number associated with the menu item below:\n" +
                     "1. Open Customer Interface\n" +
-                    "2. Exit Application\n");
+                    "2. Open Employee Interface\n" +
+                    "3. Exit Application\n");
 
                 string input = Console.ReadLine();
 
@@ -43,6 +51,9 @@ namespace ElevenFiftySports.ConsoleApp
                         CustomerAuthorizationMenu();
                         break;
                     case "2":
+                        EmployeeAuthorizationMenu();
+                        break;
+                    case "3":
                         Console.WriteLine("Thank you for using ElevenFiftySports!");
                         keepRunning = false;
                         break;
@@ -57,6 +68,10 @@ namespace ElevenFiftySports.ConsoleApp
             }
         }
 
+        private void EmployeeAuthorizationMenu()
+        {
+            Console.WriteLine("Sorry, the employee interface will be developed at a later date. Please work with your manager and IT to perform administrative tasks until further notice.");
+        }
         private void CustomerAuthorizationMenu()
         {
             Console.Clear();
@@ -94,6 +109,8 @@ namespace ElevenFiftySports.ConsoleApp
             Console.WriteLine("Press any key to continue.");
             Console.ReadKey();
             Console.Clear();
+            //_keepRunning = false;
+            //UIMenu();
         }
 
         private async Task Login()
@@ -252,6 +269,7 @@ namespace ElevenFiftySports.ConsoleApp
             Console.WriteLine("Press any key to continue.");
             Console.ReadKey();
             Console.Clear();
+            //UIMenu();
         }
 
         private async Task CustomerProfileMenu()
@@ -303,20 +321,20 @@ namespace ElevenFiftySports.ConsoleApp
             if (getOrderResponse.Result.IsSuccessStatusCode)
             {
                 Console.WriteLine($"{ordersString}");
-            //    string tableHeaders = String.Format("{0,-20} {1,-40}", "ID:", "Accessible Doors:\n\n");
-            //    Console.WriteLine(tableHeaders);
+                //    string tableHeaders = String.Format("{0,-20} {1,-40}", "ID:", "Accessible Doors:\n\n");
+                //    Console.WriteLine(tableHeaders);
 
-            //    foreach (var order in getOrderResponse.Result)
-            //    {
-            //        getOrderResponse.Result = String.Format("{0,-20}", );
-            //        foreach (string door in badge.Doors)
-            //        {
-            //            tableBody = tableBody + door + "  ";
-            //        }
-            //        Console.WriteLine(tableBody);
-            //        Console.WriteLine();
-            //    }
-            //    Console.WriteLine("");
+                //    foreach (var order in getOrderResponse.Result)
+                //    {
+                //        getOrderResponse.Result = String.Format("{0,-20}", );
+                //        foreach (string door in badge.Doors)
+                //        {
+                //            tableBody = tableBody + door + "  ";
+                //        }
+                //        Console.WriteLine(tableBody);
+                //        Console.WriteLine();
+                //    }
+                //    Console.WriteLine("");
             }
             else
             {
@@ -343,9 +361,10 @@ namespace ElevenFiftySports.ConsoleApp
             }
             else
             {
-                Console.WriteLine($"Something is wrong... Please exit the application and try again. {createOrderResponse.Result.StatusCode}");
+                Console.WriteLine($"Something is wrong... The application will end now. {createOrderResponse.Result.StatusCode}");
                 Thread.Sleep(2000);
-                UIMenu();
+                Environment.Exit(-1);
+                //UIMenu();
             }
             var orderIdInfo = new HttpRequestMessage(HttpMethod.Get, "https://localhost:44332/api/Order/MostRecent");
             var orderIdResponse = await _httpClient.SendAsync(orderIdInfo);
@@ -395,8 +414,8 @@ namespace ElevenFiftySports.ConsoleApp
                         break;
                     case "7":
                         DeleteOrder().Wait();
-                        Console.WriteLine("Thank you for using ElevenFiftySports! Please come again.");
-                        keepRunning = false;
+                        //Console.WriteLine("Thank you for using ElevenFiftySports! Please come again.");
+                       keepRunning = false;
                         break;
                     default:
                         Console.WriteLine("Please enter a valid number.");
@@ -438,9 +457,18 @@ namespace ElevenFiftySports.ConsoleApp
 
         }
 
-        private async Task DeleteOrder() //BUILD
+        private async Task DeleteOrder()
         {
+            Console.Clear();
+            var deleteResponse = await _httpClient.DeleteAsync($"https://localhost:44332/api/Order/{ _currentOrderId}");
+            var deleteResponseString = await deleteResponse.Content.ReadAsStringAsync();
 
+            Console.WriteLine($"{deleteResponseString}");
+            Thread.Sleep(2500);
+
+            Console.WriteLine("Thank you for using ElevenFiftySports! Please come again.");
+            Thread.Sleep(1500);
+            Environment.Exit(-1);
         }
     }
 }
@@ -450,16 +478,16 @@ public class Token //this sets the format for the return of the token (to only p
     public string Value { get; set; }
 
 }
-public class CurrentOrderId //this sets the format for the return of the token (to only pull the token value)
+public class CurrentOrderId
 {
     [JsonProperty("OrderId")]
     public string Value { get; set; }
 
 }
 
-    //NOTES
-    //Console.WriteLine("Enter an id");
-    //int id = int.Parse(Console.ReadLine());
-    //string url = $"https://localhost:44332/api/Order/{id}"; //note: this is to be referenced for any id method [fromURI] 
-    //var registration = new HttpRequestMessage(HttpMethod.Post, $"https://localhost:44332/api/Account/Register/{id}");
+//NOTES
+//Console.WriteLine("Enter an id");
+//int id = int.Parse(Console.ReadLine());
+//string url = $"https://localhost:44332/api/Order/{id}"; //note: this is to be referenced for any id method [fromURI] 
+//var registration = new HttpRequestMessage(HttpMethod.Post, $"https://localhost:44332/api/Account/Register/{id}");
 
