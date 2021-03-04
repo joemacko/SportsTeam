@@ -295,7 +295,35 @@ namespace ElevenFiftySports.ConsoleApp
 
         private async Task GetOrders() //START HERE
         {
+            Console.Clear();
+            Task<HttpResponseMessage> getOrderResponse = _httpClient.GetAsync("https://localhost:44332/api/Order");
+            var ordersString = await getOrderResponse.Result.Content.ReadAsStringAsync();//ReadAsStringAsync();
+            //var currentOrderId = JsonConvert.DeserializeObject<CurrentOrderId>(ordersString).Value;
 
+            if (getOrderResponse.Result.IsSuccessStatusCode)
+            {
+                Console.WriteLine($"{ordersString}");
+            //    string tableHeaders = String.Format("{0,-20} {1,-40}", "ID:", "Accessible Doors:\n\n");
+            //    Console.WriteLine(tableHeaders);
+
+            //    foreach (var order in getOrderResponse.Result)
+            //    {
+            //        getOrderResponse.Result = String.Format("{0,-20}", );
+            //        foreach (string door in badge.Doors)
+            //        {
+            //            tableBody = tableBody + door + "  ";
+            //        }
+            //        Console.WriteLine(tableBody);
+            //        Console.WriteLine();
+            //    }
+            //    Console.WriteLine("");
+            }
+            else
+            {
+                Console.WriteLine($"Something is wrong... Please exit the application and try again. {getOrderResponse.Result.StatusCode}");
+                Thread.Sleep(2000);
+                UIMenu();
+            }
         }
 
         private async Task UpdateCustomer() //Need functional customer endpoints
