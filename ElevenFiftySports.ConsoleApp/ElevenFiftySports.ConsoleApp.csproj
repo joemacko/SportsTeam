@@ -60,6 +60,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ElevenFiftySports.Models\ElevenFiftySports.Models.csproj">
+      <Project>{4a885264-aaf6-458c-bff2-3a786e1af2e0}</Project>
+      <Name>ElevenFiftySports.Models</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ElevenFiftySports\ElevenFiftySports.WebAPI.csproj">
       <Project>{9333d82b-33da-4f55-9ad5-34d7773f0b0a}</Project>
       <Name>ElevenFiftySports.WebAPI</Name>
