@@ -38,7 +38,7 @@ namespace ElevenFiftySports.Services
             }
         }
 
-        public IEnumerable<OrderListItem> GetOrders()
+        public IEnumerable<OrderListItem> GetOrders() //For customer that is logged in
         {
 
             using (var ctx = new ApplicationDbContext())
