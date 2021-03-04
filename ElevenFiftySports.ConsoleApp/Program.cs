@@ -1,9 +1,11 @@
 ﻿using ElevenFiftySports.Controllers;
 using ElevenFiftySports.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -12,6 +14,8 @@ namespace ElevenFiftySports.ConsoleApp
 {
     class Program
     {
+        private static readonly HttpClient _httpClient = new HttpClient();
+
         static void Main(string[] args)
         {
             Program program = new Program();
@@ -57,19 +61,19 @@ namespace ElevenFiftySports.ConsoleApp
             {
                 Console.WriteLine("Enter the number associated with the menu item below:\n" +
                                     "1. Customer Login\n" +
-                                    "2. Customer Registrations\n" +
+                                    "2. Customer Registration\n" +
                                     "3. Return to Main Menu\n" +
                                     "4. Exit application");
 
                 string input = Console.ReadLine();
 
-                switch(input)
+                switch (input)
                 {
                     case "1":
-                            CustomerLogin();
+                        Login().Wait();
                         break;
                     case "2":
-                            CustomerRegistration();
+                        CustomerRegistration().Wait();//Wait causes the async to complete before returning to CustomerUIS
                         break;
                     case "3":
                         UIMenu();
@@ -88,51 +92,76 @@ namespace ElevenFiftySports.ConsoleApp
             Console.Clear();
         }
 
-        private void CustomerLogin()
-        {
-            Console.WriteLine("Please enter your email address.");
-            string username = Console.ReadLine();
-
-            Console.WriteLine("Please enter your password.");
-            string password = Console.ReadLine();
-
-
-        }
-
         private async Task CustomerRegistration()
         {
             Console.Clear();
 
-            RegisterBindingModel model = new RegisterBindingModel();
-
             Console.WriteLine("Enter your email address.");
-            model.Email = Console.ReadLine();
+            Dictionary<string, string> register = new Dictionary<string, string>()
+            {
+                {"Email", Console.ReadLine() }
+            };
 
             Console.WriteLine("Enter your password.");
-            model.Password = Console.ReadLine();
+            register.Add("Password", Console.ReadLine());
 
             Console.WriteLine("Confirm your password.");
-            model.ConfirmPassword = Console.ReadLine();
-
-            //Below logic is already built into account controller (COMPARE)
-            //while(!(model.ConfirmPassword==model.Password))
-            //{
-            //    Console.WriteLine("Your passwords do not match. Please re-enter your password.");
-            //    model.Password = Console.ReadLine();
-
-            //    Console.WriteLine("Confirm your password.");
-            //    model.ConfirmPassword = Console.ReadLine();
-            //}
-
-            //AccountController accountController = new AccountController();
-
-            //await accountController.Register(model);
-
-            //HttpClient and request messages
+            register.Add("ConfirmPassword", Console.ReadLine());
 
             HttpClient client = new HttpClient();
-            var registration = new HttpRequestMessage(HttpMethod.Post, "");
 
+            var registration = new HttpRequestMessage(HttpMethod.Post, "https://localhost:44332/api/Account/Register");
+            registration.Content = new FormUrlEncodedContent(register.AsEnumerable());
+            var response = await client.SendAsync(registration);
+
+
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Initial registration completed.");
+            }
+            else
+            {
+                Console.WriteLine($"Nope {response.StatusCode}");
+            }
+
+            //Login();
+
+            Console.WriteLine();
         }
+
+        private static async Task Login()
+        {
+            Console.WriteLine("Enter your email address.");
+            Dictionary<string, string> token = new Dictionary<string, string>()
+            {
+                {"grant_type", "password" }
+            };
+            token.Add("username", Console.ReadLine());
+
+            Console.WriteLine("Enter your password");
+            token.Add("password", Console.ReadLine());
+
+            var tokenInfo = new HttpRequestMessage(HttpMethod.Post, "https://localhost:44332/token");
+            tokenInfo.Content = new FormUrlEncodedContent(token.AsEnumerable());
+            var tokenResponse = await _httpClient.SendAsync(tokenInfo);
+            var tokenString = await tokenResponse.Content.ReadAsStringAsync();
+
+            var tokenObject = JsonConvert.DeserializeObject<Tokens>(tokenString).Value;
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenObject);
+
+            if (tokenResponse.IsSuccessStatusCode)
+            {
+                Console.WriteLine("You're logged in.");
+            }
+            else { Console.WriteLine("Login failed."); }
+        }
+
+
+    }
+    public class Tokens
+    {
+        [JsonProperty("access_token")]
+        public string Value { get; set; }
+
     }
 }
