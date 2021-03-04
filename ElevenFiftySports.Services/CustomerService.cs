@@ -21,20 +21,22 @@ namespace ElevenFiftySports.Services
         }
         public bool CreateCustomer(CustomerCreate model)
         {
-            var entity = 
+            var entity =
                 new Customer()
-            {
-                CustomerId = _userId,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                CreatedUtc = DateTimeOffset.Now
-            };
+                {
+                    CustomerId = _userId,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Email = model.Email, //--CJ 3.3.21
+                    CellPhoneNumber = model.CellPhoneNumber, //--CJ 3.3.21
+                    CreatedUtc = DateTimeOffset.Now
+                };
             using (var ctx = new ApplicationDbContext())
             {
                 ctx.Customers.Add(entity);
                 return ctx.SaveChanges() == 1;
             }
-       
+
         }
         public IEnumerable<CustomerList> GetCustomers()
         {
@@ -54,7 +56,7 @@ namespace ElevenFiftySports.Services
                                     CreatedUtc = e.CreatedUtc
                                 }
                                 );
-                                return query.ToArray();
+                return query.ToArray();
 
             }
         }
@@ -79,7 +81,7 @@ namespace ElevenFiftySports.Services
         //}
         public bool UpdateCustomer(CustomerEdit model)
         {
-            using(var ctx = new ApplicationDbContext())
+            using (var ctx = new ApplicationDbContext())
             {
                 var entity =
                     ctx

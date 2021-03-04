@@ -18,8 +18,9 @@ namespace ElevenFiftySports.Models.CustomerModels
         [MinLength(2, ErrorMessage = "Please enter at least 2 characters.")]
         [MaxLength(20, ErrorMessage = "There are too many characters in this field")]
         public string LastName { get; set; }
-
+        [Required]
         public string Email { get; set; }
+        [Required]
         public string CellPhoneNumber { get; set; }
         
     }
