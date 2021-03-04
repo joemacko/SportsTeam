@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace ElevenFiftySports.Services
 {
@@ -68,6 +69,32 @@ namespace ElevenFiftySports.Services
             }
         }
 
+        public OrderListItem GetMostRecentOrder() //For customer that is logged in
+        {
+
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx
+                    .Orders
+                    .Where(e => e.CustomerId == _userId)
+                    .OrderByDescending(e => e.CreatedOrderDate)
+                    .First();
+
+                return
+                    new OrderListItem
+                    {
+                        OrderId = entity.OrderId,
+                        CustomerId = entity.CustomerId,
+                        CustomerFirstName = entity.Customer.FirstName,
+                        OrderProducts = HelperConvertOrderProductsToOPListItem(entity.OrderProducts),
+                        TotalCost = entity.TotalCost,
+                        CreatedOrderDate = entity.CreatedOrderDate
+                    };
+            }
+
+        }
+
         public OrderDetail GetOrderById(int id)
         {
             using (var ctx = new ApplicationDbContext())
@@ -107,7 +134,7 @@ namespace ElevenFiftySports.Services
                 if (order.OrderProducts.Count > 0)
                 {
                     foreach (OrderProduct orderProduct in order.OrderProducts.ToList())//need tolist and could not reference orderproductservice because of errors likely due to duplicate contexts.
-                    //orderProductService.DeleteOrderProduct(orderProduct.PrimaryId);
+                                                                                       //orderProductService.DeleteOrderProduct(orderProduct.PrimaryId);
                     {
                         var product =
                             ctx
