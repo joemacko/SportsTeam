@@ -2,17 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
-using System.Net.Http;
+//using System.Web.Mvc;
 using System.Web.Http;
 using ElevenFiftySports.Services;
+using ElevenFiftySports.Models.Products;
+using Microsoft.AspNet.Identity;
 
 namespace ElevenFiftySports.Controllers
 {
-    [System.Web.Http.Authorize]
-    public class ProductController : Controller
+    [Authorize]
+    public class ProductController : ApiController
     {
-        // GET: Product
+        private ProductService CreateProductService()
+        {
+            var userId = Guid.Parse(User.Identity.GetUserId());
+            var productService = new ProductService(userId);
+            return productService;
+        }
+
         public IHttpActionResult Get()
         {
             ProductService productService = CreateProductService();
@@ -20,11 +27,28 @@ namespace ElevenFiftySports.Controllers
             return Ok(products);
         }
 
-
-
-        public ActionResult Index()
+        public IHttpActionResult Post(ProductCreate product)
         {
-            return View();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var service = CreateProductService();
+
+            if (!service.ProductCreate(product))
+                return InternalServerError();
+
+            return Ok();
         }
+
+        public IHttpActionResult Delete(int productId)
+        {
+            var productService = CreateProductService();
+
+            if (!productService.DeleteProduct(productId))
+                return InternalServerError();
+
+            return Ok();
+        }       
+
     }
 }
