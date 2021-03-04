@@ -46,8 +46,9 @@ ___
 Eleven Fifty Sports is designed to provide POS (Point of Service) along with building a customer base into our software to be used by Restaurant and Bar Owners. 
 
 You can download [Visual Studio](https://visualstudio.microsoft.com/downloads/) 
-and learn about [Git Version Control Software](https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup). To clone [Eleven Fifty Sports](https://github.com/joemacko/SportsTeam) using [GitHub](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository) please follow the instructions. 
+and learn about [Git Version Control Software](https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup). You can also clone [Eleven Fifty Sports](https://github.com/joemacko/SportsTeam) using [GitHub](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository). 
 
+Our project includes a Console App  that relays a Menu to enter into the Customer Interface and then Register as a customer. Following the prompts listed numerically. Upon entering your account you have the options to order products from a Menu. 
 
 ### Our database includes: ### 
 
@@ -92,6 +93,7 @@ ___
 
   [References for the initial development of many to many relationships to link orders and products.](https://medium.com/@ti.ka/many-to-many-relationship-done-right-in-the-entity-framework-multi-clients-users-130ac185f667) from Chloe
 
-
+[How to call a REST Api from a console App](https://stackoverflow.com/questions/22627296/how-to-call-rest-api-from-a-console-application
+) from Mitchell
 
 

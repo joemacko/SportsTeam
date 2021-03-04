@@ -64,5 +64,10 @@ namespace ElevenFiftySports.Controllers
                 return InternalServerError();
             return Ok();
         }
+        public Guid GetGuidHelper()
+        {
+            var userId = Guid.Parse(User.Identity.GetUserId());
+            return userId;
+        }
     }
 }

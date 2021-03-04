@@ -53,7 +53,12 @@ namespace ElevenFiftySports.Services
                 return query.ToArray();
             }
         }
-        
+
+        public bool ProductCreate(ProductCreate product)
+        {
+            throw new NotImplementedException();
+        }
+
         public ProductDetail GetProductById(int id)
         {
             using (var ctx = new ApplicationDbContext())
@@ -61,7 +66,7 @@ namespace ElevenFiftySports.Services
                 var entity =
                     ctx
                         .Products
-                            .Single(e => e.ProductId == id );
+                            .Single(e => e.ProductId == id);
                 return
                     new ProductDetail
                     {
@@ -92,7 +97,6 @@ namespace ElevenFiftySports.Services
                 return ctx.SaveChanges() == 1;
             }
         }
-
 
         public bool DeleteProduct(int productId)
         {
