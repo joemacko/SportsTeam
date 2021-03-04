@@ -17,7 +17,7 @@ namespace ElevenFiftySports.ConsoleApp
     class Program
     {
         private static readonly HttpClient _httpClient = new HttpClient();
-        private static readonly int _currentOrderId = new int();
+        public int _currentOrderId = new int();
 
 
         static void Main(string[] args)
@@ -119,9 +119,10 @@ namespace ElevenFiftySports.ConsoleApp
             if (tokenResponse.IsSuccessStatusCode)
             {
                 Console.WriteLine("You're logged in.");
+                Thread.Sleep(2000);
                 CustomerMenu();
             }
-            else { Console.WriteLine("Login failed."); }
+            else { Console.WriteLine($"Login failed. {tokenResponse.StatusCode}"); }
         }
 
         private async Task CustomerRegistration()
@@ -318,6 +319,15 @@ namespace ElevenFiftySports.ConsoleApp
                 Thread.Sleep(2000);
                 UIMenu();
             }
+            var orderIdInfo = new HttpRequestMessage(HttpMethod.Get, "https://localhost:44332/api/Order/MostRecent");
+            var orderIdResponse = await _httpClient.SendAsync(orderIdInfo);
+            var currentOrderString = await orderIdResponse.Content.ReadAsStringAsync();
+            var currentOrderId = JsonConvert.DeserializeObject<CurrentOrderId>(currentOrderString).Value;
+            _currentOrderId = int.Parse(currentOrderId);
+
+            Console.WriteLine($"Your current order ID is {_currentOrderId}.");
+            Thread.Sleep(2500);
+
 
             bool keepRunning = true;
             while (keepRunning)
