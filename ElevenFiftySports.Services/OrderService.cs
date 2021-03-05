@@ -26,7 +26,8 @@ namespace ElevenFiftySports.Services
                 new Order()
                 {
                     CustomerId = _userId,
-                    CreatedOrderDate = DateTime.Now
+                    CreatedOrderDate = DateTime.Now,
+                    OrderFinalized = false,
                 };
 
             using (var ctx = new ApplicationDbContext())
@@ -59,8 +60,9 @@ namespace ElevenFiftySports.Services
                         CustomerId = q.CustomerId,
                         CustomerFirstName = q.Customer.FirstName,
                         OrderProducts = HelperConvertOrderProductsToOPListItem(q.OrderProducts),
-                        TotalCost = q.TotalCost,
-                        CreatedOrderDate = q.CreatedOrderDate
+                        Cost = q.OrderFinalized ? q.FinalTotalCost : q.TotalCost,
+                        CreatedOrderDate = q.CreatedOrderDate,
+                        OrderFinalized = q.OrderFinalized
                     };
                     newList.Add(oLI);
                 }
@@ -88,8 +90,9 @@ namespace ElevenFiftySports.Services
                         CustomerId = entity.CustomerId,
                         CustomerFirstName = entity.Customer.FirstName,
                         OrderProducts = HelperConvertOrderProductsToOPListItem(entity.OrderProducts),
-                        TotalCost = entity.TotalCost,
-                        CreatedOrderDate = entity.CreatedOrderDate
+                        Cost = entity.OrderFinalized ? entity.FinalTotalCost : entity.TotalCost,
+                        CreatedOrderDate = entity.CreatedOrderDate,
+                        OrderFinalized = entity.OrderFinalized
                     };
             }
 
@@ -112,24 +115,38 @@ namespace ElevenFiftySports.Services
                         CustomerId = entity.CustomerId,
                         CustomerFirstName = entity.Customer.FirstName,
                         OrderProducts = HelperConvertOrderProductsToOPListItem(entity.OrderProducts),
-                        TotalCost = entity.TotalCost
+                        Cost = entity.OrderFinalized ? entity.FinalTotalCost : entity.TotalCost,
+                        OrderFinalized = entity.OrderFinalized
                     };
 
             }
         }
 
-        public bool DeleteOrder(Guid guid, int orderID)
+        public bool UpdateOrderToFinalize(int id)
         {
             using (var ctx = new ApplicationDbContext())
             {
-                //OrderProductService orderProductService = new OrderProductService(guid);
+                var entity =
+                    ctx
+                    .Orders
+                    .Single(e => e.OrderId == id);
 
+                entity.FinalTotalCost = entity.TotalCost;
+                entity.OrderFinalized = true;
+
+                return ctx.SaveChanges() == 1;
+            }
+        }
+
+        public bool DeleteOrder(int orderID)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
                 var order =
                     ctx
                     .Orders
                     .Single(e => e.OrderId == orderID);
 
-                //List<OrderProduct> opl = order.OrderProducts;
 
                 if (order.OrderProducts.Count > 0)
                 {
@@ -146,8 +163,6 @@ namespace ElevenFiftySports.Services
                         ctx.OrderProducts.Remove(orderProduct);
                     }
                 }
-
-                //ctx.Orders.Remove(ctx.Orders.Find(orderID));
 
                 ctx.Orders.Remove(order);
 

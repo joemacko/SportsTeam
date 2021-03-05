@@ -24,7 +24,9 @@ namespace ElevenFiftySports.Models.OrderModels
         public List<OrderProductListItem> OrderProducts = new List<OrderProductListItem>();
         
         [Required]
-        public double TotalCost;
+        public double Cost;
+
+        public bool OrderFinalized { get; set; }
         
         [Required]
         public DateTimeOffset CreatedOrderDate { get; set; }

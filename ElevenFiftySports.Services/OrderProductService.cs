@@ -21,7 +21,19 @@ namespace ElevenFiftySports.Services
 
         public string CreateOrderProduct(OrderProductCreate model)
         {
-            var entity =
+            using (var ctx = new ApplicationDbContext())
+            {
+                var order =
+                    ctx
+                    .Orders
+                    .Single(o => o.OrderId == model.OrderId);
+
+                if(order.OrderFinalized)
+                {
+                    return "This order has been finalized. You cannot make updates to it.";
+                }
+
+                var entity =
                 new OrderProduct()
                 {
                     OrderId = model.OrderId,
@@ -29,8 +41,7 @@ namespace ElevenFiftySports.Services
                     ProductCount = model.ProductCount
                 };
 
-            using (var ctx = new ApplicationDbContext())
-            {
+
                 var product =
                     ctx
                     .Products
@@ -104,6 +115,11 @@ namespace ElevenFiftySports.Services
                 //    .Single(o => o.PrimaryId == id);
 
                 OrderProduct originalOrderProduct = ctx.OrderProducts.Find(id);
+
+                if (originalOrderProduct.Order.OrderFinalized)
+                {
+                    return "This order has been finalized. You cannot make updates to it.";
+                }
 
                 Product originalProduct =
                     ctx

@@ -64,6 +64,9 @@ namespace ElevenFiftySports.Controllers
             if(created.Contains("There is not enough inventory"))
             return BadRequest(created);
 
+            if (created.Contains("finalized"))
+                return BadRequest(created);
+
             if (created.Contains("The OrderProduct"))
             return Ok(created); //stretch goal to keep service as a bool.
 
@@ -120,6 +123,9 @@ namespace ElevenFiftySports.Controllers
             if (updated.Contains("There is not enough inventory"))
                 return BadRequest(updated);
 
+            if (updated.Contains("finalized"))
+                return BadRequest(updated);
+            
             if (updated.Contains("The OrderProduct"))
                 return Ok(updated);
 
