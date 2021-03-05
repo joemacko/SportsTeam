@@ -20,7 +20,7 @@ namespace ElevenFiftySports.Models.SpecialModels
         public string ProductName { get; set; }
 
         [Required]
-        public DayOfWeek DayOfWeek { get; set; }
+        public string DayOfWeek { get; set; }
 
         [Required, Range(0, double.MaxValue, ErrorMessage = "The special price must be greater than 0.")]
         public double ProductSpecialPrice { get; set; }
