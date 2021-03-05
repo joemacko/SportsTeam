@@ -11,39 +11,6 @@ namespace ElevenFiftySports.Services
     public class SpecialService
     {
         private readonly Guid _userId;
-        private readonly int _productId;
-        private readonly int _specialId;
-
-        // Need to actually implement a GetProductById method
-        // Should I change my "SpecialReadByDay" class to "SpecialReadById class and have it apply to both?
-        //public IEnumerable<SpecialReadByDay> GetSpecialByProductId(int productId)
-        //{
-        //    using (var ctx = new ApplicationDbContext())
-        //    {
-        //        var query =
-        //            ctx
-        //                .Specials
-        //                .Where(e => e.ProductId == _productId)
-        //                .Select(
-        //                    e =>
-        //                        new SpecialReadByDay
-        //                        {
-        //                            SpecialId = e.SpecialId,
-        //                            DayOfWeek = e.DayOfWeek,
-        //                            ProductSpecialPrice = e.ProductSpecialPrice
-        //                        }
-        //                );
-
-        //        return query.ToArray();
-        //    }
-        //}
-
-        public SpecialService() { }
-
-        public SpecialService(int productId)
-        {
-            _productId = productId;
-        }
 
         public SpecialService(Guid userId)
         {
@@ -81,7 +48,8 @@ namespace ElevenFiftySports.Services
                                 {
                                     SpecialId = e.SpecialId,
                                     ProductId = e.ProductId,
-                                    DayOfWeek = e.DayOfWeek,
+                                    ProductName = e.Product.ProductName,
+                                    DayOfWeek = e.DayOfWeek.ToString(),
                                     ProductSpecialPrice = e.ProductSpecialPrice
                                 }
                         );
@@ -104,7 +72,8 @@ namespace ElevenFiftySports.Services
                                 {
                                     SpecialId = e.SpecialId,
                                     ProductId = e.ProductId,
-                                    DayOfWeek = e.DayOfWeek,
+                                    ProductName = e.Product.ProductName,
+                                    DayOfWeek = e.DayOfWeek.ToString(),
                                     ProductSpecialPrice = e.ProductSpecialPrice
                                 }
                         );
@@ -145,20 +114,5 @@ namespace ElevenFiftySports.Services
                 return ctx.SaveChanges() == 1;
             }
         }
-
-        //public int GetProductIdHelper(int productId)
-        //{
-        //    using (var ctx = new ApplicationDbContext())
-        //    {
-        //        var entity =
-        //            ctx
-        //                .Products
-        //                .Single(e => e.ProductId == productId);
-
-        //        ctx.Products.Add(entity);
-
-        //        return productId;
-        //    }
-        //}
     }
 }
