@@ -315,8 +315,7 @@ namespace ElevenFiftySports.ConsoleApp
         {
             Console.Clear();
             Task<HttpResponseMessage> getOrderResponse = _httpClient.GetAsync("https://localhost:44332/api/Order");
-            var ordersString = await getOrderResponse.Result.Content.ReadAsStringAsync();//ReadAsStringAsync();
-            //var currentOrderId = JsonConvert.DeserializeObject<CurrentOrderId>(ordersString).Value;
+            //var ordersString = await getOrderResponse.Result.Content.ReadAsStringAsync();
 
             if (getOrderResponse.Result.IsSuccessStatusCode)
             {
@@ -415,8 +414,8 @@ namespace ElevenFiftySports.ConsoleApp
                         break;
                     case "6":
                         FinalizeOrder().Wait(); //REQUIRES BUILD OUT OF SUPER SIMPLE ORDERUPDATE METHOD THAT ONLY SETS TOTALCOST.
-                        Console.WriteLine("Your order has been submitted and will be arriving soon. Please contact your waiter with any questions, comments or concerns. Thank you for using ElevenFiftySports!");
-                        keepRunning = false;
+                        //Console.WriteLine("Your order has been submitted and will be arriving soon. Please contact your waiter with any questions, comments or concerns. Thank you for using ElevenFiftySports!");
+                        //keepRunning = false;
                         break;
                     case "7":
                         DeleteOrder().Wait();
@@ -443,7 +442,7 @@ namespace ElevenFiftySports.ConsoleApp
 
         }
 
-        private async Task CreateOrderProduct() //BUILD
+        private async Task CreateOrderProduct()
         {
             //GetProducts();
             Console.WriteLine("Enter the product ID of the product you'd like to add to your order. This must be a single whole number.");
@@ -469,10 +468,10 @@ namespace ElevenFiftySports.ConsoleApp
             }
         }
 
-        private async Task ViewCurrentOrder() 
+        private async Task ViewCurrentOrder()
         {
+            Console.Clear();
             Task<HttpResponseMessage> getCurrentOrderResponse = _httpClient.GetAsync($"https://localhost:44332/api/Order/{_currentOrderId}");
-            var ordersString = await getCurrentOrderResponse.Result.Content.ReadAsStringAsync();//
 
             if (getCurrentOrderResponse.Result.IsSuccessStatusCode)
             {
@@ -489,6 +488,9 @@ namespace ElevenFiftySports.ConsoleApp
                     $"Order Id: {order.OrderId}\n" +
                     $"Created Date: {order.CreatedOrderDate}\n" +
                     $"Products: {orderproducts} Total Cost: {order.Cost.ToString("C")}\n\n");
+
+                Console.WriteLine("Press any key to continue.");
+                Console.ReadKey();
             }
             else
             {
@@ -503,8 +505,54 @@ namespace ElevenFiftySports.ConsoleApp
 
         }
 
-        private async Task FinalizeOrder() //Need order update method to create (SIMPLE JUST DOES THE MATH FOR THE TOTALCOSTS AND SETS EVERYTHING ELSE THE SAME)
+        private async Task FinalizeOrder() //BUILD
         {
+            Console.Clear();
+            ViewCurrentOrder();
+
+            Console.WriteLine("Are you ready to finalize this order?\n" +
+                "1. Yes\n" +
+                "2. No\n");
+
+            string input = Console.ReadLine();
+
+            switch (input)
+            {
+                case "1":
+                    FinalizeOrderHelper().Wait();
+                    break;
+                case "2":
+                    Console.WriteLine("You will be returned to the previous menu.");
+                    Thread.Sleep(2000);
+                    break;
+                default:
+                    Console.WriteLine("You didn't enter a valid number. You will be returned to the previous menu.");
+                    Thread.Sleep(2000);
+                    break;
+            }
+        }
+
+        private async Task FinalizeOrderHelper()
+        {
+            Console.Clear();
+
+            //StringContent content = new StringContent("empty");
+
+            Task<HttpResponseMessage> getFinalizeResponse = _httpClient.PutAsync($"https://localhost:44332/api/Order/{_currentOrderId}", null);//content);
+            //var finalizeResponseString = await getFinalizeResponse.Result.Content.ReadAsStringAsync();
+
+            if (getFinalizeResponse.Result.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Your order has been finalized! See the finalized order below. It will be coming out to you shortly. Please contact your waiter with any questions, comments or concerns. Thank you for using ElevenFiftySports!\n");
+                //ViewCurrentOrder();
+                Thread.Sleep(5000);
+                Environment.Exit(-1);
+            }
+            else
+            {
+                Console.WriteLine($"There was an issue... {getFinalizeResponse.Result.StatusCode}");//{finalizeResponseString}.");//{getFinalizeResponse.Result.StatusCode}");
+                Thread.Sleep(2000);
+            }
 
         }
 
