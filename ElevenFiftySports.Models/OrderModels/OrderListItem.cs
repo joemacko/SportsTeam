@@ -24,9 +24,11 @@ namespace ElevenFiftySports.Models
         public List<OrderProductListItem> OrderProducts = new List<OrderProductListItem>(); // cannot be a class (list<orderproduct>) because you cannot send a raw data class to postman (which is why the model is utilized)
 
         [Required]
-        public double TotalCost { get; set; }
+        public double Cost { get; set; }
 
         [Required]
         public DateTimeOffset CreatedOrderDate { get; set; }
+
+        public bool OrderFinalized { get; set; }
     }
 }

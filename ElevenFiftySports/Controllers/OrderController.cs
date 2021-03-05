@@ -49,38 +49,26 @@ namespace ElevenFiftySports.Controllers
             string created = orderService.CreateOrder();
 
             if (created.Contains("The Order"))
-                return Ok(created); 
+                return Ok(created);
 
             return InternalServerError();
+        }
+
+        public IHttpActionResult Put([FromUri] int id)
+        {
+            var service = CreateOrderService();
+
+            if (!service.UpdateOrderToFinalize(id))
+                return InternalServerError();
+
+            return Ok();
         }
 
         public IHttpActionResult Delete([FromUri] int id)
         {
             var service = CreateOrderService();
-            //var opc = new OrderProductController();
 
-
-            //using (var ctx = new ApplicationDbContext())
-            //{
-            //    Order order = ctx.Orders.Find(id); //could make this an if ! and return badrequest order id does not exist...
-
-            //    if (order.OrderProducts.Count > 0)
-            //    {
-            //        foreach (OrderProduct orderProduct in order.OrderProducts)
-            //            opc.Delete(orderProduct.PrimaryId);
-            //    }
-
-            //    if (!service.DeleteOrder(id))
-            //        return InternalServerError();
-
-            //    ctx.SaveChanges();
-
-            //    return Ok($"Order ID: {id} and any associated orderProducts have been deleted.");
-            //}
-
-            Guid guid = Guid.Parse(User.Identity.GetUserId());
-
-            if (!service.DeleteOrder(guid, id))
+            if (!service.DeleteOrder(id))
                 return InternalServerError();
 
             return Ok($"Order ID: {id} and any associated orderProducts have been deleted.");
