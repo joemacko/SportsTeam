@@ -55,7 +55,7 @@ Our project includes a Console App  that relays a Menu to enter into the Custome
 <ul>
 <li>Customer Table</li>
 <li>Orders Table</li>
-<li>Order Details Table</li>
+<li>Order Product Table</li>
 <li>Specials Table</li>
 <li>Products Table</li>
 </ul>
