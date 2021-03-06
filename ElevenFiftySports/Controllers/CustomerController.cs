@@ -49,7 +49,6 @@ namespace ElevenFiftySports.Controllers
             return Ok(customer);
         }
 
-<<<<<<< HEAD
         [HttpGet]
         [Route("api/Customer/GetLoggedInCustomer")]
         public IHttpActionResult GetLoggedInCustomer()
@@ -59,9 +58,7 @@ namespace ElevenFiftySports.Controllers
             return Ok(customer);
         }
 
-=======
         [Route("api/Customer/{customerId}")]
->>>>>>> 03df69fbdbd79de388a36b09dc97a02590f4139a
         public IHttpActionResult Delete([FromUri]Guid customerId)
         {
             var service = CreateCustomerSevice();
