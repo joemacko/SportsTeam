@@ -3,7 +3,7 @@
 ## Introduction ##
 ___
 
-Eleven Fifty Sports is a Database App that allows users to build a customer base, customer relations, make an order, order product, and view the specials of the week which includes all the CRUD methods built into the project for continued use and the need for productivity in a restaurant or bar setting from a Point Of Service perspective. This is our project to promote<strong> <i> post pandemic optimism</i> </strong>.
+Eleven Fifty Sports is a Database App that allows users to build a customer base, customer relations, make an order, order product, and view the specials of the week which includes all the CRUD methods built into the project for continued use and the need for productivity in a restaurant or bar setting from a Point Of Service perspective. This is our project to promote<strong> <i> post pandemic optimism</i></strong>.
 
 ---
 ## Table of Contents ## 
@@ -20,13 +20,13 @@ Eleven Fifty Sports is a Database App that allows users to build a customer base
 ---
 ## Meet the Team! ##
 
-Eleven Fifty Sports was developed by The Code Masters of SD November 2020 A, 
+Eleven Fifty Sports was developed by The Code Masters of SD November 2020 A. 
 
 We are four Software Development students from Eleven Fifty Academy. 
 
 ### Chloe Jefferson ###
 
-`Chloe says "I love clean code."`
+`Chloe says "I love clean code"`
 
 ### Joe Macko ###
 
@@ -60,7 +60,7 @@ Our project includes a Console App  that relays a Menu to enter into the Custome
 <li>Products Table</li>
 </ul>
 
-## Techonologies and Languagesn Used ##
+## Technologies and Languages Used ##
 
 <ul>
 <li>C#</li>
