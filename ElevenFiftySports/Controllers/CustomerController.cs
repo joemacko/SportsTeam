@@ -20,6 +20,7 @@ namespace ElevenFiftySports.Controllers
         }
 
         [HttpPost]
+        [Route("api/Customer")]
         public IHttpActionResult Post(CustomerCreate customer)
         {
             if (!ModelState.IsValid)
@@ -67,7 +68,9 @@ namespace ElevenFiftySports.Controllers
             return Ok();
         }
 
-        public IHttpActionResult Put(CustomerEdit customer)
+        [HttpPut]
+        [Route("api/Customer")]
+        public IHttpActionResult Put([FromBody]CustomerEdit customer)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

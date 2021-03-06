@@ -1,6 +1,7 @@
 ﻿using ElevenFiftySports.Controllers;
 using ElevenFiftySports.Models;
 using ElevenFiftySports.Models.CustomerModels;
+using ElevenFiftySports.Models.Products;
 using ElevenFiftySports.Models.SpecialModels;
 using Newtonsoft.Json;
 using System;
@@ -110,7 +111,9 @@ namespace ElevenFiftySports.ConsoleApp
 
         private async Task Login()
         {
-            Console.WriteLine("Enter your email address.");
+            Console.Clear();
+            Console.WriteLine("CUSTOMER LOGIN:\n" +
+                "Enter your email address.");
             Dictionary<string, string> token = new Dictionary<string, string>()
             {
                 {"grant_type", "password" }
@@ -141,7 +144,8 @@ namespace ElevenFiftySports.ConsoleApp
         {
             Console.Clear();
 
-            Console.WriteLine("Enter your email address.");
+            Console.WriteLine("CUSTOMER REGISTRATION:\n" +
+                "Enter your email address.");
             string email = Console.ReadLine();
             Dictionary<string, string> register = new Dictionary<string, string>()
             {
@@ -202,7 +206,6 @@ namespace ElevenFiftySports.ConsoleApp
                 CustomerAuthorizationMenu();
             }
 
-            CustomerController customerController = new CustomerController();
             Dictionary<string, string> customer = new Dictionary<string, string>();
             customer.Add("Email", email);
 
@@ -324,7 +327,7 @@ namespace ElevenFiftySports.ConsoleApp
 
                 foreach (var order in orderList)
                 {
-                    string orderproducts = " ";
+                    string orderproducts = "\n";
 
                     foreach (var orderProduct in order.OrderProducts)
                     {
@@ -334,8 +337,11 @@ namespace ElevenFiftySports.ConsoleApp
                     Console.WriteLine($"\n" +
                         $"Order Id: {order.OrderId}\n" +
                         $"Created Date: {order.CreatedOrderDate}\n" +
-                        $"Products: {orderproducts} Total Cost: {order.Cost}\n\n");
+                        $"Products: {orderproducts} Total Cost: {order.Cost.ToString("C")}\n\n");
                 }
+                Console.WriteLine("Press any key to continue.");
+                Console.ReadKey();
+                Console.Clear();
             }
             else
             {
@@ -345,7 +351,7 @@ namespace ElevenFiftySports.ConsoleApp
             }
         }
 
-        private async Task ViewCustomer()//Need functional customer endpoints
+        private async Task ViewCustomer()
         {
             Console.Clear();
             Task<HttpResponseMessage> getCustomerResponse = _httpClient.GetAsync("https://localhost:44332/api/Customer/GetLoggedInCustomer");
@@ -354,13 +360,18 @@ namespace ElevenFiftySports.ConsoleApp
             {
                 CustomerDetail customer = _httpClient.GetAsync("https://localhost:44332/api/Customer/GetLoggedInCustomer").Result.Content.ReadAsAsync<CustomerDetail>().Result;
 
-                    Console.WriteLine($"\n" +
-                        //$"Customer Id: {customer.CustomerId}\n" +
-                        $"First Name: {customer.FirstName}\n" +
-                        $"Last Name: {customer.LastName}\n" +
-                        $"Email: {customer.Email}\n" +
-                        $"Cellphone Number: {customer.CellPhoneNumber}\n" +
-                        $"Customer Since: {customer.CreatedUtc}\n");
+                Console.WriteLine($"\n" +
+                    //$"Customer Id: {customer.CustomerId}\n" +
+                    $"First Name: {customer.FirstName}\n" +
+                    $"Last Name: {customer.LastName}\n" +
+                    $"Email: {customer.Email}\n" +
+                    $"Cellphone Number: {customer.CellPhoneNumber}\n" +
+                    $"Customer Since: {customer.CreatedUtc}\n");
+
+                Console.WriteLine("Press any key to continue.");
+                Console.ReadKey();
+                Console.Clear();
+
             }
             else
             {
@@ -369,9 +380,37 @@ namespace ElevenFiftySports.ConsoleApp
             }
         }
 
-        private async Task UpdateCustomer() //Need functional customer endpoints
+        private async Task UpdateCustomer()
         {
+            ViewCustomer();
+            Dictionary<string, string> updatedCustomer = new Dictionary<string, string>();
 
+            CustomerDetail originalCustomer = _httpClient.GetAsync("https://localhost:44332/api/Customer/GetLoggedInCustomer").Result.Content.ReadAsAsync<CustomerDetail>().Result;
+
+            updatedCustomer.Add("CustomerId", originalCustomer.CustomerId.ToString());
+            updatedCustomer.Add("Email", originalCustomer.Email);
+
+            Console.WriteLine("Enter your first name.");
+            updatedCustomer.Add("FirstName", Console.ReadLine());
+
+            Console.WriteLine("Enter your last name.");
+            updatedCustomer.Add("LastName", Console.ReadLine());
+
+            Console.WriteLine("Enter your 10-digit cell phone number in the format XXX-XXX-XXXX");
+            updatedCustomer.Add("CellPhoneNumber", Console.ReadLine());
+
+            HttpContent httpContent = new FormUrlEncodedContent(updatedCustomer);
+            Task<HttpResponseMessage> updateResponse = _httpClient.PutAsync("https://localhost:44332/api/Customer", httpContent);
+
+            if (updateResponse.Result.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Your customer profile has been updated!");
+            }
+            else
+            {
+                Console.WriteLine($"Something is wrong... Please try again. {updateResponse.Result.StatusCode}");
+                Thread.Sleep(2000);
+            }
         }
 
         private async Task OrderingMenu()
@@ -389,7 +428,6 @@ namespace ElevenFiftySports.ConsoleApp
                 Console.WriteLine($"Something is wrong... The application will end now. {createOrderResponse.Result.StatusCode}");
                 Thread.Sleep(2000);
                 Environment.Exit(-1);
-                //UIMenu();
             }
             var orderIdInfo = new HttpRequestMessage(HttpMethod.Get, "https://localhost:44332/api/Order/MostRecent");
             var orderIdResponse = await _httpClient.SendAsync(orderIdInfo);
@@ -421,7 +459,7 @@ namespace ElevenFiftySports.ConsoleApp
                         GetProducts().Wait();
                         break;
                     case "2":
-                        GetTodaysSpecials().Wait();//Wait causes the async to complete before returning to CustomerUIS
+                        GetTodaysSpecials().Wait();
                         break;
                     case "3":
                         CreateOrderProduct().Wait();
@@ -433,13 +471,10 @@ namespace ElevenFiftySports.ConsoleApp
                         UpdateOrderProduct().Wait();
                         break;
                     case "6":
-                        FinalizeOrder().Wait(); //REQUIRES BUILD OUT OF SUPER SIMPLE ORDERUPDATE METHOD THAT ONLY SETS TOTALCOST.
-                        //Console.WriteLine("Your order has been submitted and will be arriving soon. Please contact your waiter with any questions, comments or concerns. Thank you for using ElevenFiftySports!");
-                        //keepRunning = false;
+                        FinalizeOrder().Wait();
                         break;
                     case "7":
                         DeleteOrder().Wait();
-                        //Console.WriteLine("Thank you for using ElevenFiftySports! Please come again.");
                         keepRunning = false;
                         break;
                     default:
@@ -452,40 +487,64 @@ namespace ElevenFiftySports.ConsoleApp
             Console.Clear();
         }
 
-        private async Task GetProducts() //Need functional product endpoints
+        private async Task GetProducts()
         {
 
+            Console.WriteLine("Today's Specials:");
+            GetTodaysSpecials();
+            Console.WriteLine("\nFull Menu:");
+            Task<HttpResponseMessage> getProductResponse = _httpClient.GetAsync("https://localhost:44332/api/Product");
+
+            if (getProductResponse.Result.IsSuccessStatusCode)
+            {
+                List<ProductListItem> productList = _httpClient.GetAsync("https://localhost:44332/api/Product").Result.Content.ReadAsAsync<List<ProductListItem>>().Result;
+
+                string tableHeaders = String.Format("{0,-20} {1,-40} {2,-60}", "Product ID:", "Product:", "Cost:");
+                Console.WriteLine(tableHeaders);
+
+                foreach (var product in productList)
+                {
+                    string tableBody = String.Format("{0,-20} {1,-40}, {2,-60}", product.ProductId, product.ProductName, product.ProductPrice.ToString("C"));
+                    Console.WriteLine(tableBody);
+                }
+                Thread.Sleep(2000);
+            }
+            else
+            {
+                Console.WriteLine($"Something is wrong... Please try again. {getProductResponse.Result.StatusCode}");
+                Thread.Sleep(2000);
+            }
         }
 
-        private async Task GetTodaysSpecials() //Need functional productspecial endpoints
+        private async Task GetTodaysSpecials()
         {
-            Console.Clear();
-            DayOfWeek dayOfWeek = DateTime.Now.DayOfWeek;
-            Task<HttpResponseMessage> getSpecialResponse = _httpClient.GetAsync("https://localhost:44332/api/Special/{dayOfWeek}");
+            var dayOfWeek = DateTime.Now.DayOfWeek;
+            Task<HttpResponseMessage> getSpecialResponse = _httpClient.GetAsync($"https://localhost:44332/api/Special/{dayOfWeek}");
 
-            //if (getSpecialResponse.Result.IsSuccessStatusCode)
-            //{
-            //    List<SpecialListItem> specialList = _httpClient.GetAsync("https://localhost:44332/api/Special/{dayOfWeek}").Result.Content.ReadAsAsync<List<SpecialListItem>>().Result;
+            if (getSpecialResponse.Result.IsSuccessStatusCode)
+            {
+                List<SpecialListItem> specialList = _httpClient.GetAsync($"https://localhost:44332/api/Special/{dayOfWeek}").Result.Content.ReadAsAsync<List<SpecialListItem>>().Result;
 
-            //    foreach (var special in specialList)
-            //    {
-            //        Console.WriteLine($"\n" +
-            //            $"Order Id: {order.OrderId}\n" +
-            //            $"Created Date: {order.CreatedOrderDate}\n" +
-            //            $"Products: {orderproducts} Total Cost: {order.Cost}\n\n");
-            //    }
-            //}
-            //else
-            //{
-            //    Console.WriteLine($"Something is wrong... Please try again. {getOrderResponse.Result.StatusCode}");
-            //    Thread.Sleep(2000);
-            //    //Environment.Exit(-1);
-            //}
+                string tableHeaders = String.Format("{0,-20} {1,-40} {2,-60}", "Product ID:", "Product:", "Cost:");
+                Console.WriteLine(tableHeaders);
+
+                foreach (var special in specialList)
+                {
+                    string tableBody = String.Format("{0,-20} {1,-40}, {2,-60}", special.ProductId, special.ProductName, special.ProductSpecialPrice.ToString("C"));
+                    Console.WriteLine(tableBody);
+                }
+                Thread.Sleep(2000);
+            }
+            else
+            {
+                Console.WriteLine($"Something is wrong... Please try again. {getSpecialResponse.Result.StatusCode}");
+                Thread.Sleep(2000);
+            }
         }
 
         private async Task CreateOrderProduct()
         {
-            //GetProducts();
+            GetProducts();
             Console.WriteLine("Enter the product ID of the product you'd like to add to your order. This must be a single whole number.");
             Dictionary<string, string> orderProduct = new Dictionary<string, string>();
 
@@ -529,15 +588,12 @@ namespace ElevenFiftySports.ConsoleApp
                     $"Order Id: {order.OrderId}\n" +
                     $"Created Date: {order.CreatedOrderDate}\n" +
                     $"Products: {orderproducts} Total Cost: {order.Cost.ToString("C")}\n\n");
-
-                Console.WriteLine("Press any key to continue.");
-                Console.ReadKey();
+                Thread.Sleep(2000);
             }
             else
             {
                 Console.WriteLine($"Something is wrong... Please try again. {getCurrentOrderResponse.Result.StatusCode}");
                 Thread.Sleep(2000);
-                //Environment.Exit(-1);
             }
         }
 
@@ -546,7 +602,7 @@ namespace ElevenFiftySports.ConsoleApp
 
         }
 
-        private async Task FinalizeOrder() //BUILD
+        private async Task FinalizeOrder()
         {
             Console.Clear();
             ViewCurrentOrder();
@@ -630,4 +686,11 @@ public class CurrentOrderId
 //int id = int.Parse(Console.ReadLine());
 //string url = $"https://localhost:44332/api/Order/{id}"; //note: this is to be referenced for any id method [fromURI] 
 //var registration = new HttpRequestMessage(HttpMethod.Post, $"https://localhost:44332/api/Account/Register/{id}");
-
+//private Guid GetCustomerIdHelper()
+//{
+//    {
+//        Task<HttpResponseMessage> getCustomerResponse = _httpClient.GetAsync("https://localhost:44332/api/Customer/GetLoggedInCustomer");
+//        CustomerDetail customer = _httpClient.GetAsync("https://localhost:44332/api/Customer/GetLoggedInCustomer").Result.Content.ReadAsAsync<CustomerDetail>().Result;
+//        return customer.CustomerId;
+//    }
+//}
