@@ -19,7 +19,7 @@ namespace ElevenFiftySports.Controllers
             return customerService;
         }
 
-
+        [HttpPost]
         public IHttpActionResult Post(CustomerCreate customer)
         {
             if (!ModelState.IsValid)
@@ -32,7 +32,7 @@ namespace ElevenFiftySports.Controllers
 
 
         [HttpGet]
-        [Route("Api/GetAll")]
+        [Route("api/Customer")]
         public IHttpActionResult Get()
         {
             var customerService = CreateCustomerSevice();
@@ -40,6 +40,8 @@ namespace ElevenFiftySports.Controllers
                 return Ok(customer);
         }
 
+
+        [Route("api/Customer/{customerId}")]
         public IHttpActionResult GetCustomerById([FromUri] Guid customerId)
         {
             CustomerService customerService = CreateCustomerSevice();
@@ -47,7 +49,7 @@ namespace ElevenFiftySports.Controllers
             return Ok(customer);
         }
 
-
+        [Route("api/Customer/{customerId}")]
         public IHttpActionResult Delete([FromUri]Guid customerId)
         {
             var service = CreateCustomerSevice();
