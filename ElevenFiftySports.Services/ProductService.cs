@@ -47,16 +47,12 @@ namespace ElevenFiftySports.Services
                     {
                         ProductId = e.ProductId,
                         ProductName = e.ProductName,
+                        UnitCount = e.UnitCount,
                         ProductPrice = e.ProductPrice,
                         TypeOfProduct = e.TypeOfProduct
                     }) ;
                 return query.ToArray();
             }
-        }
-
-        public bool ProductCreate(ProductCreate product)
-        {
-            throw new NotImplementedException();
         }
 
         public ProductDetail GetProductById(int id)
