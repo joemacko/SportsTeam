@@ -34,11 +34,25 @@ namespace ElevenFiftySports.Controllers
 
             var service = CreateProductService();
 
-            if (!service.ProductCreate(product))
+            if (!service.CreateProduct(product))
                 return InternalServerError();
 
             return Ok();
         }
+
+        public IHttpActionResult Put(ProductEdit product)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var service = CreateProductService();
+
+            if (!service.UpdateProduct(product))
+                return InternalServerError();
+
+            return Ok();
+        }
+
 
         public IHttpActionResult Delete(int productId)
         {

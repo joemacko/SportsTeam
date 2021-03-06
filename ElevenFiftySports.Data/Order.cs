@@ -56,6 +56,10 @@ namespace ElevenFiftySports.Data
             }
         }
 
-        //public bool OrderFinalized { get; set; } //make required, set to false on ordercreate, set to true when "finalized" in UI? Will run an update/post, set to true, and calculate totalcost using logic above... Since I only want this to happen once, i suppose it can all be in the UI?? Then customer would need to be unable to delete or update order again (through ui logic) nor add any orderproducts with that orderid (so can add as long as order is active, could put in orderproductservice)...
+        public double FinalTotalCost { get; set; }
+        
+        public bool OrderFinalized {get; set;} 
+        
+        //make required, set to false on ordercreate, set to true when "finalized" in UI? Will run an update/post, set to true, and calculate totalcost using logic above... Since I only want this to happen once, i suppose it can all be in the UI?? Then customer would need to be unable to delete or update order again (through ui logic) nor add any orderproducts with that orderid (so can add as long as order is active, could put in orderproductservice)...
     }
 }

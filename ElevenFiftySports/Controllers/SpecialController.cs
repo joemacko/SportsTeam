@@ -20,6 +20,7 @@ namespace ElevenFiftySports.Controllers
             return specialService;
         }
 
+        [Route("api/Special")]
         public IHttpActionResult Post(SpecialCreate special)
         {
             if (!ModelState.IsValid)
@@ -33,6 +34,7 @@ namespace ElevenFiftySports.Controllers
             return Ok();
         }
 
+        [Route("api/Special")]
         public IHttpActionResult Get()
         {
             var specialService = CreateSpecialService();
@@ -40,33 +42,29 @@ namespace ElevenFiftySports.Controllers
             return Ok(specials);
         }
 
-        public IHttpActionResult GetByDay(DayOfWeek dayOfWeek)
+        [Route("api/Special/{dayOfWeek}")]
+        public IHttpActionResult GetByDay([FromUri] DayOfWeek dayOfWeek)
         {
             var specialService = CreateSpecialService();
             var special = specialService.GetSpecialByDay(dayOfWeek);
             return Ok(special);
         }
 
-        //public IHttpActionResult GetProductId(int productId)
-        //{
-        //    var specialService = CreateSpecialService();
-        //    var special = specialService.GetSpecialByProductId(productId);
-        //    return Ok(special);
-        //}
-
-        public IHttpActionResult Put(SpecialEdit special)
+        [Route("api/Special/{specialId}")]
+        public IHttpActionResult Put([FromUri] int specialId, [FromBody] SpecialEdit special)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var service = CreateSpecialService();
 
-            if (!service.UpdateSpecial(special))
+            if (!service.UpdateSpecial(specialId, special))
                 return InternalServerError();
 
             return Ok();
         }
 
+        [Route("api/Special/{specialId}")]
         public IHttpActionResult Delete([FromUri] int specialId)
         {
             var service = CreateSpecialService();

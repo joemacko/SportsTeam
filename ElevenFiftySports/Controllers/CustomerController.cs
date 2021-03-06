@@ -19,7 +19,8 @@ namespace ElevenFiftySports.Controllers
             return customerService;
         }
 
-
+        [HttpPost]
+        [Route("api/Customer")]
         public IHttpActionResult Post(CustomerCreate customer)
         {
             if (!ModelState.IsValid)
@@ -31,7 +32,8 @@ namespace ElevenFiftySports.Controllers
         }
 
 
-
+        [HttpGet]
+        [Route("api/Customer")]
         public IHttpActionResult Get()
         {
             var customerService = CreateCustomerSevice();
@@ -39,23 +41,36 @@ namespace ElevenFiftySports.Controllers
                 return Ok(customer);
         }
 
-        //public IHttpActionResult GetCustomerById([FromUri]Guid customerId)
-        //{
-        //    CustomerService customerService = CreateCustomerSevice();
-        //    var customer = customerService.GetCustomerById(customerId);
-        //    return Ok(customer);
-        //}
 
-       
-        public IHttpActionResult Delete([FromUri]Guid customerId, int userId)
+        [Route("api/Customer/{customerId}")]
+        public IHttpActionResult GetCustomerById([FromUri] Guid customerId)
+        {
+            CustomerService customerService = CreateCustomerSevice();
+            var customer = customerService.GetCustomerById(customerId);
+            return Ok(customer);
+        }
+
+        [HttpGet]
+        [Route("api/Customer/GetLoggedInCustomer")]
+        public IHttpActionResult GetLoggedInCustomer()
+        {
+            var customerService = CreateCustomerSevice();
+            var customer = customerService.GetLoggedInCustomer();
+            return Ok(customer);
+        }
+
+        [Route("api/Customer/{customerId}")]
+        public IHttpActionResult Delete([FromUri]Guid customerId)
         {
             var service = CreateCustomerSevice();
-            if (!service.DeleteCustomer(userId))
+            if (!service.DeleteCustomer(customerId))
                 return InternalServerError();
             return Ok();
         }
 
-        public IHttpActionResult Put(CustomerEdit customer)
+        [HttpPut]
+        [Route("api/Customer")]
+        public IHttpActionResult Put([FromBody]CustomerEdit customer)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
