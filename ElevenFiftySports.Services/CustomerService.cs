@@ -12,8 +12,10 @@ namespace ElevenFiftySports.Services
     public class CustomerService
     {
         private readonly Guid _userId;
-        private Guid CustomerId;
-        private object model;
+        
+        
+        //private Guid CustomerId;
+        //private object model;
 
         public CustomerService(Guid userId)
         {
@@ -44,8 +46,7 @@ namespace ElevenFiftySports.Services
             {
                 var query =
                     ctx
-                        .Customers
-                        .Where(e => e.CustomerId == _userId)
+                        .Customers                      
                         .Select(
                             e =>
                                 new CustomerList
@@ -60,25 +61,25 @@ namespace ElevenFiftySports.Services
 
             }
         }
-        //public CustomerDetail GetCustomerById(int id)
-        //{
-        //    using (var ctx = new ApplicationDbContext())
-        //    {
-        //        var entity =
-        //            ctx
-        //                .Customers
-        //                .Single(e => e.CustomerId == model.CustomerId);
-        //        return
-        //            new CustomerDetail
-        //            {
-        //                CustomerId = entity.CustomerId,
-        //                FirstName = entity.FirstName,
-        //                LastName = entity.LastName,
-        //                CreatedUtc = entity.CreateUtc,
-        //                ModifiedUtc = entity.ModifiedUtc
-        //            };
-        //    }
-        //}
+        public CustomerDetail GetCustomerById(Guid id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx
+                        .Customers
+                        .Single(e => e.CustomerId == id);
+                return
+                    new CustomerDetail
+                    {
+                        CustomerId = entity.CustomerId,
+                        FirstName = entity.FirstName,
+                        LastName = entity.LastName,
+                        CreatedUtc = entity.CreatedUtc,
+                        ModifiedUtc = entity.ModifiedUtc
+                    };
+            }
+        }
         public bool UpdateCustomer(CustomerEdit model)
         {
             using (var ctx = new ApplicationDbContext())
@@ -86,7 +87,7 @@ namespace ElevenFiftySports.Services
                 var entity =
                     ctx
                         .Customers
-                        .Single(e => e.CustomerId == CustomerId);
+                        .Single(e => e.CustomerId == _userId);
 
                 entity.CustomerId = model.CustomerId;
                 entity.FirstName = model.FirstName;
@@ -97,14 +98,14 @@ namespace ElevenFiftySports.Services
                 return ctx.SaveChanges() == 1;
             }
         }
-        public bool DeleteCustomer(int customerId)
+        public bool DeleteCustomer(Guid customerId)
         {
             using (var ctx = new ApplicationDbContext())
             {
                 var entity =
                     ctx
                     .Customers
-                    .Single(e => e.CustomerId == CustomerId);
+                    .Single(e => e.CustomerId == customerId);
                 ctx.Customers.Remove(entity);
                 return ctx.SaveChanges() == 1;
             }
