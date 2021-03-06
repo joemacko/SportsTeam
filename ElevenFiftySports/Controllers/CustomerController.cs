@@ -32,7 +32,7 @@ namespace ElevenFiftySports.Controllers
 
 
         [HttpGet]
-        [Route("Api/GetAll")]
+        [Route("api/Customer")]
         public IHttpActionResult Get()
         {
             var customerService = CreateCustomerSevice();
@@ -47,6 +47,14 @@ namespace ElevenFiftySports.Controllers
             return Ok(customer);
         }
 
+        [HttpGet]
+        [Route("api/Customer/GetLoggedInCustomer")]
+        public IHttpActionResult GetLoggedInCustomer()
+        {
+            var customerService = CreateCustomerSevice();
+            var customer = customerService.GetLoggedInCustomer();
+            return Ok(customer);
+        }
 
         public IHttpActionResult Delete([FromUri]Guid customerId)
         {

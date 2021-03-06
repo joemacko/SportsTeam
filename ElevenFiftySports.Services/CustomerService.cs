@@ -80,6 +80,29 @@ namespace ElevenFiftySports.Services
                     };
             }
         }
+
+        public CustomerDetail GetLoggedInCustomer()
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx
+                        .Customers
+                        .Single(e => e.CustomerId == _userId);
+                return
+                    new CustomerDetail
+                    {
+                        CustomerId = entity.CustomerId,
+                        FirstName = entity.FirstName,
+                        LastName = entity.LastName,
+                        Email = entity.Email,
+                        CellPhoneNumber = entity.CellPhoneNumber,
+                        CreatedUtc = entity.CreatedUtc,
+                        ModifiedUtc = entity.ModifiedUtc
+                    };
+            }
+        }
+
         public bool UpdateCustomer(CustomerEdit model)
         {
             using (var ctx = new ApplicationDbContext())
