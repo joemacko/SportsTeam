@@ -31,7 +31,8 @@ namespace ElevenFiftySports.Controllers
         }
 
 
-
+        [HttpGet]
+        [Route("Api/GetAll")]
         public IHttpActionResult Get()
         {
             var customerService = CreateCustomerSevice();
@@ -39,18 +40,18 @@ namespace ElevenFiftySports.Controllers
                 return Ok(customer);
         }
 
-        //public IHttpActionResult GetCustomerById([FromUri]Guid customerId)
-        //{
-        //    CustomerService customerService = CreateCustomerSevice();
-        //    var customer = customerService.GetCustomerById(customerId);
-        //    return Ok(customer);
-        //}
+        public IHttpActionResult GetCustomerById([FromUri] Guid customerId)
+        {
+            CustomerService customerService = CreateCustomerSevice();
+            var customer = customerService.GetCustomerById(customerId);
+            return Ok(customer);
+        }
 
-       
-        public IHttpActionResult Delete([FromUri]Guid customerId, int userId)
+
+        public IHttpActionResult Delete([FromUri]Guid customerId)
         {
             var service = CreateCustomerSevice();
-            if (!service.DeleteCustomer(userId))
+            if (!service.DeleteCustomer(customerId))
                 return InternalServerError();
             return Ok();
         }
