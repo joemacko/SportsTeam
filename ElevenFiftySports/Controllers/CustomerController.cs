@@ -19,7 +19,7 @@ namespace ElevenFiftySports.Controllers
             return customerService;
         }
 
-
+        [HttpPost]
         public IHttpActionResult Post(CustomerCreate customer)
         {
             if (!ModelState.IsValid)
