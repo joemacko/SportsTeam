@@ -82,14 +82,14 @@ namespace ElevenFiftySports.Services
             }
         }
 
-        public bool UpdateSpecial(SpecialEdit model)
+        public bool UpdateSpecial(int specialId, SpecialEdit model)
         {
             using (var ctx = new ApplicationDbContext())
             {
                 var entity =
                     ctx
                         .Specials
-                        .Single(e => e.SpecialId == model.SpecialId);
+                        .Single(e => e.SpecialId == specialId);
 
                 entity.SpecialId = model.SpecialId;
                 entity.ProductId = model.ProductId;

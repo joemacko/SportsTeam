@@ -40,6 +40,7 @@ namespace ElevenFiftySports.Controllers
             return Ok(specials);
         }
 
+        [Route("api/Special/{dayOfWeek}")]
         public IHttpActionResult GetByDay(DayOfWeek dayOfWeek)
         {
             var specialService = CreateSpecialService();
@@ -47,19 +48,21 @@ namespace ElevenFiftySports.Controllers
             return Ok(special);
         }
 
-        public IHttpActionResult Put(SpecialEdit special)
+        [Route("api/Special/{specialId}")]
+        public IHttpActionResult Put([FromUri] int specialId, [FromBody] SpecialEdit special)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var service = CreateSpecialService();
 
-            if (!service.UpdateSpecial(special))
+            if (!service.UpdateSpecial(specialId, special))
                 return InternalServerError();
 
             return Ok();
         }
 
+        [Route("api/Special/{specialId}")]
         public IHttpActionResult Delete([FromUri] int specialId)
         {
             var service = CreateSpecialService();
