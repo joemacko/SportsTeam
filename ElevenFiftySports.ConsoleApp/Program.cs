@@ -1,6 +1,7 @@
 ﻿using ElevenFiftySports.Controllers;
 using ElevenFiftySports.Models;
 using ElevenFiftySports.Models.CustomerModels;
+using ElevenFiftySports.Models.SpecialModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -346,7 +347,26 @@ namespace ElevenFiftySports.ConsoleApp
 
         private async Task ViewCustomer()//Need functional customer endpoints
         {
+            Console.Clear();
+            Task<HttpResponseMessage> getCustomerResponse = _httpClient.GetAsync("https://localhost:44332/api/Customer/GetLoggedInCustomer");
 
+            if (getCustomerResponse.Result.IsSuccessStatusCode)
+            {
+                CustomerDetail customer = _httpClient.GetAsync("https://localhost:44332/api/Customer/GetLoggedInCustomer").Result.Content.ReadAsAsync<CustomerDetail>().Result;
+
+                    Console.WriteLine($"\n" +
+                        //$"Customer Id: {customer.CustomerId}\n" +
+                        $"First Name: {customer.FirstName}\n" +
+                        $"Last Name: {customer.LastName}\n" +
+                        $"Email: {customer.Email}\n" +
+                        $"Cellphone Number: {customer.CellPhoneNumber}\n" +
+                        $"Customer Since: {customer.CreatedUtc}\n");
+            }
+            else
+            {
+                Console.WriteLine($"Something is wrong... Please try again. {getCustomerResponse.Result.StatusCode}");
+                Thread.Sleep(2000);
+            }
         }
 
         private async Task UpdateCustomer() //Need functional customer endpoints
@@ -439,7 +459,28 @@ namespace ElevenFiftySports.ConsoleApp
 
         private async Task GetTodaysSpecials() //Need functional productspecial endpoints
         {
+            Console.Clear();
+            DayOfWeek dayOfWeek = DateTime.Now.DayOfWeek;
+            Task<HttpResponseMessage> getSpecialResponse = _httpClient.GetAsync("https://localhost:44332/api/Special/{dayOfWeek}");
 
+            //if (getSpecialResponse.Result.IsSuccessStatusCode)
+            //{
+            //    List<SpecialListItem> specialList = _httpClient.GetAsync("https://localhost:44332/api/Special/{dayOfWeek}").Result.Content.ReadAsAsync<List<SpecialListItem>>().Result;
+
+            //    foreach (var special in specialList)
+            //    {
+            //        Console.WriteLine($"\n" +
+            //            $"Order Id: {order.OrderId}\n" +
+            //            $"Created Date: {order.CreatedOrderDate}\n" +
+            //            $"Products: {orderproducts} Total Cost: {order.Cost}\n\n");
+            //    }
+            //}
+            //else
+            //{
+            //    Console.WriteLine($"Something is wrong... Please try again. {getOrderResponse.Result.StatusCode}");
+            //    Thread.Sleep(2000);
+            //    //Environment.Exit(-1);
+            //}
         }
 
         private async Task CreateOrderProduct()

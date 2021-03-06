@@ -49,6 +49,15 @@ namespace ElevenFiftySports.Controllers
             return Ok(customer);
         }
 
+        [HttpGet]
+        [Route("api/Customer/GetLoggedInCustomer")]
+        public IHttpActionResult GetLoggedInCustomer()
+        {
+            var customerService = CreateCustomerSevice();
+            var customer = customerService.GetLoggedInCustomer();
+            return Ok(customer);
+        }
+
         [Route("api/Customer/{customerId}")]
         public IHttpActionResult Delete([FromUri]Guid customerId)
         {
