@@ -66,7 +66,6 @@ namespace ElevenFiftySports.Services
                 var query =
                     ctx
                     .OrderProducts
-                    //.Where(e => e.CustomerId == _userId)
                     .Select(
                         e =>
                         new OrderProductListItem
@@ -77,7 +76,6 @@ namespace ElevenFiftySports.Services
                             ProductId = e.ProductId,
                             ProductName = e.Product.ProductName,
                             ProductCount = e.ProductCount,
-                            //IndividualProductPrice = e.Product.ProductPrice
                         }
                         );
                 return query.ToList();
@@ -109,10 +107,6 @@ namespace ElevenFiftySports.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                //var originalOrderProduct =
-                //    ctx
-                //    .OrderProducts
-                //    .Single(o => o.PrimaryId == id);
 
                 OrderProduct originalOrderProduct = ctx.OrderProducts.Find(id);
 
@@ -125,15 +119,6 @@ namespace ElevenFiftySports.Services
                     ctx
                     .Products
                     .Single(oP => oP.ProductId == originalOrderProduct.ProductId);
-
-                //var updatedOrderProduct =
-                //    ctx
-                //    .OrderProducts
-                //    .Single(u => u.PrimaryId == id);
-
-                //updatedOrderProduct.OrderId = updatedOP.OrderId;
-                //updatedOrderProduct.ProductId = updatedOP.ProductId;
-                //updatedOrderProduct.ProductCount = updatedOP.ProductCount;
 
                 Product updatedProduct =
                     ctx
@@ -173,8 +158,6 @@ namespace ElevenFiftySports.Services
 
                     return $"The OrderProduct ID: {id} has been updated with the updated product: {updatedProduct.ProductName}.";
                 }
-
-                //return ctx.SaveChanges() == 1;
             }
         }
 

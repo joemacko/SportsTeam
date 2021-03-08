@@ -74,19 +74,5 @@ namespace ElevenFiftySports.Controllers
             return Ok($"Order ID: {id} and any associated orderProducts have been deleted.");
 
         }
-
-        //below not needed with simple order create model...
-        //public IHttpActionResult Post(OrderCreate order)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return BadRequest(ModelState);
-
-        //    var service = CreateOrderService();
-
-        //    if (!service.CreateOrder(order))
-        //        return InternalServerError();
-
-        //    return Ok();
-        //}
     }
 }

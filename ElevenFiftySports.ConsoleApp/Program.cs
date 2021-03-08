@@ -681,16 +681,3 @@ public class CurrentOrderId
 
 }
 
-//NOTES
-//Console.WriteLine("Enter an id");
-//int id = int.Parse(Console.ReadLine());
-//string url = $"https://localhost:44332/api/Order/{id}"; //note: this is to be referenced for any id method [fromURI] 
-//var registration = new HttpRequestMessage(HttpMethod.Post, $"https://localhost:44332/api/Account/Register/{id}");
-//private Guid GetCustomerIdHelper()
-//{
-//    {
-//        Task<HttpResponseMessage> getCustomerResponse = _httpClient.GetAsync("https://localhost:44332/api/Customer/GetLoggedInCustomer");
-//        CustomerDetail customer = _httpClient.GetAsync("https://localhost:44332/api/Customer/GetLoggedInCustomer").Result.Content.ReadAsAsync<CustomerDetail>().Result;
-//        return customer.CustomerId;
-//    }
-//}
