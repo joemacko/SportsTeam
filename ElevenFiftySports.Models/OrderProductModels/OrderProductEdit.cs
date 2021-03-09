@@ -9,10 +9,9 @@ namespace ElevenFiftySports.Models.OrderProductModels
 {
     public class OrderProductEdit
     {
-        //public int PrimaryId { get; set; }
         [Required, Range(1, Int32.MaxValue)]
-
         public int OrderId { get; set; }
+
         [Required, Range(1, Int32.MaxValue)]
         public int ProductId { get; set; }
 

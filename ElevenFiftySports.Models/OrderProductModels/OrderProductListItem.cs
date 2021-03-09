@@ -26,6 +26,5 @@ namespace ElevenFiftySports.Models.OrderProductModels
 
         [Required]
         public int ProductCount { get; set; }
-        //public double IndividualProductPrice { get; set; }
     }
 }
