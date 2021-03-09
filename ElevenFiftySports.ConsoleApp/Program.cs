@@ -534,7 +534,7 @@ namespace ElevenFiftySports.ConsoleApp
 
                 foreach (var special in specialList)
                 {
-                    string tableBody = String.Format("{0,-20} {1,-40}, {2,-60}", special.ProductId, special.ProductName, special.ProductSpecialPrice.ToString("C"));
+                    string tableBody = String.Format("{0,-20} {1,-40} {2,-60}", special.ProductId, special.ProductName, special.ProductSpecialPrice.ToString("C"));
                     Console.WriteLine(tableBody);
                 }
             }
@@ -716,7 +716,7 @@ namespace ElevenFiftySports.ConsoleApp
 
             if (getFinalizeResponse.Result.IsSuccessStatusCode)
             {
-                Console.WriteLine("Your order has been finalized! See the finalized order below. It will be coming out to you shortly. Please contact your waiter with any questions, comments or concerns. Thank you for using ElevenFiftySports!\n" +
+                Console.WriteLine("Your order has been finalized! It will be coming out to you shortly. Please contact your waiter with any questions, comments or concerns. Thank you for using ElevenFiftySports!\n" +
                     "Press any key to continue.");
                 Console.ReadKey();
                 Environment.Exit(-1);
