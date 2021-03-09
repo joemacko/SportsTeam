@@ -34,7 +34,6 @@ namespace ElevenFiftySports.ConsoleApp
             bool keepRunning = true;
             while (keepRunning)
             {
-                Console.Clear();
                 Console.WriteLine("MAIN MENU: \n" +
                     "Welcome to ElevenFifty Sports. Please open the application in full screen for best readability.\n" +
                     "Enter a number associated with the menu item below:\n" +
@@ -60,7 +59,6 @@ namespace ElevenFiftySports.ConsoleApp
                         Console.WriteLine("Please enter a valid number.");
                         break;
                 }
-
                 Console.WriteLine("Press any key to continue.");
                 Console.ReadKey();
                 Console.Clear();
@@ -70,7 +68,8 @@ namespace ElevenFiftySports.ConsoleApp
         private void EmployeeAuthorizationMenu()
         {
             Console.Clear();
-            Console.WriteLine("Sorry, the employee interface will be developed at a later date. Please work with your manager and IT to perform administrative tasks until further notice.");
+            Console.WriteLine("EMPLOYEE AUTHORIZATION MENU: \n" +
+                "Sorry, the employee interface will be developed at a later date. Please work with your manager and IT to perform administrative tasks until further notice.");
         }
         private void CustomerAuthorizationMenu()
         {
@@ -78,7 +77,8 @@ namespace ElevenFiftySports.ConsoleApp
             bool keepRunning = true;
             while (keepRunning)
             {
-                Console.WriteLine("Enter the number associated with the menu item below:\n" +
+                Console.WriteLine("CUSTOMER AUTHORIZATION MENU: \n" +
+                    "Enter the number associated with the menu item below:\n" +
                                     "1. Customer Login\n" +
                                     "2. Customer Registration\n" +
                                     "3. Return to the Previous Menu\n" +
@@ -107,12 +107,10 @@ namespace ElevenFiftySports.ConsoleApp
                         Console.WriteLine("Please enter a valid number.");
                         break;
                 }
+                Console.WriteLine("Press any key to continue.");
+                Console.ReadKey();
+                Console.Clear();
             }
-            Console.WriteLine("Press any key to continue.");
-            Console.ReadKey();
-            Console.Clear();
-            //_keepRunning = false;
-            //UIMenu();
         }
 
         private async Task Login()
@@ -143,7 +141,11 @@ namespace ElevenFiftySports.ConsoleApp
                 Thread.Sleep(2000);
                 CustomerMenu();
             }
-            else { Console.WriteLine($"Login failed. {tokenResponse.StatusCode}"); }
+            else
+            {
+                string stringResponse = await tokenResponse.Content.ReadAsStringAsync();
+                Console.WriteLine($"Login failed. {stringResponse}");
+            }
         }
 
         private async Task CustomerRegistration()
@@ -169,14 +171,14 @@ namespace ElevenFiftySports.ConsoleApp
             registration.Content = new FormUrlEncodedContent(register.AsEnumerable());
             var response = await client.SendAsync(registration);
 
-
             if (response.IsSuccessStatusCode)
             {
                 Console.WriteLine("Initial registration completed.");
             }
             else
             {
-                Console.WriteLine($"{response.StatusCode}. Please restart customer registration process.");
+                string stringResponse1 = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"{stringResponse1}. Please restart customer registration process.");
                 Thread.Sleep(2000);
                 CustomerAuthorizationMenu();
             }
@@ -204,10 +206,12 @@ namespace ElevenFiftySports.ConsoleApp
             if (tokenResponse.IsSuccessStatusCode)
             {
                 Console.WriteLine("You're logged in.");
+                Thread.Sleep(1500);
             }
             else
             {
-                Console.WriteLine("Login failed. Please restart customer registration process."); //***EVENTUALLY WILL NEED TO FIGURE OUT HOW TO FINISH THIS.
+                string stringResponse = await tokenResponse.Content.ReadAsStringAsync();
+                Console.WriteLine($"Login failed. Please restart customer registration process. {stringResponse}");
                 Thread.Sleep(2500);
                 CustomerAuthorizationMenu();
             }
@@ -235,7 +239,8 @@ namespace ElevenFiftySports.ConsoleApp
             }
             else
             {
-                Console.WriteLine($"Customer registration failed. Please restart customer registration process. {newResponse.Result.StatusCode}");
+                string stringResponse = await newResponse.Result.Content.ReadAsStringAsync();
+                Console.WriteLine($"Customer registration failed. Please restart customer registration process. {stringResponse}");
                 Thread.Sleep(2000);
                 CustomerAuthorizationMenu();
             }
@@ -246,7 +251,8 @@ namespace ElevenFiftySports.ConsoleApp
             bool keepRunning = true;
             while (keepRunning)
             {
-                Console.WriteLine("Welcome to the Customer Menu. Enter the number associated with the menu item below:\n" +
+                Console.WriteLine("CUSTOMER MAIN MENU: \n" +
+                    "Enter the number associated with the menu item below:\n" +
                                     "1. Customer Profile\n" +
                                     "2. Food and Beverage Ordering\n" +
                                     "3. Logout and Exit application");
@@ -259,7 +265,7 @@ namespace ElevenFiftySports.ConsoleApp
                         CustomerProfileMenu();
                         break;
                     case "2":
-                        OrderingMenu().Wait();//Wait causes the async to complete before returning to this method
+                        OrderingMenu().Wait();
                         break;
                     case "3":
                         Console.WriteLine("Thank you for using ElevenFiftySports!");
@@ -270,10 +276,10 @@ namespace ElevenFiftySports.ConsoleApp
                         Console.WriteLine("Please enter a valid number.");
                         break;
                 }
+                Console.WriteLine("Press any key to continue.");
+                Console.ReadKey();
+                Console.Clear();
             }
-            Console.WriteLine("Press any key to continue.");
-            Console.ReadKey();
-            Console.Clear();
         }
 
         private void CustomerProfileMenu()
@@ -282,7 +288,8 @@ namespace ElevenFiftySports.ConsoleApp
             bool keepRunning = true;
             while (keepRunning)
             {
-                Console.WriteLine("Welcome to the Customer Profile Menu. Enter the number associated with the menu item below:\n" +
+                Console.WriteLine("CUSTOMER PROFILE MENU:\n" +
+                    "Enter the number associated with the menu item below:\n" +
                                     "1. View Your Previous Orders\n" +
                                     "2. View Customer Profile\n" +
                                     "3. Update Your Customer Information\n" +
@@ -294,10 +301,10 @@ namespace ElevenFiftySports.ConsoleApp
                 switch (input)
                 {
                     case "1":
-                        GetOrders();
+                        GetOrders().Wait();
                         break;
                     case "2":
-                        ViewCustomer();
+                        ViewCustomer().Wait();
                         break;
                     case "3":
                         UpdateCustomer().Wait();
@@ -307,19 +314,21 @@ namespace ElevenFiftySports.ConsoleApp
                         break;
                     case "5":
                         Console.WriteLine("Thank you for using ElevenFiftySports!");
+                        Environment.Exit(-1);
                         keepRunning = false;
                         break;
                     default:
                         Console.WriteLine("Please enter a valid number.");
                         break;
                 }
+                Console.WriteLine("Press any key to continue.");
+                Console.ReadKey();
+                Console.Clear();
             }
-            Console.WriteLine("Press any key to continue.");
-            Console.ReadKey();
-            Console.Clear();
+
         }
 
-        private void GetOrders()
+        private async Task GetOrders()
         {
             Console.Clear();
             Task<HttpResponseMessage> getOrderResponse = _httpClient.GetAsync("https://localhost:44332/api/Order");
@@ -342,18 +351,15 @@ namespace ElevenFiftySports.ConsoleApp
                         $"Created Date: {order.CreatedOrderDate}\n" +
                         $"Products: {orderproducts} Total Cost: {order.Cost.ToString("C")}\n\n");
                 }
-                Console.WriteLine("Press any key to continue.");
-                Console.ReadKey();
-                Console.Clear();
             }
             else
             {
-                Console.WriteLine($"Something is wrong... Please try again. {getOrderResponse.Result.StatusCode}");
-                Thread.Sleep(2000);
+                string stringResponse = await getOrderResponse.Result.Content.ReadAsStringAsync();
+                Console.WriteLine($"Something is wrong... Please try again. {stringResponse}");
             }
         }
 
-        private void ViewCustomer()
+        private async Task ViewCustomer()
         {
             Console.Clear();
             Task<HttpResponseMessage> getCustomerResponse = _httpClient.GetAsync("https://localhost:44332/api/Customer/GetLoggedInCustomer");
@@ -368,22 +374,18 @@ namespace ElevenFiftySports.ConsoleApp
                     $"Email: {customer.Email}\n" +
                     $"Cellphone Number: {customer.CellPhoneNumber}\n" +
                     $"Customer Since: {customer.CreatedUtc}\n");
-
-                Console.WriteLine("Press any key to continue.");
-                Console.ReadKey();
-                Console.Clear();
-
             }
             else
             {
-                Console.WriteLine($"Something is wrong... Please try again. {getCustomerResponse.Result.StatusCode}");
-                Thread.Sleep(2000);
+                string responseString = await getCustomerResponse.Result.Content.ReadAsStringAsync();
+                Console.WriteLine($"Something is wrong... Please try again. {responseString}");
             }
         }
 
         private async Task UpdateCustomer()
         {
-            ViewCustomer();
+            Console.Clear();
+            ViewCustomer().Wait();
             Dictionary<string, string> updatedCustomer = new Dictionary<string, string>();
 
             CustomerDetail originalCustomer = _httpClient.GetAsync("https://localhost:44332/api/Customer/GetLoggedInCustomer").Result.Content.ReadAsAsync<CustomerDetail>().Result;
@@ -411,7 +413,6 @@ namespace ElevenFiftySports.ConsoleApp
             {
                 string stringResponse = await updateResponse.Result.Content.ReadAsStringAsync();
                 Console.WriteLine($"Something is wrong... Please try again. {stringResponse}");
-                Thread.Sleep(2000);
             }
         }
 
@@ -427,9 +428,9 @@ namespace ElevenFiftySports.ConsoleApp
             }
             else
             {
-                Console.WriteLine($"Something is wrong... The application will end now. {createOrderResponse.Result.StatusCode}");
+                string stringResponse = await createOrderResponse.Result.Content.ReadAsStringAsync();
+                Console.WriteLine($"Something is wrong... {stringResponse}");
                 Thread.Sleep(2000);
-                Environment.Exit(-1);
             }
             var orderIdInfo = new HttpRequestMessage(HttpMethod.Get, "https://localhost:44332/api/Order/MostRecent");
             var orderIdResponse = await _httpClient.SendAsync(orderIdInfo);
@@ -438,18 +439,16 @@ namespace ElevenFiftySports.ConsoleApp
             _currentOrderId = int.Parse(currentOrderId);
 
             Console.WriteLine($"Your current order ID is {_currentOrderId}.");
-            Thread.Sleep(2500);
-
-            Console.Clear();
 
             bool keepRunning = true;
             while (keepRunning)
             {
-                Console.WriteLine("Enter the number associated with the menu item below:\n" +
+                Console.WriteLine("ORDERING MENU: \n" +
+                    "Enter the number associated with the menu item below:\n" +
                                     "1. View All Products\n" +
                                     "2. View Today's Specials\n" +
                                     "3. Add Item(s) to Your Order\n" +
-                                    "4. View All Item(s) on Your Order\n" +
+                                    "4. View Your Order\n" +
                                     "5. Update Item(s) on Your Order\n" +
                                     "6. Complete Your Order.\n" +
                                     "7. Discard Order and Exit the Application");
@@ -459,10 +458,10 @@ namespace ElevenFiftySports.ConsoleApp
                 switch (input)
                 {
                     case "1":
-                        GetProducts();
+                        GetProducts().Wait();
                         break;
                     case "2":
-                        GetTodaysSpecials();
+                        GetTodaysSpecials().Wait();
                         break;
                     case "3":
                         CreateOrderProduct().Wait();
@@ -478,23 +477,25 @@ namespace ElevenFiftySports.ConsoleApp
                         break;
                     case "7":
                         DeleteOrder().Wait();
+                        Environment.Exit(-1);
                         keepRunning = false;
                         break;
                     default:
                         Console.WriteLine("Please enter a valid number.");
                         break;
                 }
+                Console.WriteLine("Press any key to continue.");
+                Console.ReadKey();
+                Console.Clear();
             }
-            Console.WriteLine("Press any key to continue.");
-            Console.ReadKey();
-            Console.Clear();
         }
 
-        private void GetProducts()
+        private async Task GetProducts()
         {
-
+            Console.Clear();
             Console.WriteLine("Today's Specials:");
-            GetTodaysSpecials();
+            GetTodaysSpecials().Wait();
+
             Console.WriteLine("\nFull Menu:");
             Task<HttpResponseMessage> getProductResponse = _httpClient.GetAsync("https://localhost:44332/api/Product");
 
@@ -507,20 +508,20 @@ namespace ElevenFiftySports.ConsoleApp
 
                 foreach (var product in productList)
                 {
-                    string tableBody = String.Format("{0,-20} {1,-40}, {2,-60}", product.ProductId, product.ProductName, product.ProductPrice.ToString("C"));
+                    string tableBody = String.Format("{0,-20} {1,-40} {2,-60}", product.ProductId, product.ProductName, product.ProductPrice.ToString("C"));
                     Console.WriteLine(tableBody);
                 }
-                Thread.Sleep(2000);
             }
             else
             {
-                Console.WriteLine($"Something is wrong... Please try again. {getProductResponse.Result.StatusCode}");
-                Thread.Sleep(2000);
+                string stringResponse = await getProductResponse.Result.Content.ReadAsStringAsync();
+                Console.WriteLine($"Something is wrong... Please try again. {stringResponse}");
             }
         }
 
-        private void GetTodaysSpecials()
+        private async Task GetTodaysSpecials()
         {
+            Console.Clear();
             var dayOfWeek = DateTime.Now.DayOfWeek;
             Task<HttpResponseMessage> getSpecialResponse = _httpClient.GetAsync($"https://localhost:44332/api/Special/{dayOfWeek}");
 
@@ -536,18 +537,18 @@ namespace ElevenFiftySports.ConsoleApp
                     string tableBody = String.Format("{0,-20} {1,-40}, {2,-60}", special.ProductId, special.ProductName, special.ProductSpecialPrice.ToString("C"));
                     Console.WriteLine(tableBody);
                 }
-                Thread.Sleep(2000);
             }
             else
             {
-                Console.WriteLine($"Something is wrong... Please try again. {getSpecialResponse.Result.StatusCode}");
-                Thread.Sleep(2000);
+                string stringResponse = await getSpecialResponse.Result.Content.ReadAsStringAsync();
+                Console.WriteLine($"Something is wrong... Please try again. {stringResponse}");
             }
         }
 
         private async Task CreateOrderProduct()
         {
-            GetProducts();
+            Console.Clear();
+            GetProducts().Wait();
             Console.WriteLine("Enter the product ID of the product you'd like to add to your order. This must be a single whole number.");
             Dictionary<string, string> orderProduct = new Dictionary<string, string>();
 
@@ -567,7 +568,6 @@ namespace ElevenFiftySports.ConsoleApp
             {
                 string stringResponse = await orderProductResponse.Result.Content.ReadAsStringAsync();
                 Console.WriteLine($"Something went wrong... {stringResponse}");
-                Thread.Sleep(3000);
             }
         }
 
@@ -591,30 +591,28 @@ namespace ElevenFiftySports.ConsoleApp
                     $"Order Id: {order.OrderId}\n" +
                     $"Created Date: {order.CreatedOrderDate}\n" +
                     $"Products: {orderproducts} Total Cost: {order.Cost.ToString("C")}\n\n");
-                Thread.Sleep(2000);
             }
             else
             {
                 string stringResponse = await getCurrentOrderResponse.Result.Content.ReadAsStringAsync();
                 Console.WriteLine($"Something is wrong... Please try again. {getCurrentOrderResponse.Result.StatusCode}");
-                Thread.Sleep(2000);
             }
         }
 
-        private void UpdateOrderProduct() 
+        private void UpdateOrderProduct()
         {
             Console.Clear();
 
             ViewCurrentOrder().Wait();
 
             Console.WriteLine("How would you like to update an orderitem on your order? \n" +
-                "1. Update Details \n" +
+                "1. Update Product and/or Amount \n" +
                 "2. Delete \n" +
                 "3. Return to Previous Menu");
 
             string input = Console.ReadLine();
 
-            switch(input)
+            switch (input)
             {
                 case "1":
                     UpdateOrderProductHelper().Wait();
@@ -629,9 +627,8 @@ namespace ElevenFiftySports.ConsoleApp
                     Console.WriteLine("You will be returned to the previous menu.");
                     break;
             }
-           
-            Console.WriteLine("How many of this product would you like your updated order to have?");
         }
+
         private async Task UpdateOrderProductHelper()
         {
             Console.Clear();
@@ -644,7 +641,7 @@ namespace ElevenFiftySports.ConsoleApp
             Dictionary<string, string> updatedOrderProduct = new Dictionary<string, string>();
             updatedOrderProduct.Add("OrderId", _currentOrderId.ToString());
 
-            GetProducts();
+            GetProducts().Wait();
             Console.WriteLine("Enter the ID of the updated product you want on this orderitem.");
             updatedOrderProduct.Add("ProductId", Console.ReadLine());
 
@@ -657,17 +654,15 @@ namespace ElevenFiftySports.ConsoleApp
             if (getDeleteResponse.Result.IsSuccessStatusCode)
             {
                 Console.WriteLine("Your orderitem has been updated.");
-                Thread.Sleep(2000);
             }
             else
             {
                 string stringResponse = await getDeleteResponse.Result.Content.ReadAsStringAsync();
                 Console.WriteLine($"There was an issue... {stringResponse}");
-                Thread.Sleep(2000);
             }
         }
 
-        private async Task DeleteOrderProductHelper() 
+        private async Task DeleteOrderProductHelper()
         {
             Console.Clear();
 
@@ -681,13 +676,11 @@ namespace ElevenFiftySports.ConsoleApp
             if (getDeleteResponse.Result.IsSuccessStatusCode)
             {
                 Console.WriteLine("Your orderitem has been deleted.");
-                Thread.Sleep(2000);
             }
             else
             {
                 string stringResponse = await getDeleteResponse.Result.Content.ReadAsStringAsync();
                 Console.WriteLine($"There was an issue... {stringResponse}");
-                Thread.Sleep(2000);
             }
         }
 
@@ -709,11 +702,9 @@ namespace ElevenFiftySports.ConsoleApp
                     break;
                 case "2":
                     Console.WriteLine("You will be returned to the previous menu.");
-                    Thread.Sleep(2000);
                     break;
                 default:
                     Console.WriteLine("You didn't enter a valid number. You will be returned to the previous menu.");
-                    Thread.Sleep(2000);
                     break;
             }
         }
@@ -725,16 +716,15 @@ namespace ElevenFiftySports.ConsoleApp
 
             if (getFinalizeResponse.Result.IsSuccessStatusCode)
             {
-                Console.WriteLine("Your order has been finalized! See the finalized order below. It will be coming out to you shortly. Please contact your waiter with any questions, comments or concerns. Thank you for using ElevenFiftySports!\n");
-                ViewCurrentOrder().Wait();
-                Thread.Sleep(5000);
+                Console.WriteLine("Your order has been finalized! See the finalized order below. It will be coming out to you shortly. Please contact your waiter with any questions, comments or concerns. Thank you for using ElevenFiftySports!\n" +
+                    "Press any key to continue.");
+                Console.ReadKey();
                 Environment.Exit(-1);
             }
             else
             {
                 string stringResponse = await getFinalizeResponse.Result.Content.ReadAsStringAsync();
                 Console.WriteLine($"There was an issue... {stringResponse}");
-                Thread.Sleep(2000);
             }
 
         }
@@ -746,7 +736,7 @@ namespace ElevenFiftySports.ConsoleApp
             var deleteResponseString = await deleteResponse.Content.ReadAsStringAsync();
 
             Console.WriteLine($"{deleteResponseString}");
-            Thread.Sleep(2500);
+            Thread.Sleep(1500);
 
             Console.WriteLine("Thank you for using ElevenFiftySports! Please come again.");
             Thread.Sleep(1500);
@@ -758,12 +748,10 @@ public class Token //this sets the format for the return of the token (to only p
 {
     [JsonProperty("access_token")]
     public string Value { get; set; }
-
 }
 public class CurrentOrderId
 {
     [JsonProperty("OrderId")]
     public string Value { get; set; }
-
 }
 
